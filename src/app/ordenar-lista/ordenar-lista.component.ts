@@ -5,7 +5,7 @@ import {Component} from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './ordenar-lista.component.html',
-  styleUrl: './ordenar-lista.component.css'
+  styleUrl: './ordenar-lista.component.scss'
 })
 export class OrdenarListaComponent {
   nombre="eneka";

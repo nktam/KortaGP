@@ -1,0 +1,19 @@
+<mat-selection-list #pilotos>
+    @for (piloto of lista; track piloto.id) {
+    <mat-list-option>
+        <span matListItemTitle>{{piloto.nombre}}</span>
+        <span matListItemLine>{{piloto.equipo}}</span>
+    </mat-list-option>
+    }
+</mat-selection-list>
+
+<p>
+    <!-- Options selected:
+    @for (pilo of pilotos.selectedOptions.selected; track pilo.selected.valueOf.name) {}
+    {{pilo.span.matListItemLine}} -->
+</p>
+
+<button mat-flat-button color="primary">
+    <mat-icon>home</mat-icon>
+    Home
+</button>

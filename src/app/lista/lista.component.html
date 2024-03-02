@@ -1,6 +1,6 @@
-<mat-selection-list #pilotos>
+<mat-selection-list #pilotos [(ngModel)]="pilotosSeleccionados" (ngModelChange)="onNgModelChange($event)">
     @for (piloto of lista; track piloto.id) {
-    <mat-list-option>
+    <mat-list-option [value]="piloto.nombre">
         <span matListItemTitle>{{piloto.nombre}}</span>
         <span matListItemLine>{{piloto.equipo}}</span>
     </mat-list-option>
@@ -8,9 +8,7 @@
 </mat-selection-list>
 
 <p>
-    <!-- Options selected:
-    @for (pilo of pilotos.selectedOptions.selected; track pilo.selected.valueOf.name) {}
-    {{pilo.span.matListItemLine}} -->
+    <code class="font-green">Selected: {{ pilotosSeleccionados }}</code>
 </p>
 
 <button mat-flat-button color="primary">

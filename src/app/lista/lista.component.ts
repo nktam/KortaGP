@@ -4,6 +4,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {FormsModule} from '@angular/forms';
 import {Piloto} from "../interfaces/piloto";
+import {DataService} from "../services/data.service";
 
 @Component({
   selector: 'app-lista',
@@ -14,6 +15,9 @@ import {Piloto} from "../interfaces/piloto";
 })
 
 export class ListaComponent {
+
+  constructor(private dataService: DataService) { };
+
   lista: Piloto[]=[
     {id: 1, nombre: "Max", equipo: 'Red Bull'},
     {id: 4, nombre: "Norris", equipo: 'McLareb F1'},
@@ -27,6 +31,6 @@ export class ListaComponent {
   pilotosSeleccionados: string[]=[];
 
   onNgModelChange(event: any) {
-    console.log('On ngModelChange : ', event);
+    this.dataService.updatePilotos(event);
   }
 }

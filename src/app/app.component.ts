@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {Router, RouterOutlet} from '@angular/router';
-import {ListaComponent} from './lista/lista.component';
+import {ListaComponent} from './components/lista/lista.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';

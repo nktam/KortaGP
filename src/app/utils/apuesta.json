@@ -1,0 +1,57 @@
+{
+    "id": 0,
+    "carrera": {
+        "1": {
+            "id": 1,
+            "nombre": "Max",
+            "equipo": "Red Bull"
+        },
+        "2": {
+            "id": 44,
+            "nombre": "Hamilton",
+            "equipo": "Mercedes"
+        },
+        "3": {
+            "id": 14,
+            "nombre": "Alonso",
+            "equipo": "Aston Martin"
+        }
+    },
+    "sprint": {
+        "1": {
+            "id": 1,
+            "nombre": "Max",
+            "equipo": "Red Bull"
+        },
+        "2": {
+            "id": 44,
+            "nombre": "Hamilton",
+            "equipo": "Mercedes"
+        },
+        "3": {
+            "id": 14,
+            "nombre": "Alonso",
+            "equipo": "Aston Martin"
+        }
+    },
+    "clasificacion": {
+        "1": {
+            "id": 1,
+            "nombre": "Max",
+            "equipo": "Red Bull"
+        },
+        "2": {
+            "id": 44,
+            "nombre": "Hamilton",
+            "equipo": "Mercedes"
+        },
+        "3": {
+            "id": 14,
+            "nombre": "Alonso",
+            "equipo": "Aston Martin"
+        }
+    },
+    "posAlonso": 5,
+    "posSainz": 7,
+    "equipo": "Red Bull"
+}

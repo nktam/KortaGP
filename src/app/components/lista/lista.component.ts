@@ -1,7 +1,7 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
 import {DragDropModule, CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
-import {Piloto} from "../interfaces/piloto";
-import {ApuestaService} from "../services/apuesta.service";
+import {Piloto} from "../../interfaces/piloto";
+import {ApuestaService} from "../../services/apuesta.service";
 import {Subscription} from 'rxjs';
 
 @Component({

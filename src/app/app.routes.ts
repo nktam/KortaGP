@@ -1,6 +1,6 @@
 import {Routes} from '@angular/router';
-import {ListaComponent} from "./lista/lista.component";
-import {ApuestaComponent} from "./apuesta/apuesta.component";
+import {ListaComponent} from "./components/lista/lista.component";
+import {ApuestaComponent} from "./components/apuesta/apuesta.component";
 
 
 export const routes: Routes=[

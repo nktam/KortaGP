@@ -1,7 +1,8 @@
 import {Component} from '@angular/core';
-import {ApuestaService} from "../services/apuesta.service";
+import {ApuestaService} from "../../services/apuesta.service";
 import {Subscription} from 'rxjs';
-import {Apuesta} from "../interfaces/apuesta";
+import {Apuesta} from "../../interfaces/apuesta";
+import apuestaInfo from '../../utils/apuesta.json';
 
 @Component({
   selector: 'app-apuesta',
@@ -12,7 +13,7 @@ import {Apuesta} from "../interfaces/apuesta";
 })
 export class ApuestaComponent {
 
-  apuesta: Apuesta=this.apuestaService.apuesta;
+  apuesta: Apuesta=apuestaInfo;
   private apuestaSubscription: Subscription|undefined;
 
   constructor(private apuestaService: ApuestaService) { }

@@ -1,3 +1,4 @@
+<h1>{{estado}}</h1>
 <div cdkDropList class="drag-list" (cdkDropListDropped)="drop($event)">
     @for (item of lista; track item.id) {
     <div class="drag-box" cdkDrag>

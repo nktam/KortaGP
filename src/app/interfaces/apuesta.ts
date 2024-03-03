@@ -1,10 +1,10 @@
-import {Piloto} from "./piloto";
+import {Posiciones} from "./posiciones";
 
 export interface Apuesta {
     id: number;
-    carrera: Piloto[];
-    calsificacion: Piloto[];
-    sprint: Piloto[];
+    carrera: Posiciones;
+    clasificacion: Posiciones;
+    sprint: Posiciones;
     equipo: string;
     posAlonso: number;
     posSainz: number;

@@ -1,8 +1,8 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ListaComponent } from './lista.component';
+import {ListaComponent} from './lista.component';
 
-describe('ListaComponent', () => {
+describe('OrdenarListaComponent', () => {
   let component: ListaComponent;
   let fixture: ComponentFixture<ListaComponent>;
 
@@ -10,10 +10,10 @@ describe('ListaComponent', () => {
     await TestBed.configureTestingModule({
       imports: [ListaComponent]
     })
-    .compileComponents();
-    
-    fixture = TestBed.createComponent(ListaComponent);
-    component = fixture.componentInstance;
+      .compileComponents();
+
+    fixture=TestBed.createComponent(ListaComponent);
+    component=fixture.componentInstance;
     fixture.detectChanges();
   });
 

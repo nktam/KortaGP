@@ -8,10 +8,7 @@ import {Apuesta} from "../interfaces/apuesta";
   providedIn: 'root'
 })
 
-export class DataService {
-
-  private _pilotos: BehaviorSubject<Piloto[]>=new BehaviorSubject<Piloto[]>([]);
-  public readonly pilotos$: Observable<Piloto[]>=this._pilotos.asObservable();
+export class ApuestaService {
 
   private _apuesta: BehaviorSubject<Apuesta|null>=new BehaviorSubject<Apuesta|null>(null);
   public readonly apuesta$: Observable<Apuesta|null>=this._apuesta.asObservable();
@@ -22,7 +19,5 @@ export class DataService {
     this._apuesta.next(apuesta);
   };
 
-  updatePilotos(pilotos: Piloto[]): void {
-    this._pilotos.next(pilotos);
-  };
+
 }

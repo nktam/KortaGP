@@ -1,12 +1,55 @@
+<mat-toolbar color="primary">
+
+  <a routerLink="/lista">
+    <div>
+      <button mat-mini-fab color="accent">
+        <mat-icon>timer</mat-icon>
+      </button>
+    </div>
+  </a>
+
+  <a routerLink="/lista">
+    <div>
+      <button mat-mini-fab color="accent">
+        <mat-icon>
+          flash_on
+        </mat-icon>
+      </button>
+    </div>
+  </a>
+
+  <a routerLink="/lista">
+    <div>
+      <button mat-mini-fab color="accent">
+        <mat-icon>
+          traffic
+        </mat-icon>
+      </button>
+    </div>
+  </a>
+
+  <a routerLink="/lista">
+    <div>
+      <button mat-mini-fab color="accent">
+        <mat-icon>
+          tune
+        </mat-icon>
+      </button>
+    </div>
+  </a>
+
+  <a routerLink="/lista">
+    <div>
+      <button mat-mini-fab color="accent">
+        <mat-icon>
+          paid
+        </mat-icon>
+      </button>
+    </div>
+  </a>
+
+</mat-toolbar>
+
 <main class="main">
-  <div class="content">
-    <h1>{{title}} </h1>
-    <nav>
-      <a class="button" routerLink="/lista">Lista</a> |
-      <a class="button" routerLink="/ordenar">Ordenar</a>
-    </nav>
-
-    <router-outlet></router-outlet>
-
-  </div>
+  <router-outlet></router-outlet>
 </main>

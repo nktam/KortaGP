@@ -51,4 +51,11 @@ export class ApuestaService {
       this._apuesta.next(this.apuesta);
     }
   };
+
+  updateOtros(equipo: string, posAlonso: number, posSainz: number): void {
+    this.apuesta.equipo=equipo;
+    this.apuesta.posAlonso=posAlonso;
+    this.apuesta.posSainz=posSainz;
+    this._apuesta.next(this.apuesta);
+  }
 }

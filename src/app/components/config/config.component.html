@@ -3,7 +3,8 @@
     <div class="campo">
         <mat-form-field>
             <mat-label>Gran premio</mat-label>
-            <mat-select [(value)]="selected">
+            <mat-select name="granpremio" [(value)]="granpremio" [ngModel]="granpremio"
+                (ngModelChange)="modificarGranpremio()">
                 <mat-option>None</mat-option>
                 <mat-option value="option1">Option 1</mat-option>
                 <mat-option value="option2">Option 2</mat-option>
@@ -12,24 +13,27 @@
         </mat-form-field>
     </div>
     <div class="campo">
-        <mat-slide-toggle>Carrera sprint</mat-slide-toggle>
+        <mat-slide-toggle name="sprint" [ngModel]="sprint" (ngModelChange)="modificarSprint($event)">Carrera
+            sprint</mat-slide-toggle>
     </div>
     <div class="campo">
         <mat-form-field>
             <mat-label>Posición Alonso</mat-label>
-            <input type="number" matInput placeholder="0" value="">
+            <input type="number" name="posAlonso" matInput placeholder="0" [ngModel]="posAlonso"
+                (ngModelChange)="modificarPosAlonso($event)">
         </mat-form-field>
     </div>
     <div class="campo">
         <mat-form-field>
             <mat-label>Posición Sainz</mat-label>
-            <input type="number" matInput placeholder="0" value="">
+            <input type="number" name="posSainz" matInput placeholder="0" [ngModel]="posSainz"
+                (ngModelChange)="modificaPosSainz($event)">
         </mat-form-field>
     </div>
     <div class="campo">
         <mat-form-field>
             <mat-label>Equipo</mat-label>
-            <mat-select [(value)]="equipo">
+            <mat-select name="equipo" [(value)]="equipo" [ngModel]="equipo" (ngModelChange)="modificarEquipo()">
                 <mat-option>None</mat-option>
                 <mat-option value="option1">Option 1</mat-option>
                 <mat-option value="option2">Option 2</mat-option>

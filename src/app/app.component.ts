@@ -36,6 +36,10 @@ export class AppComponent {
     this.router.navigate(['/apuesta']);
   }
 
+  mostrarConfi(): void {
+    this.router.navigate(['/config']);
+  }
+
   ngOndestroy() {
     this.estadoSubscription!.unsubscribe();
   }

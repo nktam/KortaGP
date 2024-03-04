@@ -1,1 +1,8 @@
-<div [innerHtml]=muestraEnPantalla></div>
+<div class="flex">
+    <div class="apuesta">{{apuestaEnPantalla}}</div>
+    <div (click)="copiar()">
+        <button mat-mini-fab color="secondary">
+            <mat-icon>content_copy</mat-icon>
+        </button>
+    </div>
+</div>

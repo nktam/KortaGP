@@ -1,6 +1,6 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {ListaComponent} from './lista.component';
+import {ListaComponent} from './carrera.component';
 
 describe('OrdenarListaComponent', () => {
   let component: ListaComponent;

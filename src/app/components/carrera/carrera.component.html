@@ -1,0 +1,8 @@
+<h1>Carrera</h1>
+<div cdkDropList class="drag-list" (cdkDropListDropped)="drop($event)">
+    @for (item of pilotos; track item.id) {
+    <div class="drag-box" cdkDrag>
+        {{item.nombre}}
+    </div>
+    }
+</div>

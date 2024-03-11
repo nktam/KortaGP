@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
 import {ApuestaService} from "../../services/apuesta.service";
-import {ConfigService} from "../../services/config.service";
 import {Subscription} from 'rxjs';
 import {Apuesta} from "../../interfaces/apuesta";
 import apuestaInfo from '../../utils/apuesta.json';
@@ -22,18 +21,16 @@ export class ApuestaComponent {
   sprint: boolean=false;
   apuestaEnPantalla: string="";
   private apuestaSubscription: Subscription|undefined;
-  private sprintSubscription: Subscription|undefined;
 
-  constructor(private apuestaService: ApuestaService, private clipboard: Clipboard, private configService: ConfigService) { }
+  constructor(private apuestaService: ApuestaService, private clipboard: Clipboard) { }
 
 
   async ngOnInit(): Promise<void> {
     this.apuestaSubscription=this.apuestaService.apuesta$.subscribe(v => this.apuesta=v);
-    this.sprintSubscription=this.configService.sprint$.subscribe(v => this.sprint=v);
     this.modificarApuestaEnPantalla(this.apuesta);
   }
 
-  ngOndestroy() {
+  ngOnDestroy() {
     this.apuestaSubscription!.unsubscribe();
   }
 

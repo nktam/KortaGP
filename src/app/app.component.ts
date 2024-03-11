@@ -3,8 +3,6 @@ import {Router, RouterOutlet} from '@angular/router';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
-import {ApuestaService} from "./services/apuesta.service";
-import {Subscription} from 'rxjs';
 import {CarreraComponent} from './components/carrera/carrera.component';
 
 
@@ -18,9 +16,8 @@ import {CarreraComponent} from './components/carrera/carrera.component';
 export class AppComponent {
   title: string='KortaGP';
 
-  private estadoSubscription: Subscription|undefined;
 
-  constructor(private apuestaService: ApuestaService, private router: Router) { }
+  constructor(private router: Router) { }
 
   async ngOnInit(): Promise<void> {
   }
@@ -43,9 +40,6 @@ export class AppComponent {
     this.router.navigate(['/config']);
   }
 
-  ngOndestroy() {
-    this.estadoSubscription!.unsubscribe();
-  }
 
 
 }

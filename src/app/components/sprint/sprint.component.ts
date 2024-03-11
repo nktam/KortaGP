@@ -21,7 +21,7 @@ export class SprintComponent {
 
   constructor(private apuestaService: ApuestaService, private listasService: ListasService) { }
 
-  async ngAfterViewChecked(): Promise<void> {
+  async ngOnInit(): Promise<void> {
     this.sprintSubscription=this.listasService.sprint$.subscribe(v => this.pilotos=v);
   }
 
@@ -31,7 +31,7 @@ export class SprintComponent {
     this.listasService.updateSprint(this.pilotos);
   }
 
-  ngOndestroy() {
+  ngOnDestroy() {
     this.sprintSubscription!.unsubscribe();
   }
 

@@ -22,7 +22,7 @@ export class CarreraComponent {
 
   constructor(private apuestaService: ApuestaService, private listasService: ListasService) { }
 
-  async ngAfterViewChecked(): Promise<void> {
+  async ngOnInit(): Promise<void> {
     this.carreraSubscription=this.listasService.carrera$.subscribe(v => this.pilotos=v);
   }
 
@@ -32,7 +32,7 @@ export class CarreraComponent {
     this.listasService.updateCarrera(this.pilotos);
   }
 
-  ngOndestroy() {
+  ngOnDestroy() {
     this.carreraSubscription!.unsubscribe();
   }
 

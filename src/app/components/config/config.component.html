@@ -19,21 +19,22 @@
     <div class="campo">
         <mat-form-field>
             <mat-label>Posición Alonso</mat-label>
-            <input type="number" name="posAlonso" matInput placeholder="0" [ngModel]="posAlonso"
+            <input type="number" name="posAlonso" matInput placeholder="0" [ngModel]="apuesta.posAlonso"
                 (ngModelChange)="modificarPosAlonso($event)">
         </mat-form-field>
     </div>
     <div class="campo">
         <mat-form-field>
             <mat-label>Posición Sainz</mat-label>
-            <input type="number" name="posSainz" matInput placeholder="0" [ngModel]="posSainz"
+            <input type="number" name="posSainz" matInput placeholder="0" [ngModel]="apuesta.posSainz"
                 (ngModelChange)="modificaPosSainz($event)">
         </mat-form-field>
     </div>
     <div class="campo">
         <mat-form-field>
             <mat-label>Equipo</mat-label>
-            <mat-select name="equipo" [(value)]="equipo" [ngModel]="equipo" (ngModelChange)="modificarEquipo()">
+            <mat-select name="equipo" [(value)]="apuesta.equipo" [ngModel]="apuesta.equipo"
+                (ngModelChange)="modificarEquipo()">
                 <mat-option>None</mat-option>
                 <mat-option value="option1">Option 1</mat-option>
                 <mat-option value="option2">Option 2</mat-option>

@@ -4,22 +4,24 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {CarreraComponent} from './components/carrera/carrera.component';
+import {ConsultasService} from './services/consultas.service';
+import {HttpClientModule} from "@angular/common/http";
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CarreraComponent, MatToolbarModule, MatIconModule, MatButtonModule],
+  imports: [RouterOutlet, CarreraComponent, MatToolbarModule, MatIconModule, MatButtonModule, HttpClientModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
   title: string='KortaGP';
 
-
-  constructor(private router: Router) { }
+  constructor(private router: Router, private cs: ConsultasService) { }
 
   async ngOnInit(): Promise<void> {
+    this.cs.getPosts().subscribe(res => console.log(res));
   }
 
   cargaClasificacion(): void {

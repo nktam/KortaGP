@@ -24,7 +24,6 @@ export class ConfigComponent {
   granpremio: number=1;
   sprint: boolean=false;
 
-
   constructor(private apuestaService: ApuestaService, private configService: ConfigService) { }
 
   async ngOnInit(): Promise<void> {

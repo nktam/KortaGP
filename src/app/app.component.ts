@@ -21,7 +21,8 @@ export class AppComponent {
   constructor(private router: Router, private cs: ConsultasService) { }
 
   async ngOnInit(): Promise<void> {
-    this.cs.getPosts().subscribe(res => console.log(res));
+    let respuesta=this.cs.getPosts().subscribe(res => res);
+    console.log(respuesta);
   }
 
   cargaClasificacion(): void {

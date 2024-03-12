@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">F1proyect</string>
+    <string name="title_activity_main">F1proyect</string>
+    <string name="package_name">eus.f1.kortagp</string>
+    <string name="custom_url_scheme">eus.f1.kortagp</string>
+</resources>

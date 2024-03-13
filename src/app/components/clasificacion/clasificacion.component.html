@@ -1,8 +1,8 @@
 <h1>Clasificación</h1>
 <div cdkDropList class="drag-list" (cdkDropListDropped)="drop($event)">
-    @for (item of pilotos; track item.id) {
+    @for (item of pilotos; track item.nombre) {
     <div class="drag-box" cdkDrag>
-        {{item.nombre}}
+        {{item.nombre | uppercase}}
     </div>
     }
 </div>

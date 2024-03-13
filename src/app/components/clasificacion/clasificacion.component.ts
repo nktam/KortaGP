@@ -4,21 +4,21 @@ import {Piloto} from "../../interfaces/piloto";
 import {ApuestaService} from "../../services/apuesta.service";
 import {Subscription} from 'rxjs';
 import {ListasService} from "../../services/listas.service";
+import {UpperCasePipe} from '@angular/common';
 
 @Component({
   selector: 'app-clasificacion',
   standalone: true,
-  imports: [DragDropModule],
+  imports: [DragDropModule, UpperCasePipe],
   templateUrl: './clasificacion.component.html',
   styleUrl: './clasificacion.component.scss'
 })
 export class clasificacionComponent {
 
   lista: string='clasificacion';
+  pilotos: Piloto[]=[];
 
   private clasificacionSubscription: Subscription|undefined;
-
-  pilotos: Piloto[]=[];
 
   constructor(private apuestaService: ApuestaService, private listasService: ListasService) { }
 

@@ -1,39 +1,18 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {Piloto} from '../interfaces/piloto';
+import {ConsultasService} from '../services/consultas.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ListasService {
 
-  clasificacion: Piloto[]=[
-    {id: 1, nombre: "Max"},
-    {id: 4, nombre: "Norris"},
-    {id: 11, nombre: "Checo"},
-    {id: 14, nombre: "Alonso"},
-    {id: 16, nombre: "Lecrerc"},
-    {id: 55, nombre: "Sainz"},
-    {id: 44, nombre: "Hamilton"}
-  ];
-  sprint: Piloto[]=[
-    {id: 1, nombre: "Max"},
-    {id: 4, nombre: "Norris"},
-    {id: 11, nombre: "Checo"},
-    {id: 14, nombre: "Alonso"},
-    {id: 16, nombre: "Lecrerc"},
-    {id: 55, nombre: "Sainz"},
-    {id: 44, nombre: "Hamilton"}
-  ];
-  carrera: Piloto[]=[
-    {id: 1, nombre: "Max"},
-    {id: 4, nombre: "Norris"},
-    {id: 11, nombre: "Checo"},
-    {id: 14, nombre: "Alonso"},
-    {id: 16, nombre: "Lecrerc"},
-    {id: 55, nombre: "Sainz"},
-    {id: 44, nombre: "Hamilton"}
-  ];
+  constructor(private cs: ConsultasService) { }
+
+  clasificacion: Piloto[]=[{id: 0, nombre: ""}];
+  sprint: Piloto[]=[{id: 0, nombre: ""}];
+  carrera: Piloto[]=[{id: 0, nombre: ""}];
 
   private _clasificacion: BehaviorSubject<Piloto[]>=new BehaviorSubject<Piloto[]>(this.clasificacion);
   public readonly clasificacion$: Observable<Piloto[]>=this._clasificacion.asObservable();
@@ -44,19 +23,24 @@ export class ListasService {
   private _carrera: BehaviorSubject<Piloto[]>=new BehaviorSubject<Piloto[]>(this.carrera);
   public readonly carrera$: Observable<Piloto[]>=this._carrera.asObservable();
 
-  constructor() { }
-
-  public updateClasificacion(array: Array<Piloto>): void {
-    this.clasificacion=array;
-    this._clasificacion.next(this.clasificacion);
+  public updateListas(array: Piloto[]): void {
+    this.updateClasificacion(array);
+    this.updateSprint(array);
+    this.updateCarrera(array);
   };
 
-  public updateSprint(array: Array<Piloto>): void {
+  public updateClasificacion(array: Piloto[]): void {
+    this.clasificacion=array;
+    this._clasificacion.next(array);
+  };
 
+  public updateSprint(array: Piloto[]): void {
+    this.sprint=array;
     this._sprint.next(array);
   };
 
-  public updateCarrera(array: Array<Piloto>): void {
+  public updateCarrera(array: Piloto[]): void {
+    this.carrera=array;
     this._carrera.next(array);
   };
 

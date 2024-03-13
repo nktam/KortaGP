@@ -7,6 +7,7 @@ import {CarreraComponent} from './components/carrera/carrera.component';
 import {ConsultasService} from './services/consultas.service';
 import {HttpClientModule} from "@angular/common/http";
 import {Piloto} from './interfaces/piloto';
+import {ListasService} from './services/listas.service';
 
 
 @Component({
@@ -21,11 +22,11 @@ export class AppComponent {
   respuesta: any;
   pilotos: Piloto[]=[];
 
-  constructor(private router: Router, private cs: ConsultasService) { }
+  constructor(private router: Router, private cs: ConsultasService, private listas: ListasService) { }
 
   async ngOnInit(): Promise<void> {
     this.cs.leeArchivo().then((respuesta) => {
-      console.log(respuesta);
+      this.listas.updateListas(JSON.parse(respuesta));
     })
       .catch(e => {
         this.cs.getPilotos().subscribe((res) => {

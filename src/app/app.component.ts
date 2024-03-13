@@ -24,17 +24,17 @@ export class AppComponent {
   constructor(private router: Router, private cs: ConsultasService) { }
 
   async ngOnInit(): Promise<void> {
-    this.cs.getPosts().subscribe((res) => {
-      this.respuesta=res;
-      let lista=this.respuesta.MRData.DriverTable.Drivers;
-      for(let i=0; i<lista.length; i++) {
-        let piloto: Piloto={id: 0, nombre: ''};
-        piloto.id=lista[i].permanentNumber;
-        piloto.nombre=lista[i].driverId;
-        this.pilotos.push(piloto);
-      }
-      console.log(this.pilotos);
-    });
+    this.cs.leeArchivo().then((respuesta) => {
+      console.log(respuesta);
+    })
+      .catch(e => {
+        this.cs.getPilotos().subscribe((res) => {
+          this.respuesta=res;
+          let lista=this.respuesta.MRData.DriverTable.Drivers;
+          this.pilotos=this.cs.arrayToPilotos(lista);
+          this.cs.guardaArchivo(this.pilotos);
+        });
+      });
   }
 
   cargaClasificacion(): void {
@@ -54,7 +54,5 @@ export class AppComponent {
   mostrarConfi(): void {
     this.router.navigate(['/config']);
   }
-
-
 
 }

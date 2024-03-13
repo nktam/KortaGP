@@ -18,12 +18,10 @@ import {MatButtonModule} from '@angular/material/button';
 export class ApuestaComponent {
 
   apuesta: Apuesta=apuestaInfo;
-  sprint: boolean=false;
   apuestaEnPantalla: string="";
   private apuestaSubscription: Subscription|undefined;
 
   constructor(private apuestaService: ApuestaService, private clipboard: Clipboard) { }
-
 
   async ngOnInit(): Promise<void> {
     this.apuestaSubscription=this.apuestaService.apuesta$.subscribe(v => this.apuesta=v);
@@ -36,24 +34,24 @@ export class ApuestaComponent {
 
   private modificarApuestaEnPantalla(apuesta: Apuesta) {
     let parte1=`
-    Clasi
-    1- ${apuesta.clasificacion[1].nombre} 
-    2- ${apuesta.clasificacion[2].nombre} 
-    3- ${apuesta.clasificacion[3].nombre}`
+Clasi
+1- ${apuesta.clasificacion[1].nombre} 
+2- ${apuesta.clasificacion[2].nombre} 
+3- ${apuesta.clasificacion[3].nombre}`
 
     let parte2=`
 
-    Sprint
-    1- ${apuesta.sprint[1].nombre} 
-    2- ${apuesta.sprint[2].nombre} 
-    3- ${apuesta.sprint[3].nombre}`
+Sprint
+1- ${apuesta.sprint[1].nombre} 
+2- ${apuesta.sprint[2].nombre} 
+3- ${apuesta.sprint[3].nombre}`
 
     let parte3=`
 
-    Carrera
-    1- ${apuesta.carrera[1].nombre}
-    2-${apuesta.carrera[2].nombre}
-    3-${apuesta.carrera[3].nombre} 
+Carrera
+1- ${apuesta.carrera[1].nombre}
+2-${apuesta.carrera[2].nombre}
+3-${apuesta.carrera[3].nombre} 
      
 Alonso ${apuesta.posAlonso} 
      
@@ -61,12 +59,11 @@ Sainz ${apuesta.posSainz}
      
 Equipo ${apuesta.equipo}`
 
-    if(this.sprint) {
+    if(this.apuesta.tieneSprint) {
       this.apuestaEnPantalla=`${parte1}${parte2}${parte3}`
     } else {
       this.apuestaEnPantalla=`${parte1}${parte3}`
     }
-
   }
 
   copiar() {

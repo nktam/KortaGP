@@ -58,4 +58,14 @@ export class ApuestaService {
     this.apuesta.posSainz=pos;
     this._apuesta.next(this.apuesta);
   };
+
+  updateGranpremio(granpremio: number): void {
+    this.apuesta.granPremio=granpremio;
+    this._apuesta.next(this.apuesta);
+  };
+
+  updateSprint(sprint: boolean): void {
+    this.apuesta.tieneSprint=sprint;
+    this._apuesta.next(this.apuesta);
+  };
 }

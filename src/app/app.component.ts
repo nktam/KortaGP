@@ -6,6 +6,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {CarreraComponent} from './components/carrera/carrera.component';
 import {ConsultasService} from './services/consultas.service';
 import {HttpClientModule} from "@angular/common/http";
+import {Piloto} from './interfaces/piloto';
 
 
 @Component({
@@ -17,12 +18,23 @@ import {HttpClientModule} from "@angular/common/http";
 })
 export class AppComponent {
   title: string='KortaGP';
+  respuesta: any;
+  pilotos: Piloto[]=[];
 
   constructor(private router: Router, private cs: ConsultasService) { }
 
   async ngOnInit(): Promise<void> {
-    let respuesta=this.cs.getPosts().subscribe(res => res);
-    console.log(respuesta);
+    this.cs.getPosts().subscribe((res) => {
+      this.respuesta=res;
+      let lista=this.respuesta.MRData.DriverTable.Drivers;
+      for(let i=0; i<lista.length; i++) {
+        let piloto: Piloto={id: 0, nombre: ''};
+        piloto.id=lista[i].permanentNumber;
+        piloto.nombre=lista[i].driverId;
+        this.pilotos.push(piloto);
+      }
+      console.log(this.pilotos);
+    });
   }
 
   cargaClasificacion(): void {

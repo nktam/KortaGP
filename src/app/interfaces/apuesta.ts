@@ -8,4 +8,6 @@ export interface Apuesta {
     equipo: string;
     posAlonso: number;
     posSainz: number;
+    granPremio?: number;
+    tieneSprint: boolean;
 }

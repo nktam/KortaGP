@@ -3,17 +3,18 @@
     <div class="campo">
         <mat-form-field>
             <mat-label>Gran premio</mat-label>
-            <mat-select name="granpremio" [(value)]="granpremio" [ngModel]="granpremio"
+            <mat-select name="granpremio" [(value)]="apuesta.granPremio" [ngModel]="apuesta.granPremio"
                 (ngModelChange)="modificarGranpremio()">
                 <mat-option>None</mat-option>
-                <mat-option value="option1">Option 1</mat-option>
-                <mat-option value="option2">Option 2</mat-option>
-                <mat-option value="option3">Option 3</mat-option>
+                <mat-option value="1">Option 1</mat-option>
+                <mat-option value="2">Option 2</mat-option>
+                <mat-option value="3">Option 3</mat-option>
             </mat-select>
         </mat-form-field>
     </div>
     <div class="campo">
-        <mat-slide-toggle name="sprint" [ngModel]="sprint" (ngModelChange)="modificarSprint($event)">Carrera
+        <mat-slide-toggle name="sprint" [ngModel]="apuesta.tieneSprint"
+            (ngModelChange)="modificarSprint($event)">Carrera
             sprint</mat-slide-toggle>
     </div>
     <div class="campo">

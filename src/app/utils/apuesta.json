@@ -53,5 +53,7 @@
     },
     "posAlonso": 5,
     "posSainz": 7,
-    "equipo": "Red Bull"
+    "equipo": "Red Bull",
+    "granPremio": 2,
+    "tieneSprint": false
 }

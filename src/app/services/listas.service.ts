@@ -7,33 +7,32 @@ import {Piloto} from '../interfaces/piloto';
 })
 export class ListasService {
 
-
   clasificacion: Piloto[]=[
-    {id: 1, nombre: "Max", equipo: 'Red Bull'},
-    {id: 4, nombre: "Norris", equipo: 'McLareb F1'},
-    {id: 11, nombre: "Checo", equipo: 'Red Bull'},
-    {id: 14, nombre: "Alonso", equipo: 'Aston Martin'},
-    {id: 16, nombre: "Lecrerc", equipo: 'Ferrari'},
-    {id: 55, nombre: "Sainz", equipo: 'Ferrari'},
-    {id: 44, nombre: "Hamilton", equipo: 'Mercedes'}
+    {id: 1, nombre: "Max"},
+    {id: 4, nombre: "Norris"},
+    {id: 11, nombre: "Checo"},
+    {id: 14, nombre: "Alonso"},
+    {id: 16, nombre: "Lecrerc"},
+    {id: 55, nombre: "Sainz"},
+    {id: 44, nombre: "Hamilton"}
   ];
   sprint: Piloto[]=[
-    {id: 1, nombre: "Max", equipo: 'Red Bull'},
-    {id: 4, nombre: "Norris", equipo: 'McLareb F1'},
-    {id: 11, nombre: "Checo", equipo: 'Red Bull'},
-    {id: 14, nombre: "Alonso", equipo: 'Aston Martin'},
-    {id: 16, nombre: "Lecrerc", equipo: 'Ferrari'},
-    {id: 55, nombre: "Sainz", equipo: 'Ferrari'},
-    {id: 44, nombre: "Hamilton", equipo: 'Mercedes'}
+    {id: 1, nombre: "Max"},
+    {id: 4, nombre: "Norris"},
+    {id: 11, nombre: "Checo"},
+    {id: 14, nombre: "Alonso"},
+    {id: 16, nombre: "Lecrerc"},
+    {id: 55, nombre: "Sainz"},
+    {id: 44, nombre: "Hamilton"}
   ];
   carrera: Piloto[]=[
-    {id: 1, nombre: "Max", equipo: 'Red Bull'},
-    {id: 4, nombre: "Norris", equipo: 'McLareb F1'},
-    {id: 11, nombre: "Checo", equipo: 'Red Bull'},
-    {id: 14, nombre: "Alonso", equipo: 'Aston Martin'},
-    {id: 16, nombre: "Lecrerc", equipo: 'Ferrari'},
-    {id: 55, nombre: "Sainz", equipo: 'Ferrari'},
-    {id: 44, nombre: "Hamilton", equipo: 'Mercedes'}
+    {id: 1, nombre: "Max"},
+    {id: 4, nombre: "Norris"},
+    {id: 11, nombre: "Checo"},
+    {id: 14, nombre: "Alonso"},
+    {id: 16, nombre: "Lecrerc"},
+    {id: 55, nombre: "Sainz"},
+    {id: 44, nombre: "Hamilton"}
   ];
 
   private _clasificacion: BehaviorSubject<Piloto[]>=new BehaviorSubject<Piloto[]>(this.clasificacion);

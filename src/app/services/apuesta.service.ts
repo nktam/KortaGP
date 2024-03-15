@@ -22,26 +22,31 @@ export class ApuestaService {
   };
 
   updatePosiciones(posiciones: Array<Piloto>, lista: string): void {
-    if(lista=='carrera') {
-      this.apuesta.carrera[1]=posiciones[0];
-      this.apuesta.carrera[2]=posiciones[1];
-      this.apuesta.carrera[3]=posiciones[2];
-      this._apuesta.next(this.apuesta);
+
+    switch(lista) {
+      case 'Clasificación': {
+        this.apuesta.clasificacion[1]=posiciones[0];
+        this.apuesta.clasificacion[2]=posiciones[1];
+        this.apuesta.clasificacion[3]=posiciones[2];
+        this._apuesta.next(this.apuesta);
+        break;
+      }
+      case 'Sprint': {
+        this.apuesta.sprint[1]=posiciones[0];
+        this.apuesta.sprint[2]=posiciones[1];
+        this.apuesta.sprint[3]=posiciones[2];
+        this._apuesta.next(this.apuesta);
+        break;
+      }
+      default: {
+        this.apuesta.carrera[1]=posiciones[0];
+        this.apuesta.carrera[2]=posiciones[1];
+        this.apuesta.carrera[3]=posiciones[2];
+        this._apuesta.next(this.apuesta);
+        break;
+      }
     }
 
-    if(lista=='sprint') {
-      this.apuesta.sprint[1]=posiciones[0];
-      this.apuesta.sprint[2]=posiciones[1];
-      this.apuesta.sprint[3]=posiciones[2];
-      this._apuesta.next(this.apuesta);
-    }
-
-    if(lista=='clasificacion') {
-      this.apuesta.clasificacion[1]=posiciones[0];
-      this.apuesta.clasificacion[2]=posiciones[1];
-      this.apuesta.clasificacion[3]=posiciones[2];
-      this._apuesta.next(this.apuesta);
-    }
   };
 
   updateEquipo(equipo: string): void {

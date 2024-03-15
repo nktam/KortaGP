@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {Piloto} from '../interfaces/piloto';
+import {Listas} from "../interfaces/listas";
 import {ConsultasService} from '../services/consultas.service';
 
 @Injectable({
@@ -8,40 +9,58 @@ import {ConsultasService} from '../services/consultas.service';
 })
 export class ListasService {
 
-  constructor(private cs: ConsultasService) { }
+  listas: Listas={clasificacion: [], carrera: [], sprint: []};
+  respuesta: any;
+  pilotos: Piloto[]=[];
+  private _pagina: string='';
 
-  clasificacion: Piloto[]=[{id: 0, nombre: ""}];
-  sprint: Piloto[]=[{id: 0, nombre: ""}];
-  carrera: Piloto[]=[{id: 0, nombre: ""}];
 
-  private _clasificacion: BehaviorSubject<Piloto[]>=new BehaviorSubject<Piloto[]>(this.clasificacion);
-  public readonly clasificacion$: Observable<Piloto[]>=this._clasificacion.asObservable();
+  constructor(private cs: ConsultasService) {
+    this.cs.leeArchivo().then((respuesta) => {
+      this.listas=this.updateListas(JSON.parse(respuesta));
+    })
+      .catch(e => {
+        this.cs.getPilotos().subscribe((res) => {
+          this.respuesta=res;
+          let listaDesdeApiRest=this.respuesta.MRData.DriverTable.Drivers;
+          this.pilotos=this.cs.arrayToPilotos(listaDesdeApiRest);
+          this.cs.guardaArchivo(this.pilotos);
+          this.listas=this.updateListas(this.pilotos);
+        });
+      });
+  }
 
-  private _sprint: BehaviorSubject<Piloto[]>=new BehaviorSubject<Piloto[]>(this.sprint);
-  public readonly sprint$: Observable<Piloto[]>=this._sprint.asObservable();
+  private _listas: BehaviorSubject<Listas>=new BehaviorSubject<Listas>(this.listas);
+  public readonly listas$: Observable<Listas>=this._listas.asObservable();
 
-  private _carrera: BehaviorSubject<Piloto[]>=new BehaviorSubject<Piloto[]>(this.carrera);
-  public readonly carrera$: Observable<Piloto[]>=this._carrera.asObservable();
+  public get pagina(): string {
+    return this._pagina;
+  }
 
-  public updateListas(array: Piloto[]): void {
+  public set pagina(value: string) {
+    this._pagina=value;
+  }
+
+  private updateListas(array: Piloto[]): Listas {
     this.updateClasificacion(array);
     this.updateSprint(array);
     this.updateCarrera(array);
+    return this.listas;
   };
 
   public updateClasificacion(array: Piloto[]): void {
-    this.clasificacion=array;
-    this._clasificacion.next(array);
+    this.listas.clasificacion=array;
+    this._listas.next(this.listas);
   };
 
   public updateSprint(array: Piloto[]): void {
-    this.sprint=array;
-    this._sprint.next(array);
+    this.listas.sprint=array;
+    this._listas.next(this.listas);
   };
 
   public updateCarrera(array: Piloto[]): void {
-    this.carrera=array;
-    this._carrera.next(array);
+    this.listas.carrera=array;
+    this._listas.next(this.listas);
   };
 
 }

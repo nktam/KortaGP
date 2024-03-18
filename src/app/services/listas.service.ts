@@ -16,7 +16,7 @@ export class ListasService {
 
 
   constructor(private cs: ConsultasService) {
-    this.cs.leeArchivo().then((respuesta) => {
+    this.cs.leeArchivo('pilotos.json').then((respuesta) => {
       this.listas=this.updateListas(JSON.parse(respuesta));
     })
       .catch(e => {
@@ -24,7 +24,7 @@ export class ListasService {
           this.respuesta=res;
           let listaDesdeApiRest=this.respuesta.MRData.DriverTable.Drivers;
           this.pilotos=this.cs.arrayToPilotos(listaDesdeApiRest);
-          this.cs.guardaArchivo(this.pilotos);
+          this.cs.guardaArchivo('pilotos.json', this.pilotos);
           this.listas=this.updateListas(this.pilotos);
         });
       });

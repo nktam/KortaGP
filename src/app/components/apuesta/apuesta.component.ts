@@ -57,7 +57,7 @@ Alonso ${apuesta.posAlonso}
      
 Sainz ${apuesta.posSainz} 
      
-Equipo ${apuesta.equipo}`
+Equipo ${apuesta.equipo.nombre}`
 
     if(this.apuesta.tieneSprint) {
       this.apuestaEnPantalla=`${parte1}${parte2}${parte3}`

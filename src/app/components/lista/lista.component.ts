@@ -42,33 +42,59 @@ export class ListaComponent {
       }
     }
     this.subscription!.unsubscribe();
-
   }
 
   drop(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.pilotos, event.previousIndex, event.currentIndex);
+    this.pilotos=this.moveItemInArray(this.pilotos, event.previousIndex, event.currentIndex);
     this.apuestaService.updatePosiciones(this.pilotos.slice(0, 4), this.pagina);
     switch(this.pagina) {
       case 'Clasificación': {
-        this.listasService.updateClasificacion(this.pilotos.slice(0, 20));
+        this.listasService.updateClasificacion(this.pilotos);
         break;
       }
       case 'Sprint': {
-        this.listasService.updateSprint(this.pilotos.slice(0, 21));
+        this.listasService.updateSprint(this.pilotos);
         break;
       }
       default: {
-        this.listasService.updateCarrera(this.pilotos.slice(0, 19));
+        this.listasService.updateCarrera(this.pilotos);
         break;
       }
     }
 
   }
 
-  ngOnDestroy() {
 
+  /// para hacer los arrays inmutables
+  private moveItemInArray<T=any>(array: T[], fromIndex: number, toIndex: number): T[] {
+    let arrayCopy=JSON.parse(JSON.stringify(array)) as T[];
+
+    const from=this.clamp(fromIndex, array.length-1);
+    const to=this.clamp(toIndex, array.length-1);
+
+    if(from===to) {
+      return [];
+    }
+
+    const target=arrayCopy[from];
+    const delta=to<from? -1:1;
+
+    for(let i=from; i!==to; i+=delta) {
+      arrayCopy[i]=arrayCopy[i+delta];
+    }
+
+    arrayCopy[to]=target;
+
+    return arrayCopy;
+  }
+
+  /** Clamps a number between zero and a maximum. */
+  private clamp(value: number, max: number): number {
+    return Math.max(0, Math.min(max, value));
   }
 
 }
+
+
 
 

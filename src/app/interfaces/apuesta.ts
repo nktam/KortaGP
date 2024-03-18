@@ -1,3 +1,5 @@
+import {Equipo} from './equipo';
+import {GranPremio} from './granPremio';
 import {Posiciones} from "./posiciones";
 
 export interface Apuesta {
@@ -5,9 +7,9 @@ export interface Apuesta {
     carrera: Posiciones;
     clasificacion: Posiciones;
     sprint: Posiciones;
-    equipo: string;
+    equipo: Equipo;
     posAlonso: number;
     posSainz: number;
-    granPremio?: number;
+    granPremio?: GranPremio;
     tieneSprint: boolean;
 }

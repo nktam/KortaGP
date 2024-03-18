@@ -3,6 +3,8 @@ import {BehaviorSubject, Observable} from 'rxjs';
 import {Apuesta} from "../interfaces/apuesta";
 import {Piloto} from '../interfaces/piloto';
 import apuestaInfo from '../utils/apuesta.json';
+import {Equipo} from '../interfaces/equipo';
+import {GranPremio} from '../interfaces/granPremio';
 
 @Injectable({
   providedIn: 'root'
@@ -49,7 +51,7 @@ export class ApuestaService {
 
   };
 
-  updateEquipo(equipo: string): void {
+  updateEquipo(equipo: Equipo): void {
     this.apuesta.equipo=equipo;
     this._apuesta.next(this.apuesta);
   };
@@ -64,7 +66,7 @@ export class ApuestaService {
     this._apuesta.next(this.apuesta);
   };
 
-  updateGranpremio(granpremio: number): void {
+  updateGranpremio(granpremio: GranPremio): void {
     this.apuesta.granPremio=granpremio;
     this._apuesta.next(this.apuesta);
   };

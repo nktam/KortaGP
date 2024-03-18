@@ -7,7 +7,6 @@ import {HttpClientModule} from "@angular/common/http";
 import {Piloto} from './interfaces/piloto';
 import {ListasService} from './services/listas.service';
 
-
 @Component({
   selector: 'app-root',
   standalone: true,

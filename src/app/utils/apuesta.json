@@ -3,57 +3,54 @@
     "carrera": {
         "1": {
             "id": 1,
-            "nombre": "Max",
-            "equipo": "Red Bull"
+            "nombre": "Max"
         },
         "2": {
             "id": 44,
-            "nombre": "Hamilton",
-            "equipo": "Mercedes"
+            "nombre": "Hamilton"
         },
         "3": {
             "id": 14,
-            "nombre": "Alonso",
-            "equipo": "Aston Martin"
+            "nombre": "Alonso"
         }
     },
     "sprint": {
         "1": {
             "id": 1,
-            "nombre": "Max",
-            "equipo": "Red Bull"
+            "nombre": "Max"
         },
         "2": {
             "id": 44,
-            "nombre": "Hamilton",
-            "equipo": "Mercedes"
+            "nombre": "Hamilton"
         },
         "3": {
             "id": 14,
-            "nombre": "Alonso",
-            "equipo": "Aston Martin"
+            "nombre": "Alonso"
         }
     },
     "clasificacion": {
         "1": {
             "id": 1,
-            "nombre": "Max",
-            "equipo": "Red Bull"
+            "nombre": "Max"
         },
         "2": {
             "id": 44,
-            "nombre": "Hamilton",
-            "equipo": "Mercedes"
+            "nombre": "Hamilton"
         },
         "3": {
             "id": 14,
-            "nombre": "Alonso",
-            "equipo": "Aston Martin"
+            "nombre": "Alonso"
         }
     },
     "posAlonso": 5,
     "posSainz": 7,
-    "equipo": "Red Bull",
-    "granPremio": 2,
+    "equipo": {
+        "id": "red_bull",
+        "nombre": "Red Bull"
+    },
+    "granPremio": {
+        "id": 1,
+        "nombre": "Bahrain Grand Prix"
+    },
     "tieneSprint": false
 }

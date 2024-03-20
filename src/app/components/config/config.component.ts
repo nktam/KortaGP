@@ -6,7 +6,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatSelectModule} from '@angular/material/select';
 import {ApuestaService} from "../../services/apuesta.service";
-import {FormsModule} from '@angular/forms';
+import {FormsModule, } from '@angular/forms';
 import {Apuesta} from '../../interfaces/apuesta';
 import apuestaInfo from '../../utils/apuesta.json';
 import {ConsultasService} from '../../services/consultas.service';
@@ -25,8 +25,8 @@ export class ConfigComponent {
   private apuestaSubscription: Subscription|undefined;
   listaEquipos: Equipo[]=[];
   listaGrandesPremios: GranPremio[]=[];
-
-
+  //equipoSelected: Equipo={id: "red_bull", nombre: "Red Bull"};
+  //granPremioSelected: GranPremio={id: 1, nombre: "Bahrain Grand Prix"};
 
   constructor(private cs: ConsultasService, private apuestaService: ApuestaService) {
 
@@ -64,9 +64,8 @@ export class ConfigComponent {
     this.apuestaSubscription=this.apuestaService.apuesta$.subscribe(v => this.apuesta=v);
   }
 
-
-  modificarEquipo(): void {
-    this.apuesta.equipo=this.apuesta.equipo;
+  modificarEquipo(e: any): void {
+    console.log(e.target.value);
     this.apuestaService.updateEquipo(this.apuesta.equipo);
   }
 
@@ -81,13 +80,20 @@ export class ConfigComponent {
   }
 
   modificarGranpremio(): void {
-    this.apuesta.granPremio=this.apuesta.granPremio;
-    this.apuestaService.updateGranpremio(this.apuesta.granPremio!);
+    // this.granPremioSelected=this.apuesta.granPremio!.id;
+    // this.apuestaService.updateGranpremio(this.apuesta.granPremio!);
   }
 
   modificarSprint(event: any): void {
     this.apuesta.tieneSprint=event;
     this.apuestaService.updateSprint(this.apuesta.tieneSprint);
+  }
+
+  comparaEquipo(o1: Equipo, o2: Equipo) {
+    return o1.id==o2.id;
+  }
+  comparaGranPremio(o1: GranPremio, o2: GranPremio) {
+    return o1.id==o2.id;
   }
 
   ngOnDestroy() {

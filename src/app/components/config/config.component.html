@@ -1,43 +1,38 @@
-<form class="example-form">
-
-    <div class="campo">
-        <mat-form-field>
-            <mat-label>Gran premio</mat-label>
-            <mat-select name="granpremio" [(value)]="apuesta.granPremio" (ngModelChange)="modificarGranpremio()">
-                @for (carrera of listaGrandesPremios; track carrera) {
-                <mat-option [value]="carrera">{{carrera.nombre}}</mat-option>
-                }
-            </mat-select>
-        </mat-form-field>
-    </div>
-    <div class="campo">
-        <mat-slide-toggle name="sprint" [ngModel]="apuesta.tieneSprint"
-            (ngModelChange)="modificarSprint($event)">Carrera
-            sprint</mat-slide-toggle>
-    </div>
-    <div class="campo">
-        <mat-form-field>
-            <mat-label>Posición Alonso</mat-label>
-            <input type="number" name="posAlonso" matInput placeholder="0" [ngModel]="apuesta.posAlonso"
-                (ngModelChange)="modificarPosAlonso($event)">
-        </mat-form-field>
-    </div>
-    <div class="campo">
-        <mat-form-field>
-            <mat-label>Posición Sainz</mat-label>
-            <input type="number" name="posSainz" matInput placeholder="0" [ngModel]="apuesta.posSainz"
-                (ngModelChange)="modificaPosSainz($event)">
-        </mat-form-field>
-    </div>
-    <div class="campo">
-        <mat-form-field>
-            <mat-label>Equipo</mat-label>
-            <mat-select name="equipo" [(ngModel)]="apuesta.equipo" (ngModelChange)="modificarEquipo()">
-                @for (equipo of listaEquipos; track equipo) {
-                <mat-option [value]="equipo">{{equipo.nombre}}</mat-option>
-                }
-            </mat-select>
-        </mat-form-field>
-    </div>
-
-</form>
+<div class="campo">
+    <mat-form-field>
+        <mat-label>Gran premio</mat-label>
+        <select matNativeControl name="granpremio" [(ngModel)]="apuesta.granPremio" [compareWith]="comparaGranPremio">
+            @for (carrera of listaGrandesPremios; track carrera) {
+            <option [ngValue]="carrera">{{carrera.nombre}}</option>
+            }
+        </select>
+    </mat-form-field>
+</div>
+<div class="campo">
+    <mat-slide-toggle name="sprint" [ngModel]="apuesta.tieneSprint" (ngModelChange)="modificarSprint($event)">Carrera
+        sprint</mat-slide-toggle>
+</div>
+<div class="campo">
+    <mat-form-field>
+        <mat-label>Posición Alonso</mat-label>
+        <input type="number" name="posAlonso" matInput placeholder="0" [ngModel]="apuesta.posAlonso"
+            (ngModelChange)="modificarPosAlonso($event)">
+    </mat-form-field>
+</div>
+<div class="campo">
+    <mat-form-field>
+        <mat-label>Posición Sainz</mat-label>
+        <input type="number" name="posSainz" matInput placeholder="0" [ngModel]="apuesta.posSainz"
+            (ngModelChange)="modificaPosSainz($event)">
+    </mat-form-field>
+</div>
+<div class="campo">
+    <mat-form-field>
+        <mat-label for="equipo">Equipo</mat-label>
+        <select matNativeControl name="equipo" [(ngModel)]="apuesta.equipo" [compareWith]='comparaEquipo'>
+            @for (equipo of listaEquipos; track equipo) {
+            <option [ngValue]="equipo">{{equipo.nombre}}</option>
+            }
+        </select>
+    </mat-form-field>
+</div>

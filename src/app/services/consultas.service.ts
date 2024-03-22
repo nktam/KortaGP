@@ -73,6 +73,7 @@ export class ConsultasService {
   };
 
   async guardaApuesta(apuesta: Apuesta) {
+    console.log('guardamos apuesta');
     await Filesystem.writeFile({
       path: 'apuesta.json',
       data: JSON.stringify(apuesta),
@@ -91,6 +92,7 @@ export class ConsultasService {
   };
 
   consultaApuestaGuardada(): any {
+    console.log('leeemos archivo apuesta guradada')
     this.leeArchivo('apuesta.json').then((respuesta) => {
       return JSON.parse(respuesta);
     })

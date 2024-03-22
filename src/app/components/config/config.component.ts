@@ -28,7 +28,10 @@ export class ConfigComponent {
 
   constructor(private cs: ConsultasService, private apuestaService: ApuestaService) {
 
+    this.apuesta=this.cs.consultaApuestaGuardada();
+
     this.cs.leeArchivo('equipos.json').then((respuesta) => {
+      console.log('leeemos archivo equipos')
       this.listaEquipos=JSON.parse(respuesta);
     })
       .catch(e => {
@@ -55,14 +58,12 @@ export class ConfigComponent {
           this.cs.guardaArchivo('grandespremios.json', this.listaGrandesPremios);
         });
       });
-    this.apuesta=this.cs.consultaApuestaGuardada();
-
   }
+
 
   async ngOnInit(): Promise<void> {
     this.apuestaSubscription=this.apuestaService.apuesta$.subscribe(v => this.apuesta=v);
   }
-
 
   comparaEquipo(o1: Equipo, o2: Equipo) {
     return o1.id==o2.id;

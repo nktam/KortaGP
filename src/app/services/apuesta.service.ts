@@ -19,13 +19,10 @@ export class ApuestaService {
   public readonly apuesta$: Observable<Apuesta>=this._apuesta.asObservable();
 
   constructor(private cs: ConsultasService) {
-
-  }
-
-  ngOnInit() {
-    // this.apuesta=this.cs.consultaApuestaGuardada();
+    //this.apuesta=this.cs.consultaApuestaGuardada();
     //this._apuesta.next(this.apuesta);
   }
+
 
   updateApuesta(apuesta: Apuesta): void {
     this._apuesta.next(apuesta);

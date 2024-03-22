@@ -40,7 +40,7 @@ Clasi
 1- ${apuesta.clasificacion[1].nombre} 
 2- ${apuesta.clasificacion[2].nombre} 
 3- ${apuesta.clasificacion[3].nombre}
-3- ${apuesta.clasificacion[4].nombre}`
+4- ${apuesta.clasificacion[4].nombre}`
 
     let parte2=`
 
@@ -48,7 +48,7 @@ Sprint
 1- ${apuesta.sprint[1].nombre}  
 2- ${apuesta.sprint[2].nombre} 
 3- ${apuesta.sprint[3].nombre}
-3- ${apuesta.sprint[4].nombre}`
+4- ${apuesta.sprint[4].nombre}`
 
     let parte3=`
 
@@ -56,7 +56,7 @@ Carrera
 1- ${apuesta.carrera[1].nombre}
 2- ${apuesta.carrera[2].nombre}
 3- ${apuesta.carrera[3].nombre} 
-3- ${apuesta.carrera[4].nombre}
+4- ${apuesta.carrera[4].nombre}
      
 Alonso ${apuesta.posAlonso} 
      

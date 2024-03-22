@@ -4,7 +4,8 @@ import {Piloto} from '../interfaces/piloto';
 import {Directory, Encoding, Filesystem} from '@capacitor/filesystem';
 import {GranPremio} from '../interfaces/granPremio';
 import {Equipo} from '../interfaces/equipo';
-
+import {Apuesta} from '../interfaces/apuesta';
+import apuestaInfo from '../utils/apuesta.json';
 
 @Injectable({
   providedIn: 'root'
@@ -71,6 +72,15 @@ export class ConsultasService {
     });
   };
 
+  async guardaApuesta(apuesta: Apuesta) {
+    await Filesystem.writeFile({
+      path: 'apuesta.json',
+      data: JSON.stringify(apuesta),
+      directory: Directory.Data,
+      encoding: Encoding.UTF8,
+    });
+  };
+
   async leeArchivo(archivo: string): Promise<string> {
     const contents=await Filesystem.readFile({
       path: archivo,
@@ -79,6 +89,18 @@ export class ConsultasService {
     });
     return contents.data as string;
   };
+
+  consultaApuestaGuardada(): any {
+    this.leeArchivo('apuesta.json').then((respuesta) => {
+      return JSON.parse(respuesta);
+    })
+      .catch(e => {
+        return apuestaInfo;
+      });
+
+
+  }
+
 
 
 }

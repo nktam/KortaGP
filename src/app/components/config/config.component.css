@@ -3,3 +3,5 @@ flex-direction: column;
 }
 
 .campo{margin: 20px; min-width: 70%;}
+
+.ancho {width: 100%}

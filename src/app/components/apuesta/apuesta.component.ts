@@ -6,6 +6,7 @@ import apuestaInfo from '../../utils/apuesta.json';
 import {Clipboard} from '@angular/cdk/clipboard';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
+import {ConsultasService} from "../../services/consultas.service";
 
 
 @Component({
@@ -21,7 +22,8 @@ export class ApuestaComponent {
   apuestaEnPantalla: string="";
   private apuestaSubscription: Subscription|undefined;
 
-  constructor(private apuestaService: ApuestaService, private clipboard: Clipboard) { }
+  constructor(private apuestaService: ApuestaService, private clipboard: Clipboard, private cs: ConsultasService) {
+  }
 
   async ngOnInit(): Promise<void> {
     this.apuestaSubscription=this.apuestaService.apuesta$.subscribe(v => this.apuesta=v);
@@ -37,21 +39,24 @@ export class ApuestaComponent {
 Clasi
 1- ${apuesta.clasificacion[1].nombre} 
 2- ${apuesta.clasificacion[2].nombre} 
-3- ${apuesta.clasificacion[3].nombre}`
+3- ${apuesta.clasificacion[3].nombre}
+3- ${apuesta.clasificacion[4].nombre}`
 
     let parte2=`
 
 Sprint
-1- ${apuesta.sprint[1].nombre} 
+1- ${apuesta.sprint[1].nombre}  
 2- ${apuesta.sprint[2].nombre} 
-3- ${apuesta.sprint[3].nombre}`
+3- ${apuesta.sprint[3].nombre}
+3- ${apuesta.sprint[4].nombre}`
 
     let parte3=`
 
 Carrera
 1- ${apuesta.carrera[1].nombre}
-2-${apuesta.carrera[2].nombre}
-3-${apuesta.carrera[3].nombre} 
+2- ${apuesta.carrera[2].nombre}
+3- ${apuesta.carrera[3].nombre} 
+3- ${apuesta.carrera[4].nombre}
      
 Alonso ${apuesta.posAlonso} 
      
@@ -64,6 +69,10 @@ Equipo ${apuesta.equipo.nombre}`
     } else {
       this.apuestaEnPantalla=`${parte1}${parte3}`
     }
+  }
+
+  guardar() {
+    this.cs.guardaApuesta(this.apuesta);
   }
 
   copiar() {

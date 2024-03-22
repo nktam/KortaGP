@@ -5,6 +5,7 @@ import {Piloto} from '../interfaces/piloto';
 import apuestaInfo from '../utils/apuesta.json';
 import {Equipo} from '../interfaces/equipo';
 import {GranPremio} from '../interfaces/granPremio';
+import {ConsultasService} from './consultas.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,14 @@ export class ApuestaService {
   private _apuesta: BehaviorSubject<Apuesta>=new BehaviorSubject<Apuesta>(this.apuesta);
   public readonly apuesta$: Observable<Apuesta>=this._apuesta.asObservable();
 
-  constructor() { }
+  constructor(private cs: ConsultasService) {
+
+  }
+
+  ngOnInit() {
+    // this.apuesta=this.cs.consultaApuestaGuardada();
+    //this._apuesta.next(this.apuesta);
+  }
 
   updateApuesta(apuesta: Apuesta): void {
     this._apuesta.next(apuesta);
@@ -30,6 +38,7 @@ export class ApuestaService {
         this.apuesta.clasificacion[1]=posiciones[0];
         this.apuesta.clasificacion[2]=posiciones[1];
         this.apuesta.clasificacion[3]=posiciones[2];
+        this.apuesta.clasificacion[4]=posiciones[3];
         this._apuesta.next(this.apuesta);
         break;
       }
@@ -37,6 +46,7 @@ export class ApuestaService {
         this.apuesta.sprint[1]=posiciones[0];
         this.apuesta.sprint[2]=posiciones[1];
         this.apuesta.sprint[3]=posiciones[2];
+        this.apuesta.sprint[4]=posiciones[3];
         this._apuesta.next(this.apuesta);
         break;
       }
@@ -44,6 +54,7 @@ export class ApuestaService {
         this.apuesta.carrera[1]=posiciones[0];
         this.apuesta.carrera[2]=posiciones[1];
         this.apuesta.carrera[3]=posiciones[2];
+        this.apuesta.carrera[4]=posiciones[3];
         this._apuesta.next(this.apuesta);
         break;
       }
@@ -51,28 +62,4 @@ export class ApuestaService {
 
   };
 
-  updateEquipo(equipo: Equipo): void {
-    this.apuesta.equipo=equipo;
-    this._apuesta.next(this.apuesta);
-  };
-
-  updatePosalonso(pos: number): void {
-    this.apuesta.posAlonso=pos;
-    this._apuesta.next(this.apuesta);
-  };
-
-  updatePossainz(pos: number): void {
-    this.apuesta.posSainz=pos;
-    this._apuesta.next(this.apuesta);
-  };
-
-  updateGranpremio(granpremio: GranPremio): void {
-    this.apuesta.granPremio=granpremio;
-    this._apuesta.next(this.apuesta);
-  };
-
-  updateSprint(sprint: boolean): void {
-    this.apuesta.tieneSprint=sprint;
-    this._apuesta.next(this.apuesta);
-  };
 }

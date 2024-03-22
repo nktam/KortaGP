@@ -25,8 +25,6 @@ export class ConfigComponent {
   private apuestaSubscription: Subscription|undefined;
   listaEquipos: Equipo[]=[];
   listaGrandesPremios: GranPremio[]=[];
-  //equipoSelected: Equipo={id: "red_bull", nombre: "Red Bull"};
-  //granPremioSelected: GranPremio={id: 1, nombre: "Bahrain Grand Prix"};
 
   constructor(private cs: ConsultasService, private apuestaService: ApuestaService) {
 
@@ -34,7 +32,6 @@ export class ConfigComponent {
       this.listaEquipos=JSON.parse(respuesta);
     })
       .catch(e => {
-        console.log('no encuenta archivo equipos.son');
         this.cs.getEquipos().subscribe((res) => {
           let respuesta: any;
           respuesta=res;
@@ -45,11 +42,12 @@ export class ConfigComponent {
       });
 
     this.cs.leeArchivo('grandespremios.json').then((respuesta) => {
+      console.log('leeemos archivo grandespremios')
       this.listaGrandesPremios=JSON.parse(respuesta);
     })
       .catch(e => {
-        console.log('no encuenta archivo grandespremios.son');
         this.cs.getGranpremios().subscribe((res) => {
+          console.log('error leer arcivo grandespremios')
           let respuesta: any;
           respuesta=res;
           let listaDesdeApiRest=respuesta.MRData.RaceTable.Races;
@@ -57,6 +55,7 @@ export class ConfigComponent {
           this.cs.guardaArchivo('grandespremios.json', this.listaGrandesPremios);
         });
       });
+    this.apuesta=this.cs.consultaApuestaGuardada();
 
   }
 
@@ -64,30 +63,6 @@ export class ConfigComponent {
     this.apuestaSubscription=this.apuestaService.apuesta$.subscribe(v => this.apuesta=v);
   }
 
-  modificarEquipo(e: any): void {
-    console.log(e.target.value);
-    this.apuestaService.updateEquipo(this.apuesta.equipo);
-  }
-
-  modificarPosAlonso(event: any): void {
-    this.apuesta.posAlonso=event;
-    this.apuestaService.updatePosalonso(this.apuesta.posAlonso);
-  }
-
-  modificaPosSainz(event: any): void {
-    this.apuesta.posSainz=event;
-    this.apuestaService.updatePossainz(this.apuesta.posSainz);
-  }
-
-  modificarGranpremio(): void {
-    // this.granPremioSelected=this.apuesta.granPremio!.id;
-    // this.apuestaService.updateGranpremio(this.apuesta.granPremio!);
-  }
-
-  modificarSprint(event: any): void {
-    this.apuesta.tieneSprint=event;
-    this.apuestaService.updateSprint(this.apuesta.tieneSprint);
-  }
 
   comparaEquipo(o1: Equipo, o2: Equipo) {
     return o1.id==o2.id;

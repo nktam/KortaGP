@@ -5,6 +5,7 @@ import {ListaComponent} from './components/lista/lista.component';
 
 
 export const routes: Routes=[
+    {path: '', component: ConfigComponent},
     {path: 'lista', component: ListaComponent},
     {path: 'apuesta', component: ApuestaComponent},
     {path: 'config', component: ConfigComponent}

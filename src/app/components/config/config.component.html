@@ -1,5 +1,5 @@
 <div class="campo">
-    <mat-form-field>
+    <mat-form-field class="ancho">
         <mat-label>Gran premio</mat-label>
         <select matNativeControl name="granpremio" [(ngModel)]="apuesta.granPremio" [compareWith]="comparaGranPremio">
             @for (carrera of listaGrandesPremios; track carrera) {
@@ -9,25 +9,23 @@
     </mat-form-field>
 </div>
 <div class="campo">
-    <mat-slide-toggle name="sprint" [ngModel]="apuesta.tieneSprint" (ngModelChange)="modificarSprint($event)">Carrera
+    <mat-slide-toggle name="sprint" [(ngModel)]="apuesta.tieneSprint">Carrera
         sprint</mat-slide-toggle>
 </div>
 <div class="campo">
-    <mat-form-field>
+    <mat-form-field class="ancho">
         <mat-label>Posición Alonso</mat-label>
-        <input type="number" name="posAlonso" matInput placeholder="0" [ngModel]="apuesta.posAlonso"
-            (ngModelChange)="modificarPosAlonso($event)">
+        <input type="number" name="posAlonso" matInput placeholder="0" [(ngModel)]="apuesta.posAlonso">
     </mat-form-field>
 </div>
 <div class="campo">
-    <mat-form-field>
+    <mat-form-field class="ancho">
         <mat-label>Posición Sainz</mat-label>
-        <input type="number" name="posSainz" matInput placeholder="0" [ngModel]="apuesta.posSainz"
-            (ngModelChange)="modificaPosSainz($event)">
+        <input type="number" name="posSainz" matInput placeholder="0" [(ngModel)]="apuesta.posSainz">
     </mat-form-field>
 </div>
 <div class="campo">
-    <mat-form-field>
+    <mat-form-field class="ancho">
         <mat-label for="equipo">Equipo</mat-label>
         <select matNativeControl name="equipo" [(ngModel)]="apuesta.equipo" [compareWith]='comparaEquipo'>
             @for (equipo of listaEquipos; track equipo) {

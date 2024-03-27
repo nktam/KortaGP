@@ -1,12 +1,12 @@
 import {Equipo} from './equipo';
 import {GranPremio} from './granPremio';
-import {Posiciones} from "./posiciones";
+import {Piloto} from './piloto';
 
 export interface Apuesta {
     id: number;
-    carrera: Posiciones;
-    clasificacion: Posiciones;
-    sprint: Posiciones;
+    carrera: Piloto[];
+    clasificacion: Piloto[];
+    sprint: Piloto[];
     equipo: Equipo;
     posAlonso: number;
     posSainz: number;

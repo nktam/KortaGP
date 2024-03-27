@@ -91,18 +91,16 @@ export class ConsultasService {
     return contents.data as string;
   };
 
-  consultaApuestaGuardada(): any {
-    console.log('leeemos archivo apuesta guradada')
-    this.leeArchivo('apuesta.json').then((respuesta) => {
-      return JSON.parse(respuesta);
-    })
-      .catch(e => {
-        return apuestaInfo;
-      });
-
-
+  async consultaApuestaGuardada(): Promise<Apuesta> {
+    try {
+      const apuestGuardada=JSON.parse(await this.leeArchivo('apuesta.json'));
+      if(apuestGuardada===undefined) {
+        throw new Error("No se puede leer");
+      } else {
+        return apuestGuardada;
+      }
+    } catch(error) {
+      return apuestaInfo;
+    }
   }
-
-
-
 }

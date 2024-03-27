@@ -28,16 +28,12 @@ export class ConfigComponent {
 
   constructor(private cs: ConsultasService, private apuestaService: ApuestaService) {
 
-    this.apuesta=this.cs.consultaApuestaGuardada();
-
     this.cs.leeArchivo('equipos.json').then((respuesta) => {
-      console.log('leeemos archivo equipos')
       this.listaEquipos=JSON.parse(respuesta);
     })
       .catch(e => {
         this.cs.getEquipos().subscribe((res) => {
-          let respuesta: any;
-          respuesta=res;
+          let respuesta: any=res;
           let listaDesdeApiRest=respuesta.MRData.ConstructorTable.Constructors;
           this.listaEquipos=this.cs.arrayToEquipos(listaDesdeApiRest);
           this.cs.guardaArchivo('equipos.json', this.listaEquipos);
@@ -45,12 +41,10 @@ export class ConfigComponent {
       });
 
     this.cs.leeArchivo('grandespremios.json').then((respuesta) => {
-      console.log('leeemos archivo grandespremios')
       this.listaGrandesPremios=JSON.parse(respuesta);
     })
       .catch(e => {
         this.cs.getGranpremios().subscribe((res) => {
-          console.log('error leer arcivo grandespremios')
           let respuesta: any;
           respuesta=res;
           let listaDesdeApiRest=respuesta.MRData.RaceTable.Races;
@@ -60,14 +54,16 @@ export class ConfigComponent {
       });
   }
 
-
-  async ngOnInit(): Promise<void> {
+  ngOnInit(): void {
     this.apuestaSubscription=this.apuestaService.apuesta$.subscribe(v => this.apuesta=v);
+    // this.cs.consultaApuestaGuardada().then(res => this.apuesta=res);
+    // this.apuestaService.updateApuesta(this.apuesta);
   }
 
   comparaEquipo(o1: Equipo, o2: Equipo) {
     return o1.id==o2.id;
   }
+
   comparaGranPremio(o1: GranPremio, o2: GranPremio) {
     return o1.id==o2.id;
   }

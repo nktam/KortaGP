@@ -1,59 +1,59 @@
 {
     "id": 0,
-    "carrera": {
-        "1": {
+    "carrera": [
+        {
             "id": 1,
             "nombre": "Max"
         },
-        "2": {
+        {
             "id": 44,
             "nombre": "Hamilton"
         },
-        "3": {
+        {
             "id": 14,
             "nombre": "Alonso"
         },
-        "4": {
+        {
             "id": 11,
             "nombre": "Perez"
         }
-    },
-    "sprint": {
-        "1": {
+    ],
+    "sprint": [
+        {
             "id": 1,
             "nombre": "Max"
         },
-        "2": {
+        {
             "id": 44,
             "nombre": "Hamilton"
         },
-        "3": {
+        {
             "id": 14,
             "nombre": "Alonso"
         },
-        "4": {
+        {
             "id": 11,
             "nombre": "Perez"
         }
-    },
-    "clasificacion": {
-        "1": {
+    ],
+    "clasificacion": [
+        {
             "id": 1,
             "nombre": "Max"
         },
-        "2": {
+        {
             "id": 44,
             "nombre": "Hamilton"
         },
-        "3": {
+        {
             "id": 14,
             "nombre": "Alonso"
         },
-        "4": {
+        {
             "id": 11,
             "nombre": "Perez"
         }
-    },
+    ],
     "posAlonso": 5,
     "posSainz": 7,
     "equipo": {

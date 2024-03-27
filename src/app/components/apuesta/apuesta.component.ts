@@ -18,14 +18,14 @@ import {ConsultasService} from "../../services/consultas.service";
 })
 export class ApuestaComponent {
 
-  apuesta: Apuesta=apuestaInfo;
+  apuesta: any;
   apuestaEnPantalla: string="";
   private apuestaSubscription: Subscription|undefined;
 
   constructor(private apuestaService: ApuestaService, private clipboard: Clipboard, private cs: ConsultasService) {
   }
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit(): void {
     this.apuestaSubscription=this.apuestaService.apuesta$.subscribe(v => this.apuesta=v);
     this.modificarApuestaEnPantalla(this.apuesta);
   }
@@ -37,26 +37,26 @@ export class ApuestaComponent {
   private modificarApuestaEnPantalla(apuesta: Apuesta) {
     let parte1=`
 Clasi
-1- ${apuesta.clasificacion[1].nombre} 
-2- ${apuesta.clasificacion[2].nombre} 
-3- ${apuesta.clasificacion[3].nombre}
-4- ${apuesta.clasificacion[4].nombre}`
+1- ${apuesta.clasificacion[0].nombre} 
+2- ${apuesta.clasificacion[1].nombre} 
+3- ${apuesta.clasificacion[2].nombre}
+4- ${apuesta.clasificacion[3].nombre}`
 
     let parte2=`
 
 Sprint
-1- ${apuesta.sprint[1].nombre}  
-2- ${apuesta.sprint[2].nombre} 
-3- ${apuesta.sprint[3].nombre}
-4- ${apuesta.sprint[4].nombre}`
+1- ${apuesta.sprint[0].nombre}  
+2- ${apuesta.sprint[1].nombre} 
+3- ${apuesta.sprint[2].nombre}
+4- ${apuesta.sprint[3].nombre}`
 
     let parte3=`
 
 Carrera
-1- ${apuesta.carrera[1].nombre}
-2- ${apuesta.carrera[2].nombre}
-3- ${apuesta.carrera[3].nombre} 
-4- ${apuesta.carrera[4].nombre}
+1- ${apuesta.carrera[0].nombre}
+2- ${apuesta.carrera[1].nombre}
+3- ${apuesta.carrera[2].nombre} 
+4- ${apuesta.carrera[3].nombre}
      
 Alonso ${apuesta.posAlonso} 
      

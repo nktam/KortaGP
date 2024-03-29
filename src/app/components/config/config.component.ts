@@ -7,8 +7,6 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatSelectModule} from '@angular/material/select';
 import {ApuestaService} from "../../services/apuesta.service";
 import {FormsModule, } from '@angular/forms';
-import {Apuesta} from '../../interfaces/apuesta';
-import apuestaInfo from '../../utils/apuesta.json';
 import {ConsultasService} from '../../services/consultas.service';
 import {Equipo} from '../../interfaces/equipo';
 import {GranPremio} from '../../interfaces/granPremio';
@@ -21,7 +19,7 @@ import {GranPremio} from '../../interfaces/granPremio';
   styleUrl: './config.component.css'
 })
 export class ConfigComponent {
-  apuesta: Apuesta=apuestaInfo;
+  apuesta: any;
   private apuestaSubscription: Subscription|undefined;
   listaEquipos: Equipo[]=[];
   listaGrandesPremios: GranPremio[]=[];
@@ -56,8 +54,6 @@ export class ConfigComponent {
 
   ngOnInit(): void {
     this.apuestaSubscription=this.apuestaService.apuesta$.subscribe(v => this.apuesta=v);
-    // this.cs.consultaApuestaGuardada().then(res => this.apuesta=res);
-    // this.apuestaService.updateApuesta(this.apuesta);
   }
 
   comparaEquipo(o1: Equipo, o2: Equipo) {

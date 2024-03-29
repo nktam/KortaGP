@@ -2,8 +2,6 @@ import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {Apuesta} from "../interfaces/apuesta";
 import {Piloto} from '../interfaces/piloto';
-import {ConsultasService} from './consultas.service';
-
 
 @Injectable({
   providedIn: 'root'
@@ -16,13 +14,14 @@ export class ApuestaService {
   private _apuesta: BehaviorSubject<Apuesta>=new BehaviorSubject<Apuesta>(this.apuesta);
   public readonly apuesta$: Observable<Apuesta>=this._apuesta.asObservable();
 
-  constructor(private cs: ConsultasService) {
-    this.cs.consultaApuestaGuardada().then(res => this.apuesta=res);
-    this.updateApuesta(this.apuesta);
-  }
+  constructor() { }
 
-  updateApuesta(apuesta: Apuesta): void {
+  async updateApuesta(apuesta: Apuesta): Promise<void> {
+    console.log('actualizamos la apuesta::::::');
+    console.log(apuesta);
     this._apuesta.next(apuesta);
+    console.log('la apuesta actualizadda::::::');
+    console.log(this.apuesta);
   };
 
   updatePosiciones(posiciones: Array<Piloto>, lista: string): void {

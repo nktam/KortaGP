@@ -4,8 +4,9 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {HttpClientModule} from "@angular/common/http";
-import {Piloto} from './interfaces/piloto';
 import {ListasService} from './services/listas.service';
+import {ConsultasService} from './services/consultas.service';
+import {ApuestaService} from './services/apuesta.service';
 
 @Component({
   selector: 'app-root',
@@ -16,12 +17,12 @@ import {ListasService} from './services/listas.service';
 })
 export class AppComponent {
   title: string='KortaGP';
-  respuesta: any;
-  pilotos: Piloto[]=[];
 
-  constructor(private router: Router, private listas: ListasService) { }
+  constructor(private router: Router, private listas: ListasService, private cs: ConsultasService, private apuestaService: ApuestaService) { }
 
   async ngOnInit(): Promise<void> {
+    const apuesta=await this.cs.consultaApuestaGuardada();
+    this.apuestaService.updateApuesta(apuesta);
   }
 
   cargaClasificacion(): void {

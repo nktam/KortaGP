@@ -2,17 +2,16 @@ import {Component} from '@angular/core';
 import {ApuestaService} from "../../services/apuesta.service";
 import {Subscription} from 'rxjs';
 import {Apuesta} from "../../interfaces/apuesta";
-import apuestaInfo from '../../utils/apuesta.json';
 import {Clipboard} from '@angular/cdk/clipboard';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {ConsultasService} from "../../services/consultas.service";
-
+import {TitleCasePipe} from '@angular/common';
 
 @Component({
   selector: 'app-apuesta',
   standalone: true,
-  imports: [MatIconModule, MatButtonModule],
+  imports: [MatIconModule, MatButtonModule, TitleCasePipe],
   templateUrl: './apuesta.component.html',
   styleUrl: './apuesta.component.css'
 })

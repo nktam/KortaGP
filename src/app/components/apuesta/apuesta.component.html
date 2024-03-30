@@ -1,5 +1,5 @@
 <div class="flex">
-    <div class="apuesta">{{apuestaEnPantalla}}</div>
+    <div class="apuesta">{{apuestaEnPantalla | titlecase }}</div>
     <div (click)="copiar()">
         <button mat-mini-fab color="secondary">
             <mat-icon>content_copy</mat-icon>

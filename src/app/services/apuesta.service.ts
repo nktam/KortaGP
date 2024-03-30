@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {Apuesta} from "../interfaces/apuesta";
 import {Piloto} from '../interfaces/piloto';
+import apuestaInfo from '../utils/apuesta.json';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ import {Piloto} from '../interfaces/piloto';
 
 export class ApuestaService {
 
-  apuesta: any={};
+  apuesta: Apuesta=apuestaInfo;
 
   private _apuesta: BehaviorSubject<Apuesta>=new BehaviorSubject<Apuesta>(this.apuesta);
   public readonly apuesta$: Observable<Apuesta>=this._apuesta.asObservable();
@@ -17,13 +18,12 @@ export class ApuestaService {
   constructor() { }
 
   async updateApuesta(apuesta: Apuesta): Promise<void> {
-    console.log('actualizamos la apuesta::::::');
-    console.log(apuesta);
+    this.apuesta=apuesta;
     this._apuesta.next(apuesta);
-    console.log('la apuesta actualizadda::::::');
-    console.log(this.apuesta);
   };
 
+
+  // al actualizar posiciones this.apuesta tiene la info de apuestaInfo
   updatePosiciones(posiciones: Array<Piloto>, lista: string): void {
     switch(lista) {
       case 'Clasificación': {

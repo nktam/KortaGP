@@ -24,7 +24,7 @@ export class ListaComponent {
 
   constructor(private apuestaService: ApuestaService, private listasService: ListasService) { }
 
-  async ngOnInit(): Promise<void> {
+  async ngDoCheck(): Promise<void> {
     this.pagina=this.listasService.pagina;
     this.subscription=this.listasService.listas$.subscribe(v => this.listas=v);
     switch(this.pagina) {

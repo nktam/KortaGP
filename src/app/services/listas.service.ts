@@ -14,8 +14,8 @@ export class ListasService {
   pilotos: Piloto[]=[];
   private _pagina: string='';
 
-
   constructor(private cs: ConsultasService) {
+    console.log('Leiendo pilotos XXXXXXXXXXXXXXXX del archivo')
     this.cs.leeArchivo('pilotos.json').then((respuesta) => {
       this.listas=this.updateListas(JSON.parse(respuesta));
     })

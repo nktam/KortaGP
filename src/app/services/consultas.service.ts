@@ -16,7 +16,7 @@ export class ConsultasService {
   constructor(private http: HttpClient) { }
 
   getPilotos() {
-    let url="http://ergast.com/api/f1/2024/drivers.json";
+    let url="https://ergast.com/api/f1/2024/drivers.json";
     return this.http.get(url);
   }
 

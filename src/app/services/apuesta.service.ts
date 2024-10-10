@@ -27,21 +27,21 @@ export class ApuestaService {
   updatePosiciones(posiciones: Array<Piloto>, lista: string): void {
     switch(lista) {
       case 'Clasificación': {
-        for(let i=0; i<3; i++) {
+        for(let i=0; i<4; i++) {
           this.apuesta.clasificacion[i]=posiciones[i];
         }
         this._apuesta.next(this.apuesta);
         break;
       }
       case 'Sprint': {
-        for(let i=0; i<3; i++) {
+        for(let i=0; i<4; i++) {
           this.apuesta.sprint[i]=posiciones[i];
         }
         this._apuesta.next(this.apuesta);
         break;
       }
       default: {
-        for(let i=0; i<3; i++) {
+        for(let i=0; i<4; i++) {
           this.apuesta.carrera[i]=posiciones[i];
         }
         this._apuesta.next(this.apuesta);

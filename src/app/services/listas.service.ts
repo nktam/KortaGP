@@ -51,6 +51,7 @@ export class ListasService {
   public updateClasificacion(array: Piloto[]): void {
     this.listas.clasificacion=array;
     this._listas.next(this.listas);
+    console.log(this.listas);
   };
 
   public updateSprint(array: Piloto[]): void {

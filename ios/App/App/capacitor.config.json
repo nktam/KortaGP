@@ -1,0 +1,8 @@
+{
+	"appId": "eus.f1.kortagp",
+	"appName": "F1proyect",
+	"webDir": "dist/f1proyect/browser",
+	"server": {
+		"androidScheme": "https"
+	}
+}

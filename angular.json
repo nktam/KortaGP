@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "F1proyect": {
+    "KortaGP": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/f1proyect",
+            "outputPath": "dist/kortagp",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -58,10 +58,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "F1proyect:build:production"
+              "buildTarget": "KortaGP:build:production"
             },
             "development": {
-              "buildTarget": "F1proyect:build:development"
+              "buildTarget": "KortaGP:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -69,7 +69,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "F1proyect:build"
+            "buildTarget": "KortaGP:build"
           }
         },
         "test": {

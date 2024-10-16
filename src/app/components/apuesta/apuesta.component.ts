@@ -6,7 +6,9 @@ import {Clipboard} from '@angular/cdk/clipboard';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {ConsultasService} from "../../services/consultas.service";
+import {FirestoreService} from "../../services/firestore.service";
 import {TitleCasePipe} from '@angular/common';
+
 
 @Component({
   selector: 'app-apuesta',
@@ -21,7 +23,8 @@ export class ApuestaComponent {
   apuestaEnPantalla: string="";
   private apuestaSubscription: Subscription|undefined;
 
-  constructor(private apuestaService: ApuestaService, private clipboard: Clipboard, private cs: ConsultasService) {
+
+  constructor(private apuestaService: ApuestaService, private clipboard: Clipboard, private cs: ConsultasService, private fs: FirestoreService) {
   }
 
   ngOnInit(): void {
@@ -32,6 +35,7 @@ export class ApuestaComponent {
   ngOnDestroy() {
     this.apuestaSubscription!.unsubscribe();
   }
+
 
   private modificarApuestaEnPantalla(apuesta: Apuesta) {
     let parte1=`
@@ -75,6 +79,7 @@ Equipo ${apuesta.equipo.nombre}`
   }
 
   copiar() {
+    this.fs.addApuesta(this.apuesta);
     this.clipboard.copy(this.apuestaEnPantalla);
   }
 

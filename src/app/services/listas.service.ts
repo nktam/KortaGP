@@ -15,7 +15,7 @@ export class ListasService {
   private _pagina: string='';
 
   constructor(private cs: ConsultasService) {
-    console.log('Leiendo pilotos XXXXXXXXXXXXXXXX del archivo')
+    console.log('Leiendo pilotos desde el archivo')
     this.cs.leeArchivo('pilotos.json').then((respuesta) => {
       this.listas=this.updateListas(JSON.parse(respuesta));
     })
@@ -51,7 +51,6 @@ export class ListasService {
   public updateClasificacion(array: Piloto[]): void {
     this.listas.clasificacion=array;
     this._listas.next(this.listas);
-    console.log(this.listas);
   };
 
   public updateSprint(array: Piloto[]): void {

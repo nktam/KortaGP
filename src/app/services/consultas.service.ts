@@ -73,7 +73,7 @@ export class ConsultasService {
   };
 
   async guardaApuesta(apuesta: Apuesta) {
-    console.log('guardamos apuesta');
+    console.log('guardamos apuesta en el dispositivo');
     await Filesystem.writeFile({
       path: 'apuesta.json',
       data: JSON.stringify(apuesta),

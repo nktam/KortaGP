@@ -11,6 +11,7 @@ import {ConsultasService} from '../../services/consultas.service';
 import {Equipo} from '../../interfaces/equipo';
 import {GranPremio} from '../../interfaces/granPremio';
 
+
 @Component({
   selector: 'app-config',
   standalone: true,

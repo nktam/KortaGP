@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
-import {Router, RouterOutlet} from '@angular/router';
+import {RouterOutlet} from '@angular/router';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
-import {Auth, GoogleAuthProvider, signInWithPopup} from "@angular/fire/auth";
 import {MenuComponent} from "./components/menu/menu.component";
+import {AuthService} from "./services/auth.service";
 
 
 @Component({
@@ -16,41 +16,18 @@ import {MenuComponent} from "./components/menu/menu.component";
 export class AppComponent {
   title: string='KortaGP';
 
-  constructor(private router: Router, private auth: Auth) { }
+  constructor(private auth: AuthService) { }
 
-  async login() {
-    const provider=new GoogleAuthProvider();
-    provider.addScope('profile');
-    provider.addScope('email');
-    const result=await signInWithPopup(this.auth, provider);
-    const str=JSON.stringify(result, null, 4);
-    console.log('Result: '+str);
-    const user=result.user;
-    console.log('User: '+user);
-    // This gives you a Google Access Token.
-    const credential=GoogleAuthProvider.credentialFromResult(result);
-    const token=credential!.accessToken;
-    console.log('Token: '+token);
-    this.router.navigate(['/home']);
+  logIn() {
+    this.auth.logIn();
   }
 
-  async info() {
-    const provider=new GoogleAuthProvider();
-    provider.addScope('profile');
-    provider.addScope('email');
-    const result=await signInWithPopup(this.auth, provider);
-    const str=JSON.stringify(result, null, 4);
-    console.log('Result: '+str);
-    const user=result.user;
-    console.log('User: '+user);
-    // This gives you a Google Access Token.
-    const credential=GoogleAuthProvider.credentialFromResult(result);
-    const token=credential!.accessToken;
-    console.log('Token: '+token);
+  info() {
+    this.auth.info();
   }
 
   logOut() {
-    this.auth.signOut();
+    this.auth.logOut();
   }
 
 

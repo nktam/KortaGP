@@ -1,8 +1,9 @@
 import {Equipo} from './equipo';
 import {GranPremio} from './granPremio';
 import {Piloto} from './piloto';
+import {Usuario} from './usuario';
 
-export interface Apuesta {
+export interface Apuesta extends Usuario {
     id: number;
     carrera: Piloto[];
     clasificacion: Piloto[];

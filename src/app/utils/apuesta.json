@@ -1,5 +1,7 @@
 {
     "id": 0,
+    "idUsuario": "idusuario",
+    "nombre": "nombre",
     "carrera": [
         {
             "id": 1,
@@ -61,7 +63,7 @@
         "nombre": "Red Bull"
     },
     "granPremio": {
-        "id": 1,
+        "round": 1,
         "nombre": "Bahrain Grand Prix"
     },
     "tieneSprint": false

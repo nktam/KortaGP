@@ -1,4 +1,4 @@
 export interface GranPremio {
-    id: number;
+    round: number;
     nombre: string;
 }

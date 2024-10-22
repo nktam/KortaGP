@@ -16,9 +16,10 @@ export class AuthService {
     const result=await signInWithPopup(this.auth, provider);
     console.log('Conexion establecida - User: '+result.user.displayName);
 
-    const credential=GoogleAuthProvider.credentialFromResult(result);
+    /* const credential=GoogleAuthProvider.credentialFromResult(result);
     const token=credential!.accessToken;
-    console.log('Token: '+token);
+    console.log('Token: '+token); */
+
     this.router.navigate(['/home']);
   }
 

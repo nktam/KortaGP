@@ -44,8 +44,8 @@ export class ConsultasService {
   arrayToGranPremio(lista: Array<any>): GranPremio[] {
     let grandesPremios: GranPremio[]=[];
     for(let i=0; i<lista.length; i++) {
-      let granPremio: GranPremio={id: 0, nombre: ''};
-      granPremio.id=lista[i].round;
+      let granPremio: GranPremio={round: 0, nombre: ''};
+      granPremio.round=lista[i].round;
       granPremio.nombre=lista[i].raceName;
       grandesPremios.push(granPremio);
     }

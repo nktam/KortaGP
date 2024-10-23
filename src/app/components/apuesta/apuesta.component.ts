@@ -8,6 +8,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {ConsultasService} from "../../services/consultas.service";
 import {FirestoreService} from "../../services/firestore.service";
 import {TitleCasePipe} from '@angular/common';
+import {AuthService} from '../../services/auth.service';
 
 
 @Component({
@@ -24,7 +25,7 @@ export class ApuestaComponent {
   private apuestaSubscription: Subscription|undefined;
 
 
-  constructor(private apuestaService: ApuestaService, private clipboard: Clipboard, private cs: ConsultasService, private fs: FirestoreService) {
+  constructor(private apuestaService: ApuestaService, private clipboard: Clipboard, private cs: ConsultasService, private fs: FirestoreService, private auth: AuthService) {
   }
 
   ngOnInit(): void {
@@ -74,11 +75,14 @@ Equipo ${apuesta.equipo.nombre}`
     }
   }
 
-  guardar() {
+  async guardar() {
     this.cs.guardaApuesta(this.apuesta);
   }
 
-  copiar() {
+  async copiar() {
+    const usuario=await this.auth.getCurrentUser();
+    this.auth.info();
+    this.apuestaService.updateUsuario(usuario.idUsuario, usuario.nombre);
     this.fs.addApuesta(this.apuesta);
     this.clipboard.copy(this.apuestaEnPantalla);
   }

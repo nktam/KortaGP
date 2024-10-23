@@ -62,7 +62,7 @@ export class ConfigComponent {
   }
 
   comparaGranPremio(o1: GranPremio, o2: GranPremio) {
-    return o1.id==o2.id;
+    return o1.round==o2.round;
   }
 
   ngOnDestroy() {

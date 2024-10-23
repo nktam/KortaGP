@@ -3,6 +3,7 @@ import {BehaviorSubject, Observable} from 'rxjs';
 import {Apuesta} from "../interfaces/apuesta";
 import {Piloto} from '../interfaces/piloto';
 import apuestaInfo from '../utils/apuesta.json';
+import {Usuario} from '../interfaces/usuario';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,12 @@ export class ApuestaService {
   async updateApuesta(apuesta: Apuesta): Promise<void> {
     this.apuesta=apuesta;
     this._apuesta.next(apuesta);
+  };
+
+  async updateUsuario(idusuario: string, nombre: string): Promise<void> {
+    this.apuesta.idUsuario=idusuario;
+    this.apuesta.nombre=nombre;
+    this._apuesta.next(this.apuesta);
   };
 
 

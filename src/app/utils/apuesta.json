@@ -2,6 +2,7 @@
     "id": 0,
     "idUsuario": "idusuario",
     "nombre": "nombre",
+    "fecha": 1729750476041,
     "carrera": [
         {
             "id": 1,

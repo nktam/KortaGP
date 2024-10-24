@@ -5,6 +5,7 @@ import {Usuario} from './usuario';
 
 export interface Apuesta extends Usuario {
     id: number;
+    fecha: number;
     carrera: Piloto[];
     clasificacion: Piloto[];
     sprint: Piloto[];

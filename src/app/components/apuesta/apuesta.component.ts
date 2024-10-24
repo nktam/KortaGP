@@ -25,8 +25,12 @@ export class ApuestaComponent {
   private apuestaSubscription: Subscription|undefined;
 
 
-  constructor(private apuestaService: ApuestaService, private clipboard: Clipboard, private cs: ConsultasService, private fs: FirestoreService, private auth: AuthService) {
-  }
+  constructor(
+    private apuestaService: ApuestaService,
+    private clipboard: Clipboard,
+    private cs: ConsultasService,
+    private firestore: FirestoreService,
+    private auth: AuthService) { }
 
   ngOnInit(): void {
     this.apuestaSubscription=this.apuestaService.apuesta$.subscribe(v => this.apuesta=v);
@@ -36,7 +40,6 @@ export class ApuestaComponent {
   ngOnDestroy() {
     this.apuestaSubscription!.unsubscribe();
   }
-
 
   private modificarApuestaEnPantalla(apuesta: Apuesta) {
     let parte1=`
@@ -81,9 +84,9 @@ Equipo ${apuesta.equipo.nombre}`
 
   async copiar() {
     const usuario=await this.auth.getCurrentUser();
-    this.auth.info();
     this.apuestaService.updateUsuario(usuario.idUsuario, usuario.nombre);
-    this.fs.addApuesta(this.apuesta);
+    this.apuestaService.updateFecha();
+    this.firestore.addApuesta(this.apuesta);
     this.clipboard.copy(this.apuestaEnPantalla);
   }
 

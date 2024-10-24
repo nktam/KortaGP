@@ -29,6 +29,10 @@ export class ApuestaService {
     this._apuesta.next(this.apuesta);
   };
 
+  updateFecha() {
+    this.apuesta.fecha=Date.now();
+    this._apuesta.next(this.apuesta);
+  }
 
   // al actualizar posiciones this.apuesta tiene la info de apuestaInfo
   updatePosiciones(posiciones: Array<Piloto>, lista: string): void {
@@ -55,7 +59,5 @@ export class ApuestaService {
         break;
       }
     }
-
   };
-
 }

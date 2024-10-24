@@ -16,17 +16,17 @@ export class ConsultasService {
   constructor(private http: HttpClient) { }
 
   getPilotos() {
-    let url="https://ergast.com/api/f1/2024/drivers.json";
+    let url="https://api.jolpi.ca/ergast/f1/2024/drivers.json";
     return this.http.get(url);
   }
 
   getGranpremios() {
-    let url="https://ergast.com/api/f1/current.json";
+    let url="https://api.jolpi.ca/ergast/f1/current.json";
     return this.http.get(url);
   }
 
   getEquipos() {
-    let url="https://ergast.com/api/f1/current/constructors.json";
+    let url="https://api.jolpi.ca/ergast/f1/current/constructors.json";
     return this.http.get(url);
   }
 

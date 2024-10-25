@@ -26,29 +26,32 @@ export class ConfigComponent {
   listaRaces: Race[]=[];
 
   constructor(private cs: ConsultasService, private apuestaService: ApuestaService) {
+    const equiposJson: string='equipos.json';
+    const racesJson: string='races.json';
 
-    this.cs.leeArchivo('equipos.json').then((respuesta) => {
-      this.listaEquipos=JSON.parse(respuesta);
-    })
+    // consultamos archivo equipos si no existe consultamos la API
+    this.cs.leeArchivo(equiposJson)
+      .then((respuesta) => {
+        this.listaEquipos=JSON.parse(respuesta);
+      })
       .catch(e => {
-        this.cs.getEquipos().subscribe((res) => {
-          let respuesta: any=res;
-          let listaDesdeApiRest=respuesta.MRData.ConstructorTable.Constructors;
+        this.cs.getEquipos().subscribe((res: any) => {
+          const listaDesdeApiRest=res.MRData.ConstructorTable.Constructors;
           this.listaEquipos=this.cs.arrayToEquipos(listaDesdeApiRest);
-          this.cs.guardaArchivo('equipos.json', this.listaEquipos);
+          this.cs.guardaArchivo(equiposJson, this.listaEquipos);
         });
       });
 
-    this.cs.leeArchivo('races.json').then((respuesta) => {
-      this.listaRaces=JSON.parse(respuesta);
-    })
+
+    this.cs.leeArchivo(racesJson)
+      .then((respuesta) => {
+        this.listaRaces=JSON.parse(respuesta);
+      })
       .catch(e => {
-        this.cs.getGranpremios().subscribe((res) => {
-          let respuesta: any;
-          respuesta=res;
-          let listaDesdeApiRest=respuesta.MRData.RaceTable.Races;
+        this.cs.getRaces().subscribe((res: any) => {
+          const listaDesdeApiRest=res.MRData.RaceTable.Races;
           this.listaRaces=this.cs.arrayToRaces(listaDesdeApiRest);
-          this.cs.guardaArchivo('races.json', this.listaRaces);
+          this.cs.guardaArchivo(racesJson, this.listaRaces);
         });
       });
   }

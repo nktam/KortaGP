@@ -4,4 +4,5 @@ export interface Race {
     circuito: string;
     pais: string;
     fechaHoraFinApuesta: number;
+    fechaHoraFinRace: number;
 }

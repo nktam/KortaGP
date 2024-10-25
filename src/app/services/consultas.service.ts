@@ -20,7 +20,7 @@ export class ConsultasService {
     return this.http.get(url);
   }
 
-  getGranpremios() {
+  getRaces() {
     let url="https://api.jolpi.ca/ergast/f1/current.json";
     return this.http.get(url);
   }
@@ -50,7 +50,8 @@ export class ConsultasService {
         nombre: lista[i].raceName,
         circuito: lista[i].Circuit.circuitname,
         pais: lista[i].Circuit.Location.country,
-        fechaHoraFinApuesta: this.dateToEpoch(lista[i].Qualifying.date+' '+lista[i].Qualifying.time)
+        fechaHoraFinApuesta: this.dateToEpoch(lista[i].Qualifying.date+' '+lista[i].Qualifying.time),
+        fechaHoraFinRace: this.dateToEpoch(lista[i].date+' '+lista[i].time)+21600000
       };
       races.push(race);
     }
@@ -95,6 +96,7 @@ export class ConsultasService {
   };
 
   async leeArchivo(archivo: string): Promise<string> {
+    console.log('leemos apuesta .json en dispositivo');
     const contents=await Filesystem.readFile({
       path: archivo,
       directory: Directory.Data,
@@ -102,6 +104,14 @@ export class ConsultasService {
     });
     return contents.data as string;
   };
+
+  archivoCaducado(archivo: string): boolean {
+    const file=new File([], archivo);
+    if(file.lastModified<Date.now()-2629743000)
+      return true
+    else
+      return false
+  }
 
   async consultaApuestaGuardada(): Promise<Apuesta> {
     try {

@@ -1,5 +1,5 @@
 import {Equipo} from './equipo';
-import {GranPremio} from './granPremio';
+import {Race} from './race';
 import {Piloto} from './piloto';
 import {Usuario} from './usuario';
 
@@ -12,6 +12,6 @@ export interface Apuesta extends Usuario {
     equipo: Equipo;
     posAlonso: number;
     posSainz: number;
-    granPremio?: GranPremio;
+    race?: Race;
     tieneSprint: boolean;
 }

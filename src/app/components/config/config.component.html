@@ -1,8 +1,8 @@
 <div class="campo">
     <mat-form-field class="ancho">
         <mat-label>Gran premio</mat-label>
-        <select matNativeControl name="granpremio" [(ngModel)]="apuesta.granPremio" [compareWith]="comparaGranPremio">
-            @for (carrera of listaGrandesPremios; track carrera) {
+        <select matNativeControl name="race" [(ngModel)]="apuesta.race" [compareWith]="comparaRaces">
+            @for (carrera of listaRaces; track carrera) {
             <option [ngValue]="carrera">{{carrera.nombre}}</option>
             }
         </select>

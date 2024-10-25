@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Piloto} from '../interfaces/piloto';
 import {Directory, Encoding, Filesystem} from '@capacitor/filesystem';
-import {GranPremio} from '../interfaces/granPremio';
+import {Race} from '../interfaces/race';
 import {Equipo} from '../interfaces/equipo';
 import {Apuesta} from '../interfaces/apuesta';
 import apuestaInfo from '../utils/apuesta.json';
@@ -33,31 +33,43 @@ export class ConsultasService {
   arrayToPilotos(lista: Array<any>): Piloto[] {
     let pilotos: Piloto[]=[];
     for(let i=0; i<lista.length; i++) {
-      let piloto: Piloto={id: 0, nombre: ''};
-      piloto.id=lista[i].permanentNumber;
-      piloto.nombre=lista[i].driverId;
+      let piloto: Piloto={
+        id: lista[i].permanentNumber,
+        nombre: lista[i].driverId
+      };
       pilotos.push(piloto);
     }
     return pilotos;
   }
 
-  arrayToGranPremio(lista: Array<any>): GranPremio[] {
-    let grandesPremios: GranPremio[]=[];
+  arrayToRaces(lista: Array<any>): Race[] {
+    let races: Race[]=[];
     for(let i=0; i<lista.length; i++) {
-      let granPremio: GranPremio={round: 0, nombre: ''};
-      granPremio.round=lista[i].round;
-      granPremio.nombre=lista[i].raceName;
-      grandesPremios.push(granPremio);
+      const race: Race={
+        round: lista[i].round,
+        nombre: lista[i].raceName,
+        circuito: lista[i].Circuit.circuitname,
+        pais: lista[i].Circuit.Location.country,
+        fechaHoraFinApuesta: this.dateToEpoch(lista[i].Qualifying.date+' '+lista[i].Qualifying.time)
+      };
+      races.push(race);
     }
-    return grandesPremios;
+    return races;
+  }
+
+  private dateToEpoch(fecha: string): number {
+    const date=new Date(fecha);
+    return date.getTime();
+
   }
 
   arrayToEquipos(lista: Array<any>): Equipo[] {
     let equipos: Equipo[]=[];
     for(let i=0; i<lista.length; i++) {
-      let equipo: Equipo={id: '', nombre: ''};
-      equipo.id=lista[i].constructorId;
-      equipo.nombre=lista[i].name;
+      const equipo: Equipo={
+        id: lista[i].constructorId,
+        nombre: lista[i].name
+      };
       equipos.push(equipo);
     }
     return equipos;

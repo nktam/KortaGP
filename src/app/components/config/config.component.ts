@@ -9,7 +9,7 @@ import {ApuestaService} from "../../services/apuesta.service";
 import {FormsModule, } from '@angular/forms';
 import {ConsultasService} from '../../services/consultas.service';
 import {Equipo} from '../../interfaces/equipo';
-import {GranPremio} from '../../interfaces/granPremio';
+import {Race} from '../../interfaces/race';
 
 
 @Component({
@@ -23,7 +23,7 @@ export class ConfigComponent {
   apuesta: any;
   private apuestaSubscription: Subscription|undefined;
   listaEquipos: Equipo[]=[];
-  listaGrandesPremios: GranPremio[]=[];
+  listaRaces: Race[]=[];
 
   constructor(private cs: ConsultasService, private apuestaService: ApuestaService) {
 
@@ -39,16 +39,16 @@ export class ConfigComponent {
         });
       });
 
-    this.cs.leeArchivo('grandespremios.json').then((respuesta) => {
-      this.listaGrandesPremios=JSON.parse(respuesta);
+    this.cs.leeArchivo('races.json').then((respuesta) => {
+      this.listaRaces=JSON.parse(respuesta);
     })
       .catch(e => {
         this.cs.getGranpremios().subscribe((res) => {
           let respuesta: any;
           respuesta=res;
           let listaDesdeApiRest=respuesta.MRData.RaceTable.Races;
-          this.listaGrandesPremios=this.cs.arrayToGranPremio(listaDesdeApiRest);
-          this.cs.guardaArchivo('grandespremios.json', this.listaGrandesPremios);
+          this.listaRaces=this.cs.arrayToRaces(listaDesdeApiRest);
+          this.cs.guardaArchivo('races.json', this.listaRaces);
         });
       });
   }
@@ -61,7 +61,7 @@ export class ConfigComponent {
     return o1.id==o2.id;
   }
 
-  comparaGranPremio(o1: GranPremio, o2: GranPremio) {
+  comparaRaces(o1: Race, o2: Race) {
     return o1.round==o2.round;
   }
 

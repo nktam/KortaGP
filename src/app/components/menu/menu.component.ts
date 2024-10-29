@@ -16,6 +16,10 @@ export class MenuComponent {
 
   constructor(private router: Router, private listas: ListasService) { };
 
+  cargaHome(): void {
+    this.router.navigate(['/home']);
+  }
+
   cargaClasificacion(): void {
     this.listas.pagina='Clasificación';
     this.router.navigate(['/lista']);
@@ -29,11 +33,11 @@ export class MenuComponent {
     this.router.navigate(['/lista']);
   }
 
-  mostrarApuesta(): void {
+  cargaApuesta(): void {
     this.router.navigate(['/apuesta']);
   }
 
-  mostrarConfi(): void {
+  cargaConfi(): void {
     this.router.navigate(['/config']);
   }
 }

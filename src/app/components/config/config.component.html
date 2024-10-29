@@ -1,14 +1,4 @@
 <div class="campo">
-    <mat-form-field class="ancho">
-        <mat-label>Gran premio</mat-label>
-        <select matNativeControl name="race" [(ngModel)]="apuesta.race" [compareWith]="comparaRaces">
-            @for (carrera of listaRaces; track carrera) {
-            <option [ngValue]="carrera">{{carrera.nombre}}</option>
-            }
-        </select>
-    </mat-form-field>
-</div>
-<div class="campo">
     <mat-slide-toggle name="sprint" [(ngModel)]="apuesta.tieneSprint">Carrera
         sprint</mat-slide-toggle>
 </div>

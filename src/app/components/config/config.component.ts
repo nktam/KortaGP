@@ -11,7 +11,6 @@ import {ConsultasService} from '../../services/consultas.service';
 import {Equipo} from '../../interfaces/equipo';
 import {Race} from '../../interfaces/race';
 
-
 @Component({
   selector: 'app-config',
   standalone: true,
@@ -23,41 +22,24 @@ export class ConfigComponent {
   apuesta: any;
   private apuestaSubscription: Subscription|undefined;
   listaEquipos: Equipo[]=[];
-  listaRaces: Race[]=[];
+  jsonFile: string='equipos.json'
 
-  constructor(private cs: ConsultasService, private apuestaService: ApuestaService) {
-    const equiposJson: string='equipos.json';
-    const racesJson: string='races.json';
+  constructor(private cs: ConsultasService, private apuestaService: ApuestaService) { }
 
-    // consultamos archivo equipos si no existe consultamos la API
-    this.cs.leeArchivo(equiposJson)
-      .then((respuesta) => {
-        this.listaEquipos=JSON.parse(respuesta);
-      })
-      .catch(e => {
-        this.cs.getEquipos().subscribe((res: any) => {
-          const listaDesdeApiRest=res.MRData.ConstructorTable.Constructors;
-          this.listaEquipos=this.cs.arrayToEquipos(listaDesdeApiRest);
-          this.cs.guardaArchivo(equiposJson, this.listaEquipos);
-        });
-      });
+  async ngOnInit(): Promise<void> {
+    this.apuestaSubscription=this.apuestaService.apuesta$.subscribe(v => this.apuesta=v);
 
-
-    this.cs.leeArchivo(racesJson)
-      .then((respuesta) => {
-        this.listaRaces=JSON.parse(respuesta);
-      })
-      .catch(e => {
-        this.cs.getRaces().subscribe((res: any) => {
-          const listaDesdeApiRest=res.MRData.RaceTable.Races;
-          this.listaRaces=this.cs.arrayToRaces(listaDesdeApiRest);
-          this.cs.guardaArchivo(racesJson, this.listaRaces);
-        });
-      });
+    if(!await this.cs.archivoCaducado(this.jsonFile)) {
+      this.listaEquipos=JSON.parse(await this.cs.leeArchivo(this.jsonFile));
+    } else {
+      this.cs.getEquipos().subscribe(res => this.getListaEquipos(res));
+    }
   }
 
-  ngOnInit(): void {
-    this.apuestaSubscription=this.apuestaService.apuesta$.subscribe(v => this.apuesta=v);
+  private getListaEquipos(res: any) {
+    const listaDesdeApiRest=res.MRData.ConstructorTable.Constructors;
+    this.listaEquipos=this.cs.arrayToEquipos(listaDesdeApiRest);
+    this.cs.guardaArchivo(this.jsonFile, this.listaEquipos);
   }
 
   comparaEquipo(o1: Equipo, o2: Equipo) {

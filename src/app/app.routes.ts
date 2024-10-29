@@ -3,15 +3,14 @@ import {ApuestaComponent} from "./components/apuesta/apuesta.component";
 import {ConfigComponent} from "./components/config/config.component";
 import {ListaComponent} from './components/lista/lista.component';
 import {HomeComponent} from './components/home/home.component';
-import {AuthGuard, redirectUnauthorizedTo} from "@angular/fire/auth-guard";
-
-const redirectUnauthorizedToLanding=() => redirectUnauthorizedTo(['home']);
-
+import {LoginComponent} from './components/login/login.component';
+import {authGuard} from "./guards/auth.guard";
 
 export const routes: Routes=[
-    {path: '', component: HomeComponent},
-    {path: 'home', component: HomeComponent},
-    {path: 'lista', component: ListaComponent, canActivate: [AuthGuard], data: {authGuardPipe: redirectUnauthorizedToLanding}},
-    {path: 'apuesta', component: ApuestaComponent, canActivate: [AuthGuard], data: {authGuardPipe: redirectUnauthorizedToLanding}},
-    {path: 'config', component: ConfigComponent, canActivate: [AuthGuard], data: {authGuardPipe: redirectUnauthorizedToLanding}}
+    {path: '', component: LoginComponent},
+    {path: 'login', component: LoginComponent},
+    {path: 'home', component: HomeComponent, canActivate: [authGuard]},
+    {path: 'lista', component: ListaComponent, canActivate: [authGuard]},
+    {path: 'apuesta', component: ApuestaComponent, canActivate: [authGuard]},
+    {path: 'config', component: ConfigComponent, canActivate: [authGuard]}
 ];

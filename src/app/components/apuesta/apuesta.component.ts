@@ -79,7 +79,7 @@ Equipo ${apuesta.equipo.nombre}`
   }
 
   async guardar() {
-    this.cs.guardaApuesta(this.apuesta);
+    this.cs.guardaArchivo('apuesta.json', this.apuesta);
   }
 
   async copiar() {

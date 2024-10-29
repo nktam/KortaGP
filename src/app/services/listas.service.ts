@@ -10,19 +10,16 @@ import {ConsultasService} from '../services/consultas.service';
 export class ListasService {
 
   listas: Listas={clasificacion: [], carrera: [], sprint: []};
-  respuesta: any;
   pilotos: Piloto[]=[];
   private _pagina: string='';
 
   constructor(private cs: ConsultasService) {
-    console.log('Leiendo pilotos desde el archivo')
-    this.cs.leeArchivo('pilotos.json').then((respuesta) => {
-      this.listas=this.updateListas(JSON.parse(respuesta));
+    this.cs.leeArchivo('pilotos.json').then((res) => {
+      this.listas=this.updateListas(JSON.parse(res));
     })
       .catch(e => {
-        this.cs.getPilotos().subscribe((res) => {
-          this.respuesta=res;
-          let listaDesdeApiRest=this.respuesta.MRData.DriverTable.Drivers;
+        this.cs.getPilotos().subscribe((res: any) => {
+          let listaDesdeApiRest=res.MRData.DriverTable.Drivers;
           this.pilotos=this.cs.arrayToPilotos(listaDesdeApiRest);
           this.cs.guardaArchivo('pilotos.json', this.pilotos);
           this.listas=this.updateListas(this.pilotos);

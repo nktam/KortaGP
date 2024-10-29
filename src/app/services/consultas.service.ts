@@ -16,17 +16,20 @@ export class ConsultasService {
   constructor(private http: HttpClient) { }
 
   getPilotos() {
-    let url="https://api.jolpi.ca/ergast/f1/2024/drivers.json";
+    console.log('...consultamos pilotos desde API');
+    const url="https://api.jolpi.ca/ergast/f1/2024/drivers.json";
     return this.http.get(url);
   }
 
   getRaces() {
-    let url="https://api.jolpi.ca/ergast/f1/current.json";
+    console.log('...consultamos races desde API');
+    const url="https://api.jolpi.ca/ergast/f1/current.json";
     return this.http.get(url);
   }
 
   getEquipos() {
-    let url="https://api.jolpi.ca/ergast/f1/current/constructors.json";
+    console.log('...consultamos equipos desde API');
+    const url="https://api.jolpi.ca/ergast/f1/current/constructors.json";
     return this.http.get(url);
   }
 
@@ -58,12 +61,6 @@ export class ConsultasService {
     return races;
   }
 
-  private dateToEpoch(fecha: string): number {
-    const date=new Date(fecha);
-    return date.getTime();
-
-  }
-
   arrayToEquipos(lista: Array<any>): Equipo[] {
     let equipos: Equipo[]=[];
     for(let i=0; i<lista.length; i++) {
@@ -77,6 +74,7 @@ export class ConsultasService {
   }
 
   async guardaArchivo(archivo: string, array: Array<any>) {
+    console.log('...guardamos '+archivo+' en dispositivo');
     await Filesystem.writeFile({
       path: archivo,
       data: JSON.stringify(array),
@@ -85,32 +83,25 @@ export class ConsultasService {
     });
   };
 
-  async guardaApuesta(apuesta: Apuesta) {
-    console.log('guardamos apuesta en el dispositivo');
-    await Filesystem.writeFile({
-      path: 'apuesta.json',
-      data: JSON.stringify(apuesta),
-      directory: Directory.Data,
-      encoding: Encoding.UTF8,
-    });
-  };
-
   async leeArchivo(archivo: string): Promise<string> {
-    console.log('leemos apuesta .json en dispositivo');
+    console.log('leemos '+archivo+' de dispositivo');
     const contents=await Filesystem.readFile({
       path: archivo,
       directory: Directory.Data,
       encoding: Encoding.UTF8,
     });
     return contents.data as string;
+
   };
 
-  archivoCaducado(archivo: string): boolean {
-    const file=new File([], archivo);
-    if(file.lastModified<Date.now()-2629743000)
-      return true
-    else
-      return false
+  async archivoCaducado(archivo: string): Promise<boolean> {
+    const contents=await Filesystem.stat({
+      path: archivo,
+      directory: Directory.Data
+    });
+    console.log('...fecha modificacion archivo: '+contents.mtime);
+    return (contents.mtime<Date.now()-2629743000)? true:false;
+    //1 mes epoch = 2629743000
   }
 
   async consultaApuestaGuardada(): Promise<Apuesta> {
@@ -124,5 +115,11 @@ export class ConsultasService {
     } catch(error) {
       return apuestaInfo;
     }
+  }
+
+  private dateToEpoch(fecha: string): number {
+    const date=new Date(fecha);
+    return date.getTime();
+
   }
 }

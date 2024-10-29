@@ -3,7 +3,6 @@ import {RouterOutlet} from '@angular/router';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MenuComponent} from "./components/menu/menu.component";
-import {AuthService} from "./services/auth.service";
 
 
 @Component({
@@ -15,20 +14,5 @@ import {AuthService} from "./services/auth.service";
 })
 export class AppComponent {
   title: string='KortaGP';
-
-  constructor(private auth: AuthService) { }
-
-  logIn() {
-    this.auth.logIn();
-  }
-
-  info() {
-    this.auth.info();
-  }
-
-  logOut() {
-    this.auth.logOut();
-  }
-
 
 }

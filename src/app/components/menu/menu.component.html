@@ -1,5 +1,12 @@
 <mat-toolbar color="primary">
-    <div (click)="mostrarConfi()">
+    <div (click)="cargaHome()">
+        <button mat-mini-fab color="accent">
+            <mat-icon>
+                home
+            </mat-icon>
+        </button>
+    </div>
+    <div (click)="cargaConfi()">
         <button mat-mini-fab color="accent">
             <mat-icon>
                 tune
@@ -26,7 +33,7 @@
         </button>
     </div>
 
-    <div (click)="mostrarApuesta()">
+    <div (click)="cargaApuesta()">
         <button mat-mini-fab color="accent">
             <mat-icon>
                 paid

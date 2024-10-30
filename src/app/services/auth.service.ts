@@ -19,7 +19,6 @@ export class AuthService {
     this.router.navigate(['/home']);
   }
 
-
   async getCurrentUser(): Promise<Usuario> {
     const user=await this.auth.currentUser;
     const usuario: Usuario={nombre: '', idUsuario: ''};

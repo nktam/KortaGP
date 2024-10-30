@@ -53,8 +53,8 @@ export class ConsultasService {
         nombre: lista[i].raceName,
         circuito: lista[i].Circuit.circuitname,
         pais: lista[i].Circuit.Location.country,
-        fechaHoraFinApuesta: this.dateToEpoch(lista[i].Qualifying.date+' '+lista[i].Qualifying.time),
-        fechaHoraFinRace: this.dateToEpoch(lista[i].date+' '+lista[i].time)+21600000
+        finApuesta: this.dateToEpoch(lista[i].Qualifying.date+' '+lista[i].Qualifying.time),
+        finRace: this.dateToEpoch(lista[i].date+' '+lista[i].time)+21600000
       };
       races.push(race);
     }
@@ -102,6 +102,15 @@ export class ConsultasService {
     console.log('...fecha modificacion archivo: '+contents.mtime);
     return (contents.mtime<Date.now()-2629743000)? true:false;
     //1 mes epoch = 2629743000
+  }
+
+  async existeArchivo(archivo: string): Promise<boolean> {
+    const contents=await Filesystem.stat({
+      path: archivo,
+      directory: Directory.Data
+    });
+    console.log(contents);
+    return (contents)? true:false;
   }
 
   async consultaApuestaGuardada(): Promise<Apuesta> {

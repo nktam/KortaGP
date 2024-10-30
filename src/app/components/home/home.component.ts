@@ -27,14 +27,15 @@ export class HomeComponent {
   async ngOnInit(): Promise<void> {
     this.apuestaSubscription=this.apuestaService.apuesta$.subscribe(v => this.apuesta=v);
 
-    if(!await this.cs.archivoCaducado(this.jsonFile)) {
+    try {
+      if(await this.cs.archivoCaducado(this.jsonFile)) {throw Error('no existe')};
       this.listaRaces=JSON.parse(await this.cs.leeArchivo(this.jsonFile));
-    } else {
+    } catch(error) {
       this.cs.getRaces().subscribe(res => this.getListaRaces(res));
     }
 
     this.usuario=(await this.auth.getCurrentUser()).nombre;
-    //this.getRound();
+    this.getRound();
   }
 
   private getListaRaces(res: any) {
@@ -44,18 +45,16 @@ export class HomeComponent {
   }
 
   private getRound(): Race {
+    const hoy: number=Date.now();
     let race: any={};
     for(let i=0; i<this.listaRaces.length; i++) {
-      if(i=0&&Date.now()<this.listaRaces[i].fechaHoraFinApuesta) {
+      if(i==0&&hoy<this.listaRaces[i].finApuesta) {
         race=this.listaRaces[i];
-      } else if(i>0&&Date.now()>this.listaRaces[i-1].fechaHoraFinRace&&Date.now()<this.listaRaces[i].fechaHoraFinApuesta) {
+      } else if(i>0&&hoy<this.listaRaces[i].finApuesta&&hoy>this.listaRaces[i-1].finRace) {
         race=this.listaRaces[i];
-      } else {
-        race=this.listaRaces[23]; //última Race de la temporada
       }
     }
-    console.log();
-
+    console.log(race);
     return race;
   }
 

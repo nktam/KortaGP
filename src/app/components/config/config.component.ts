@@ -29,9 +29,10 @@ export class ConfigComponent {
   async ngOnInit(): Promise<void> {
     this.apuestaSubscription=this.apuestaService.apuesta$.subscribe(v => this.apuesta=v);
 
-    if(!await this.cs.archivoCaducado(this.jsonFile)) {
+    try {
+      if(await this.cs.archivoCaducado(this.jsonFile)) {throw Error('no existe')};
       this.listaEquipos=JSON.parse(await this.cs.leeArchivo(this.jsonFile));
-    } else {
+    } catch(error) {
       this.cs.getEquipos().subscribe(res => this.getListaEquipos(res));
     }
   }

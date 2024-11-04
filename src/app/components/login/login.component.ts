@@ -11,11 +11,9 @@ import {AuthService} from "../../services/auth.service";
 export class LoginComponent {
   constructor(private auth: AuthService) { }
 
-
   logIn() {
     this.auth.logIn();
   }
-
 
   logOut() {
     this.auth.logOut();

@@ -9,6 +9,8 @@ export const authGuard: CanActivateFn=async (route, state) => {
   if(await authService.logeado()) {
     return true;
   } else {
+    console.log('...LOGEADO: '+await authService.logeado());
+
     router.navigate(['/login']);
     return false;
   }

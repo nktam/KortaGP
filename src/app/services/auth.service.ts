@@ -29,6 +29,7 @@ export class AuthService {
 
   async logeado(): Promise<boolean> {
     const user=await this.auth.currentUser;
+    console.log(user);
     return user!=null? true:false;
   }
 

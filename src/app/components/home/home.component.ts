@@ -28,7 +28,7 @@ export class HomeComponent {
     this.apuestaSubscription=this.apuestaService.apuesta$.subscribe(v => this.apuesta=v);
 
     try {
-      if(await this.cs.archivoCaducado(this.jsonFile)) {throw Error('no existe')};
+      if(await this.cs.archivoCaducado(this.jsonFile)) {throw Error('caducado')};
       this.listaRaces=JSON.parse(await this.cs.leeArchivo(this.jsonFile));
     } catch(error) {
       this.cs.getRaces().subscribe(res => this.getListaRaces(res));

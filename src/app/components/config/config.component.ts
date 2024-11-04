@@ -22,26 +22,14 @@ export class ConfigComponent {
   apuesta: any;
   private apuestaSubscription: Subscription|undefined;
   listaEquipos: Equipo[]=[];
-  jsonFile: string='equipos.json'
+
 
   constructor(private cs: ConsultasService, private apuestaService: ApuestaService) { }
 
   async ngOnInit(): Promise<void> {
     this.apuestaSubscription=this.apuestaService.apuesta$.subscribe(v => this.apuesta=v);
-
-    try {
-      if(await this.cs.archivoCaducado(this.jsonFile)) {throw Error('no existe')};
-      this.listaEquipos=JSON.parse(await this.cs.leeArchivo(this.jsonFile));
-    } catch(error) {
-      this.cs.getEquipos().subscribe(res => this.getListaEquipos(res));
-    }
   }
 
-  private getListaEquipos(res: any) {
-    const listaDesdeApiRest=res.MRData.ConstructorTable.Constructors;
-    this.listaEquipos=this.cs.arrayToEquipos(listaDesdeApiRest);
-    this.cs.guardaArchivo(this.jsonFile, this.listaEquipos);
-  }
 
   comparaEquipo(o1: Equipo, o2: Equipo) {
     return o1.id==o2.id;

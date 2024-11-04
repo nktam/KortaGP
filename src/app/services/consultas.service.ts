@@ -12,22 +12,34 @@ import apuestaInfo from '../utils/apuesta.json';
 })
 
 export class ConsultasService {
+  private _listaEquipos: Equipo[]=[];
+  private _listaEquiposDesdeApi: Equipo[]=[];
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    const listaDesdeApiRest=res.MRData.ConstructorTable.Constructors;
+  }
 
-  getPilotos() {
+
+  public get listaEquipos(): Equipo[] {
+    return this._listaEquipos;
+  }
+  public set listaEquipos(value: Equipo[]) {
+    this._listaEquipos=value;
+  }
+
+  getPilotosDesdeApi() {
     console.log('...consultamos pilotos desde API');
     const url="https://api.jolpi.ca/ergast/f1/2024/drivers.json";
     return this.http.get(url);
   }
 
-  getRaces() {
+  getRacesDesdeApi() {
     console.log('...consultamos races desde API');
     const url="https://api.jolpi.ca/ergast/f1/current.json";
     return this.http.get(url);
   }
 
-  getEquipos() {
+  getEquiposDesdeApi() {
     console.log('...consultamos equipos desde API');
     const url="https://api.jolpi.ca/ergast/f1/current/constructors.json";
     return this.http.get(url);

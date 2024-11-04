@@ -10,22 +10,7 @@ import {ConsultasService} from '../services/consultas.service';
 export class ListasService {
 
   listas: Listas={clasificacion: [], carrera: [], sprint: []};
-  pilotos: Piloto[]=[];
   private _pagina: string='';
-
-  constructor(private cs: ConsultasService) {
-    this.cs.leeArchivo('pilotos.json').then((res) => {
-      this.listas=this.updateListas(JSON.parse(res));
-    })
-      .catch(e => {
-        this.cs.getPilotos().subscribe((res: any) => {
-          let listaDesdeApiRest=res.MRData.DriverTable.Drivers;
-          this.pilotos=this.cs.arrayToPilotos(listaDesdeApiRest);
-          this.cs.guardaArchivo('pilotos.json', this.pilotos);
-          this.listas=this.updateListas(this.pilotos);
-        });
-      });
-  }
 
   private _listas: BehaviorSubject<Listas>=new BehaviorSubject<Listas>(this.listas);
   public readonly listas$: Observable<Listas>=this._listas.asObservable();
@@ -38,7 +23,7 @@ export class ListasService {
     this._pagina=value;
   }
 
-  private updateListas(array: Piloto[]): Listas {
+  public updateListas(array: Piloto[]): Listas {
     this.updateClasificacion(array);
     this.updateSprint(array);
     this.updateCarrera(array);

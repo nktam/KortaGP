@@ -20,16 +20,18 @@ import {Race} from '../../interfaces/race';
 })
 export class ConfigComponent {
   apuesta: any;
-  private apuestaSubscription: Subscription|undefined;
+  private _apuestaSubscription: Subscription|undefined;
   listaEquipos: Equipo[]=[];
-
 
   constructor(private cs: ConsultasService, private apuestaService: ApuestaService) { }
 
-  async ngOnInit(): Promise<void> {
-    this.apuestaSubscription=this.apuestaService.apuesta$.subscribe(v => this.apuesta=v);
+  ngOnChanges() {
+    this.listaEquipos=this.cs.equipos;
   }
 
+  async ngOnInit(): Promise<void> {
+    this._apuestaSubscription=this.apuestaService.apuesta$.subscribe(v => this.apuesta=v);
+  }
 
   comparaEquipo(o1: Equipo, o2: Equipo) {
     return o1.id==o2.id;
@@ -40,7 +42,7 @@ export class ConfigComponent {
   }
 
   ngOnDestroy() {
-    this.apuestaSubscription!.unsubscribe();
+    this._apuestaSubscription!.unsubscribe();
   }
 
 }

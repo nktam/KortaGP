@@ -4,13 +4,15 @@ import {ConfigComponent} from "./components/config/config.component";
 import {ListaComponent} from './components/lista/lista.component';
 import {HomeComponent} from './components/home/home.component';
 import {LoginComponent} from './components/login/login.component';
-import {authGuard} from "./guards/auth.guard";
+import {AuthGuard, redirectUnauthorizedTo} from '@angular/fire/auth-guard';
+
+const redirectUnauthorizedToLogin=() => redirectUnauthorizedTo(['your login page here'])
 
 export const routes: Routes=[
-    {path: '', component: HomeComponent, canActivate: [authGuard]},
+    {path: '', component: HomeComponent, canActivate: [AuthGuard], data: {authGuardPipe: redirectUnauthorizedToLogin}},
     {path: 'login', component: LoginComponent},
-    {path: 'home', component: HomeComponent, canActivate: [authGuard]},
-    {path: 'lista', component: ListaComponent, canActivate: [authGuard]},
-    {path: 'apuesta', component: ApuestaComponent, canActivate: [authGuard]},
-    {path: 'config', component: ConfigComponent, canActivate: [authGuard]}
+    {path: 'home', component: HomeComponent, canActivate: [AuthGuard], data: {authGuardPipe: redirectUnauthorizedToLogin}},
+    {path: 'lista', component: ListaComponent, canActivate: [AuthGuard], data: {authGuardPipe: redirectUnauthorizedToLogin}},
+    {path: 'apuesta', component: ApuestaComponent, canActivate: [AuthGuard], data: {authGuardPipe: redirectUnauthorizedToLogin}},
+    {path: 'config', component: ConfigComponent, canActivate: [AuthGuard], data: {authGuardPipe: redirectUnauthorizedToLogin}}
 ];

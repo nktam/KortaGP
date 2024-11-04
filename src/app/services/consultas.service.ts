@@ -6,46 +6,142 @@ import {Race} from '../interfaces/race';
 import {Equipo} from '../interfaces/equipo';
 import {Apuesta} from '../interfaces/apuesta';
 import apuestaInfo from '../utils/apuesta.json';
+import {ListasService} from './listas.service';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class ConsultasService {
-  private _listaEquipos: Equipo[]=[];
-  private _listaEquiposDesdeApi: Equipo[]=[];
+  jsonEquipos: string='equipos.json';
+  jsonRaces: string='races.json';
+  jsonPilotos: string='pilotos.json';
 
-  constructor(private http: HttpClient) {
-    const listaDesdeApiRest=res.MRData.ConstructorTable.Constructors;
+  private _equipos: Equipo[]=[];
+  private _races: Race[]=[];
+  private _pilotos: Piloto[]=[];
+  private _race: any={};
+
+  constructor(private http: HttpClient, private listasService: ListasService) { }
+
+  public get equipos(): Equipo[] {
+    return this._equipos;
+  }
+  public set equipos(value: Equipo[]) {
+    this._equipos=value;
   }
 
-
-  public get listaEquipos(): Equipo[] {
-    return this._listaEquipos;
+  public get races(): Race[] {
+    return this._races;
   }
-  public set listaEquipos(value: Equipo[]) {
-    this._listaEquipos=value;
+  public set races(value: Race[]) {
+    this._races=value;
   }
 
-  getPilotosDesdeApi() {
+  public get pilotos(): Piloto[] {
+    return this._pilotos;
+  }
+  public set pilotos(value: Piloto[]) {
+    this._pilotos=value;
+  }
+
+  public async consultaApuestaGuardada(): Promise<Apuesta> {
+    try {
+      const apuestGuardada=JSON.parse(await this.leeArchivo('apuesta.json'));
+      if(apuestGuardada===undefined) {
+        throw new Error("No se puede leer");
+      } else {
+        return apuestGuardada;
+      }
+    } catch(error) {
+      return apuestaInfo;
+    }
+  }
+
+  public async checkRaces(): Promise<void> {
+    try {
+      if(await this.archivoCaducado(this.jsonRaces)) {throw Error('caducado')};
+      this.getRacesDesdeFichero();
+    } catch(error) {
+      this.getRacesDesdeApi();
+    }
+  }
+
+  public async checkEquipos(): Promise<void> {
+    try {
+      if(await this.archivoCaducado(this.jsonEquipos)) {throw Error('caducado')};
+      this.getEquiposDesdeFichero();
+    } catch(error) {
+      this.getEquiposDesdeApi();
+    }
+  }
+
+  public async checkPilotos(): Promise<void> {
+    try {
+      if(await this.archivoCaducado(this.jsonPilotos, 3)) {throw Error('caducado')};
+      this.getPilotosDesdeFichero();
+    } catch(error) {
+      this.getPilotosDesdeApi();
+    }
+  }
+
+  public getRound(): void {
+    const hoy: number=Date.now();
+    for(let i=0; i<this._races.length; i++) {
+      if(i==0&&hoy<this._races[i].finApuesta) {
+        this._race=this._races[i];
+      } else if(i>0&&hoy<this._races[i].finApuesta&&hoy>this._races[i-1].finRace) {
+        this._race=this._races[i];
+      }
+    }
+    console.log(this._race);
+  }
+
+  private getPilotosDesdeApi(): void {
     console.log('...consultamos pilotos desde API');
     const url="https://api.jolpi.ca/ergast/f1/2024/drivers.json";
-    return this.http.get(url);
+    this.http.get(url).subscribe((res: any) => {
+      let listaDesdeApiRest=res.MRData.DriverTable.Drivers;
+      this._pilotos=this.arrayToPilotos(listaDesdeApiRest);
+      this.guardaArchivo(this.jsonPilotos, this._pilotos);
+      this.listasService.updateListas(this._pilotos);
+    })
   }
 
-  getRacesDesdeApi() {
+  private async getPilotosDesdeFichero(): Promise<void> {
+    this._pilotos=JSON.parse(await this.leeArchivo(this.jsonPilotos));
+    this.listasService.updateListas(this._pilotos);
+  }
+
+  private getRacesDesdeApi() {
     console.log('...consultamos races desde API');
     const url="https://api.jolpi.ca/ergast/f1/current.json";
-    return this.http.get(url);
+    this.http.get(url).subscribe((res: any) => {
+      const listaDesdeApiRest=res.MRData.RaceTable.Races;
+      this._races=this.arrayToRaces(listaDesdeApiRest);
+      this.guardaArchivo(this.jsonRaces, this._races);
+    })
   }
 
-  getEquiposDesdeApi() {
+  private getEquiposDesdeApi() {
     console.log('...consultamos equipos desde API');
     const url="https://api.jolpi.ca/ergast/f1/current/constructors.json";
-    return this.http.get(url);
+    this.http.get(url).subscribe((res: any) => {
+      const listaDesdeApiRest=res.MRData.ConstructorTable.Constructors;
+      this._equipos=this.arrayToEquipos(listaDesdeApiRest);
+      this.guardaArchivo(this.jsonEquipos, this._equipos);
+    });
   }
 
-  arrayToPilotos(lista: Array<any>): Piloto[] {
+  private async getRacesDesdeFichero() {
+    this._races=JSON.parse(await this.leeArchivo(this.jsonRaces));
+  }
+
+  private async getEquiposDesdeFichero() {
+    this._equipos=JSON.parse(await this.leeArchivo(this.jsonEquipos));
+  }
+
+  private arrayToPilotos(lista: Array<any>): Piloto[] {
     let pilotos: Piloto[]=[];
     for(let i=0; i<lista.length; i++) {
       let piloto: Piloto={
@@ -57,7 +153,7 @@ export class ConsultasService {
     return pilotos;
   }
 
-  arrayToRaces(lista: Array<any>): Race[] {
+  private arrayToRaces(lista: Array<any>): Race[] {
     let races: Race[]=[];
     for(let i=0; i<lista.length; i++) {
       const race: Race={
@@ -73,7 +169,7 @@ export class ConsultasService {
     return races;
   }
 
-  arrayToEquipos(lista: Array<any>): Equipo[] {
+  private arrayToEquipos(lista: Array<any>): Equipo[] {
     let equipos: Equipo[]=[];
     for(let i=0; i<lista.length; i++) {
       const equipo: Equipo={
@@ -85,7 +181,7 @@ export class ConsultasService {
     return equipos;
   }
 
-  async guardaArchivo(archivo: string, array: Array<any>) {
+  public async guardaArchivo(archivo: string, array: Array<any>) {
     console.log('...guardamos '+archivo+' en dispositivo');
     await Filesystem.writeFile({
       path: archivo,
@@ -95,47 +191,23 @@ export class ConsultasService {
     });
   };
 
-  async leeArchivo(archivo: string): Promise<string> {
-    console.log('leemos '+archivo+' de dispositivo');
+  private async leeArchivo(archivo: string): Promise<string> {
+    console.log('...leemos '+archivo+' de dispositivo');
     const contents=await Filesystem.readFile({
       path: archivo,
       directory: Directory.Data,
       encoding: Encoding.UTF8,
     });
     return contents.data as string;
-
   };
 
-  async archivoCaducado(archivo: string): Promise<boolean> {
+  //comprobamos si el archivo esta caducado, 1mes=2629743000mSeg
+  private async archivoCaducado(archivo: string, meses: number=1): Promise<boolean> {
     const contents=await Filesystem.stat({
       path: archivo,
       directory: Directory.Data
     });
-    console.log('...fecha modificacion archivo: '+contents.mtime);
-    return (contents.mtime<Date.now()-2629743000)? true:false;
-    //1 mes epoch = 2629743000
-  }
-
-  async existeArchivo(archivo: string): Promise<boolean> {
-    const contents=await Filesystem.stat({
-      path: archivo,
-      directory: Directory.Data
-    });
-    console.log(contents);
-    return (contents)? true:false;
-  }
-
-  async consultaApuestaGuardada(): Promise<Apuesta> {
-    try {
-      const apuestGuardada=JSON.parse(await this.leeArchivo('apuesta.json'));
-      if(apuestGuardada===undefined) {
-        throw new Error("No se puede leer");
-      } else {
-        return apuestGuardada;
-      }
-    } catch(error) {
-      return apuestaInfo;
-    }
+    return (contents.mtime<Date.now()-2629743000*meses)? true:false;
   }
 
   private dateToEpoch(fecha: string): number {

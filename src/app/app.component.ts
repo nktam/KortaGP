@@ -21,9 +21,9 @@ export class AppComponent {
   constructor(private cs: ConsultasService, private auth: AuthService) { }
 
   async ngOnInit(): Promise<void> {
-    await this.cs.checkEquipos();
-    await this.cs.checkRaces();
-    await this.cs.checkPilotos();
+    await this.cs.compruebaEquipos();
+    await this.cs.compruebaRaces();
+    await this.cs.compruebaPilotos();
     this.cs.getRound();
   }
 

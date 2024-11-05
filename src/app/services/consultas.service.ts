@@ -45,6 +45,10 @@ export class ConsultasService {
     this._pilotos=value;
   }
 
+  public get race(): Race {
+    return this._race;
+  }
+
   public async consultaApuestaGuardada(): Promise<Apuesta> {
     try {
       const apuestGuardada=JSON.parse(await this.leeArchivo('apuesta.json'));
@@ -54,11 +58,11 @@ export class ConsultasService {
         return apuestGuardada;
       }
     } catch(error) {
-      return apuestaInfo;
+      return apuestaInfo; //Devolvemos apuesta inicial
     }
   }
 
-  public async checkRaces(): Promise<void> {
+  public async compruebaRaces(): Promise<void> {
     try {
       if(await this.archivoCaducado(this.jsonRaces)) {throw Error('caducado')};
       this.getRacesDesdeFichero();
@@ -67,7 +71,7 @@ export class ConsultasService {
     }
   }
 
-  public async checkEquipos(): Promise<void> {
+  public async compruebaEquipos(): Promise<void> {
     try {
       if(await this.archivoCaducado(this.jsonEquipos)) {throw Error('caducado')};
       this.getEquiposDesdeFichero();
@@ -76,7 +80,7 @@ export class ConsultasService {
     }
   }
 
-  public async checkPilotos(): Promise<void> {
+  public async compruebaPilotos(): Promise<void> {
     try {
       if(await this.archivoCaducado(this.jsonPilotos, 3)) {throw Error('caducado')};
       this.getPilotosDesdeFichero();
@@ -92,9 +96,10 @@ export class ConsultasService {
         this._race=this._races[i];
       } else if(i>0&&hoy<this._races[i].finApuesta&&hoy>this._races[i-1].finRace) {
         this._race=this._races[i];
+      } else if(i==23&&hoy>this._races[i-1].finRace) {
+        this._race=this._races[23];
       }
     }
-    console.log(this._race);
   }
 
   private getPilotosDesdeApi(): void {
@@ -113,7 +118,7 @@ export class ConsultasService {
     this.listasService.updateListas(this._pilotos);
   }
 
-  private getRacesDesdeApi() {
+  private getRacesDesdeApi(): void {
     console.log('...consultamos races desde API');
     const url="https://api.jolpi.ca/ergast/f1/current.json";
     this.http.get(url).subscribe((res: any) => {
@@ -123,7 +128,7 @@ export class ConsultasService {
     })
   }
 
-  private getEquiposDesdeApi() {
+  private getEquiposDesdeApi(): void {
     console.log('...consultamos equipos desde API');
     const url="https://api.jolpi.ca/ergast/f1/current/constructors.json";
     this.http.get(url).subscribe((res: any) => {
@@ -133,11 +138,11 @@ export class ConsultasService {
     });
   }
 
-  private async getRacesDesdeFichero() {
+  private async getRacesDesdeFichero(): Promise<void> {
     this._races=JSON.parse(await this.leeArchivo(this.jsonRaces));
   }
 
-  private async getEquiposDesdeFichero() {
+  private async getEquiposDesdeFichero(): Promise<void> {
     this._equipos=JSON.parse(await this.leeArchivo(this.jsonEquipos));
   }
 
@@ -159,7 +164,7 @@ export class ConsultasService {
       const race: Race={
         round: lista[i].round,
         nombre: lista[i].raceName,
-        circuito: lista[i].Circuit.circuitname,
+        circuito: lista[i].Circuit.circuitName,
         pais: lista[i].Circuit.Location.country,
         finApuesta: this.dateToEpoch(lista[i].Qualifying.date+' '+lista[i].Qualifying.time),
         finRace: this.dateToEpoch(lista[i].date+' '+lista[i].time)+21600000

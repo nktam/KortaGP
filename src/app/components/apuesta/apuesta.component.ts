@@ -9,6 +9,7 @@ import {ConsultasService} from "../../services/consultas.service";
 import {FirestoreService} from "../../services/firestore.service";
 import {TitleCasePipe} from '@angular/common';
 import {AuthService} from '../../services/auth.service';
+import {Race} from '../../interfaces/race';
 
 
 @Component({
@@ -22,6 +23,7 @@ export class ApuestaComponent {
 
   apuesta: any;
   apuestaEnPantalla: string="";
+  race: Race={} as Race;
   private apuestaSubscription: Subscription|undefined;
 
 
@@ -33,6 +35,7 @@ export class ApuestaComponent {
     private auth: AuthService) { }
 
   ngOnInit(): void {
+    this.race=this.cs.race;
     this.apuestaSubscription=this.apuestaService.apuesta$.subscribe(v => this.apuesta=v);
     this.modificarApuestaEnPantalla(this.apuesta);
   }
@@ -43,7 +46,10 @@ export class ApuestaComponent {
 
   private modificarApuestaEnPantalla(apuesta: Apuesta) {
     let parte1=`
-Clasi
+Gran Premio ${this.race.round}
+${this.race.nombre} 
+
+Clasificación
 1- ${apuesta.clasificacion[0].nombre} 
 2- ${apuesta.clasificacion[1].nombre} 
 3- ${apuesta.clasificacion[2].nombre}

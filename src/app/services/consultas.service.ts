@@ -94,8 +94,10 @@ export class ConsultasService {
     for(let i=0; i<this._races.length; i++) {
       if(i==0&&hoy<this._races[i].finApuesta) {
         this._race=this._races[i];
+        break;
       } else if(i>0&&hoy<this._races[i].finApuesta&&hoy>this._races[i-1].finRace) {
         this._race=this._races[i];
+        break;
       } else if(i==23&&hoy>this._races[i-1].finRace) {
         this._race=this._races[23];
       }

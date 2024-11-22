@@ -30,31 +30,29 @@ export class ConsultasService {
   public set equipos(value: Equipo[]) {
     this._equipos=value;
   }
-
   public get races(): Race[] {
     return this._races;
   }
   public set races(value: Race[]) {
     this._races=value;
   }
-
   public get pilotos(): Piloto[] {
     return this._pilotos;
   }
   public set pilotos(value: Piloto[]) {
     this._pilotos=value;
   }
-
   public get race(): Race {
     return this._race;
   }
 
   public async consultaApuestaGuardada(): Promise<Apuesta> {
     try {
-      const apuestGuardada=JSON.parse(await this.leeArchivo('apuesta.json'));
+      const apuestGuardada: Apuesta=await this.leeArchivo('apuesta.json') as unknown as Apuesta;
       if(apuestGuardada===undefined) {
-        throw new Error("No se puede leer");
-      } else {
+        throw Error();
+      }
+      else {
         return apuestGuardada;
       }
     } catch(error) {
@@ -62,34 +60,35 @@ export class ConsultasService {
     }
   }
 
-  public async compruebaRaces(): Promise<void> {
+  public async cargaRaces(): Promise<void> {
     try {
-      if(await this.archivoCaducado(this.jsonRaces)) {throw Error('caducado')};
-      this.getRacesDesdeFichero();
+      if(await this.archivoCaducado(this.jsonRaces)) {throw Error()};
+      await this.getRacesDesdeFichero();
     } catch(error) {
       this.getRacesDesdeApi();
     }
+    this.getRound();
   }
 
-  public async compruebaEquipos(): Promise<void> {
+  public async cargaEquipos(): Promise<void> {
     try {
-      if(await this.archivoCaducado(this.jsonEquipos)) {throw Error('caducado')};
-      this.getEquiposDesdeFichero();
+      if(await this.archivoCaducado(this.jsonEquipos)) {throw Error()};
+      await this.getEquiposDesdeFichero();
     } catch(error) {
       this.getEquiposDesdeApi();
     }
   }
 
-  public async compruebaPilotos(): Promise<void> {
+  public async cargaPilotos(): Promise<void> {
     try {
-      if(await this.archivoCaducado(this.jsonPilotos, 3)) {throw Error('caducado')};
-      this.getPilotosDesdeFichero();
+      if(await this.archivoCaducado(this.jsonPilotos, 3)) {throw Error()};
+      await this.getPilotosDesdeFichero();
     } catch(error) {
       this.getPilotosDesdeApi();
     }
   }
 
-  public getRound(): void {
+  private getRound(): void {
     const hoy: number=Date.now();
     for(let i=0; i<this._races.length; i++) {
       if(i==0&&hoy<this._races[i].finApuesta) {
@@ -98,7 +97,7 @@ export class ConsultasService {
       } else if(i>0&&hoy<this._races[i].finApuesta&&hoy>this._races[i-1].finRace) {
         this._race=this._races[i];
         break;
-      } else if(i==23&&hoy>this._races[i-1].finRace) {
+      } else if(i==23&&hoy<this._races[i].finRace) {
         this._race=this._races[23];
       }
     }
@@ -116,7 +115,7 @@ export class ConsultasService {
   }
 
   private async getPilotosDesdeFichero(): Promise<void> {
-    this._pilotos=JSON.parse(await this.leeArchivo(this.jsonPilotos));
+    this._pilotos=await this.leeArchivo(this.jsonPilotos);
     this.listasService.updateListas(this._pilotos);
   }
 
@@ -141,11 +140,11 @@ export class ConsultasService {
   }
 
   private async getRacesDesdeFichero(): Promise<void> {
-    this._races=JSON.parse(await this.leeArchivo(this.jsonRaces));
+    this._races=await this.leeArchivo(this.jsonRaces);
   }
 
   private async getEquiposDesdeFichero(): Promise<void> {
-    this._equipos=JSON.parse(await this.leeArchivo(this.jsonEquipos));
+    this._equipos=await this.leeArchivo(this.jsonEquipos);
   }
 
   private arrayToPilotos(lista: Array<any>): Piloto[] {
@@ -198,14 +197,14 @@ export class ConsultasService {
     });
   };
 
-  private async leeArchivo(archivo: string): Promise<string> {
+  private async leeArchivo(archivo: string): Promise<Array<any>> {
     console.log('...leemos '+archivo+' de dispositivo');
     const contents=await Filesystem.readFile({
       path: archivo,
       directory: Directory.Data,
       encoding: Encoding.UTF8,
     });
-    return contents.data as string;
+    return JSON.parse(contents.data as string);
   };
 
   //comprobamos si el archivo esta caducado, 1mes=2629743000mSeg

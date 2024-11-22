@@ -5,8 +5,8 @@
     "fecha": 1729750476041,
     "carrera": [
         {
-            "id": 1,
-            "nombre": "Max"
+            "id": 33,
+            "nombre": "max_verstappen"
         },
         {
             "id": 44,
@@ -23,8 +23,8 @@
     ],
     "sprint": [
         {
-            "id": 1,
-            "nombre": "Max"
+            "id": 33,
+            "nombre": "max_verstappen"
         },
         {
             "id": 44,
@@ -41,8 +41,8 @@
     ],
     "clasificacion": [
         {
-            "id": 1,
-            "nombre": "Max"
+            "id": 33,
+            "nombre": "max_verstappen"
         },
         {
             "id": 44,
@@ -57,8 +57,8 @@
             "nombre": "Perez"
         }
     ],
-    "posAlonso": 5,
-    "posSainz": 7,
+    "posAlonso": 0,
+    "posSainz": 0,
     "equipo": {
         "id": "red_bull",
         "nombre": "Red Bull"

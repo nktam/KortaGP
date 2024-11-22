@@ -25,20 +25,13 @@ export class ConfigComponent {
 
   constructor(private cs: ConsultasService, private apuestaService: ApuestaService) { }
 
-  ngOnChanges() {
-    this.listaEquipos=this.cs.equipos;
-  }
-
-  async ngOnInit(): Promise<void> {
+  ngOnInit(): void {
     this._apuestaSubscription=this.apuestaService.apuesta$.subscribe(v => this.apuesta=v);
+    this.listaEquipos=this.cs.equipos;
   }
 
   comparaEquipo(o1: Equipo, o2: Equipo) {
     return o1.id==o2.id;
-  }
-
-  comparaRaces(o1: Race, o2: Race) {
-    return o1.round==o2.round;
   }
 
   ngOnDestroy() {

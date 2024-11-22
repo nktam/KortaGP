@@ -3,9 +3,9 @@ import {RouterOutlet} from '@angular/router';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MenuComponent} from "./components/menu/menu.component";
-import {Equipo} from './interfaces/equipo';
 import {ConsultasService} from './services/consultas.service';
-import {AuthService} from './services/auth.service';
+import {ListasService} from './services/listas.service';
+import {ApuestaService} from './services/apuesta.service';
 
 
 @Component({
@@ -17,14 +17,19 @@ import {AuthService} from './services/auth.service';
 })
 export class AppComponent {
   title: string='KortaGP';
+  apuesta: any;
 
-  constructor(private cs: ConsultasService, private auth: AuthService) { }
+  constructor(
+    private cs: ConsultasService,
+    private listasService: ListasService,
+    private apuestaService: ApuestaService) { }
 
   async ngOnInit(): Promise<void> {
-    await this.cs.compruebaEquipos();
-    await this.cs.compruebaRaces();
-    await this.cs.compruebaPilotos();
-    this.cs.getRound();
+    await this.cs.cargaPilotos();
+    await this.cs.cargaRaces();
+    await this.cs.cargaEquipos();
+    this.apuesta=await this.cs.consultaApuestaGuardada();
+    this.apuestaService.updateApuesta(this.apuesta);
+    this.listasService.updateListasConApuesta(this.apuesta, this.cs.pilotos);
   }
-
 }

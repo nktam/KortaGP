@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {Piloto} from '../interfaces/piloto';
 import {Listas} from "../interfaces/listas";
-import {ConsultasService} from '../services/consultas.service';
+import {Apuesta} from '../interfaces/apuesta';
 
 @Injectable({
   providedIn: 'root'
@@ -44,5 +44,14 @@ export class ListasService {
     this.listas.carrera=array;
     this._listas.next(this.listas);
   };
+
+  public updateListasConApuesta(apuesta: Apuesta, pilotos: Piloto[]): void {
+    var lista=Array.from(pilotos);
+    apuesta.carrera.forEach(piloto => {
+      var index=lista.findIndex(item => item.id==piloto.id);
+      lista.splice(index, 1);
+    });
+    this.updateCarrera(apuesta.carrera.concat(lista));
+  }
 
 }

@@ -45,13 +45,43 @@ export class ListasService {
     this._listas.next(this.listas);
   };
 
-  public updateListasConApuesta(apuesta: Apuesta, pilotos: Piloto[]): void {
+  /* public updateListasConApuesta(apuesta: Apuesta, pilotos: Piloto[]): void {
     var lista=Array.from(pilotos);
     apuesta.carrera.forEach(piloto => {
       var index=lista.findIndex(item => item.id==piloto.id);
       lista.splice(index, 1);
     });
     this.updateCarrera(apuesta.carrera.concat(lista));
+    lista=Array.from(pilotos);
+
+    apuesta.sprint.forEach(piloto => {
+      var index=lista.findIndex(item => item.id==piloto.id);
+      lista.splice(index, 1);
+    });
+    this.updateSprint(apuesta.sprint.concat(lista));
+    lista=Array.from(pilotos);
+    apuesta.clasificacion.forEach(piloto => {
+      var index=lista.findIndex(item => item.id==piloto.id);
+      lista.splice(index, 1);
+    });
+    this.updateClasificacion(apuesta.clasificacion.concat(lista));
+  } */
+
+  public updateListasConApuesta(apuesta: Apuesta, pilotos: Piloto[]): void {
+    var lista=Array.from(pilotos);
+    this.updateCarrera(this.cambiaPilotos(apuesta.carrera, lista));
+    lista=Array.from(pilotos);
+    this.updateSprint(this.cambiaPilotos(apuesta.sprint, lista));
+    lista=Array.from(pilotos);
+    this.updateClasificacion(this.cambiaPilotos(apuesta.clasificacion, lista));
+  }
+
+  private cambiaPilotos(pilotosApuesta: Piloto[], listaPilotos: Piloto[]): Array<Piloto> {
+    pilotosApuesta.forEach(piloto => {
+      var index=listaPilotos.findIndex(item => item.id==piloto.id);
+      listaPilotos.splice(index, 1);
+    });
+    return pilotosApuesta.concat(listaPilotos);
   }
 
 }

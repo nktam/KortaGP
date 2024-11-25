@@ -213,7 +213,7 @@ export class ConsultasService {
       path: archivo,
       directory: Directory.Data
     });
-    return (contents.mtime<Date.now()-2629743000*meses)? true:false;
+    return contents.mtime<Date.now()-2629743000*meses;
   }
 
   private dateToEpoch(fecha: string): number {

@@ -45,43 +45,28 @@ export class ListasService {
     this._listas.next(this.listas);
   };
 
-  /* public updateListasConApuesta(apuesta: Apuesta, pilotos: Piloto[]): void {
-    var lista=Array.from(pilotos);
-    apuesta.carrera.forEach(piloto => {
-      var index=lista.findIndex(item => item.id==piloto.id);
-      lista.splice(index, 1);
-    });
-    this.updateCarrera(apuesta.carrera.concat(lista));
-    lista=Array.from(pilotos);
-
-    apuesta.sprint.forEach(piloto => {
-      var index=lista.findIndex(item => item.id==piloto.id);
-      lista.splice(index, 1);
-    });
-    this.updateSprint(apuesta.sprint.concat(lista));
-    lista=Array.from(pilotos);
-    apuesta.clasificacion.forEach(piloto => {
-      var index=lista.findIndex(item => item.id==piloto.id);
-      lista.splice(index, 1);
-    });
-    this.updateClasificacion(apuesta.clasificacion.concat(lista));
-  } */
-
   public updateListasConApuesta(apuesta: Apuesta, pilotos: Piloto[]): void {
-    var lista=Array.from(pilotos);
-    this.updateCarrera(this.cambiaPilotos(apuesta.carrera, lista));
-    lista=Array.from(pilotos);
-    this.updateSprint(this.cambiaPilotos(apuesta.sprint, lista));
-    lista=Array.from(pilotos);
-    this.updateClasificacion(this.cambiaPilotos(apuesta.clasificacion, lista));
+    const pilotosBuenos=this.quitaPilotosMalos(pilotos);
+    this.updateCarrera(this.cambiaPilotos(apuesta.carrera, pilotosBuenos));
+    this.updateSprint(this.cambiaPilotos(apuesta.sprint, pilotosBuenos));
+    this.updateClasificacion(this.cambiaPilotos(apuesta.clasificacion, pilotosBuenos));
+  }
+
+  private quitaPilotosMalos(pilotos: Piloto[]): Array<Piloto> {
+    const pilotosParaEliminar: Array<number>=[77, 2, 24, 30, 43, 3, 23, 38]
+    pilotosParaEliminar.forEach(e => {
+      var index=pilotos.findIndex(i => i.id==e);
+      if(index>-1) pilotos.splice(index, 1);
+    });
+    return Array.from(pilotos);
   }
 
   private cambiaPilotos(pilotosApuesta: Piloto[], listaPilotos: Piloto[]): Array<Piloto> {
+    const lista: Piloto[]=Array.from(listaPilotos);
     pilotosApuesta.forEach(piloto => {
-      var index=listaPilotos.findIndex(item => item.id==piloto.id);
-      listaPilotos.splice(index, 1);
+      var index=lista.findIndex(i => i.id==piloto.id);
+      if(index>-1) lista.splice(index, 1);
     });
-    return pilotosApuesta.concat(listaPilotos);
+    return Array.from(pilotosApuesta.concat(lista));
   }
-
 }

@@ -77,7 +77,7 @@ Sainz ${apuesta.posSainz}
      
 Equipo ${apuesta.equipo.nombre}`
 
-    if(this.apuesta.tieneSprint) {
+    if(this.race.sprint) {
       this.apuestaEnPantalla=`${parte1}${parte2}${parte3}`
     } else {
       this.apuestaEnPantalla=`${parte1}${parte3}`

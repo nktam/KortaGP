@@ -5,4 +5,5 @@ export interface Race {
     pais: string;
     finApuesta: number;
     finRace: number;
+    sprint: boolean;
 }

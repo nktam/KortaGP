@@ -168,7 +168,8 @@ export class ConsultasService {
         circuito: lista[i].Circuit.circuitName,
         pais: lista[i].Circuit.Location.country,
         finApuesta: this.dateToEpoch(lista[i].Qualifying.date+' '+lista[i].Qualifying.time),
-        finRace: this.dateToEpoch(lista[i].date+' '+lista[i].time)+21600000
+        finRace: this.dateToEpoch(lista[i].date+' '+lista[i].time)+21600000,
+        sprint: lista[i].hasOwnProperty('SprintQualifying')
       };
       races.push(race);
     }

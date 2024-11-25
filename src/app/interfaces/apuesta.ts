@@ -13,5 +13,4 @@ export interface Apuesta extends Usuario {
     posAlonso: number;
     posSainz: number;
     race?: Race;
-    tieneSprint: boolean;
 }

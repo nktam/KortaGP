@@ -37,6 +37,7 @@ export class ApuestaComponent {
   ngOnInit(): void {
     this.race=this.cs.race;
     this.apuestaSubscription=this.apuestaService.apuesta$.subscribe(v => this.apuesta=v);
+    this.apuestaService.updateRace(this.race);
     this.modificarApuestaEnPantalla(this.apuesta);
   }
 
@@ -89,10 +90,12 @@ Equipo ${apuesta.equipo.nombre}`
   }
 
   async copiar() {
-    const usuario=await this.auth.getCurrentUser();
-    this.apuestaService.updateUsuario(usuario.idUsuario, usuario.nombre);
+    const user=await this.auth.getCurrentUser();
+    const id='RACE'+this.race.round+'ID_'+user.idUsuario;
+    this.apuestaService.updateId(id);
+    this.apuestaService.updateUsuario(user.idUsuario, user.nombre);
     this.apuestaService.updateFecha();
-    this.firestore.addApuesta(this.apuesta);
+    this.firestore.addApuesta(this.apuesta, id);
     this.clipboard.copy(this.apuestaEnPantalla);
   }
 

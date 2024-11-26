@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {collection, addDoc} from 'firebase/firestore';
+import {collection, addDoc, setDoc, doc, updateDoc} from 'firebase/firestore';
 import {Apuesta} from '../interfaces/apuesta';
 import {Firestore} from "@angular/fire/firestore";
 
@@ -10,12 +10,22 @@ export class FirestoreService {
 
   constructor(private firestore: Firestore) { }
 
-  public async addApuesta(apuesta: Apuesta) {
+  public async addApuesta(apuesta: Apuesta, userId: string) {
+    const docRef=doc(this.firestore, "apuestas", userId);
     try {
-      const docRef=await addDoc(collection(this.firestore, "apuestas"), apuesta);
-      console.log("Document written with ID: ", docRef.id);
+      await updateDoc(docRef, {
+        fecha: apuesta.fecha,
+        carrera: apuesta.carrera,
+        clasificacion: apuesta.clasificacion,
+        sprint: apuesta.sprint,
+        equipo: apuesta.equipo,
+        posAlonso: apuesta.posAlonso,
+        posSainz: apuesta.posSainz,
+      })
+      console.log("...FIREBASE UPDATEDOC OK");
     } catch(e) {
-      console.error("Error adding document: ", e);
+      await setDoc(docRef, apuesta);
+      console.log("...FIREBASE SETDOC OK");
     }
   }
 }

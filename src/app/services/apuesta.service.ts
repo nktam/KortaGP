@@ -4,6 +4,7 @@ import {Apuesta} from "../interfaces/apuesta";
 import {Piloto} from '../interfaces/piloto';
 import apuestaInfo from '../utils/apuesta.json';
 import {Usuario} from '../interfaces/usuario';
+import {Race} from '../interfaces/race';
 
 @Injectable({
   providedIn: 'root'
@@ -29,8 +30,18 @@ export class ApuestaService {
     this._apuesta.next(this.apuesta);
   };
 
-  updateFecha() {
+  public updateFecha() {
     this.apuesta.fecha=Date.now();
+    this._apuesta.next(this.apuesta);
+  }
+
+  public updateRace(race: Race) {
+    this.apuesta.race=race;
+    this._apuesta.next(this.apuesta);
+  }
+
+  public updateId(id: string) {
+    this.apuesta.id=id;
     this._apuesta.next(this.apuesta);
   }
 

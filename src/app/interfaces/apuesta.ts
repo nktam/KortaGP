@@ -4,7 +4,7 @@ import {Piloto} from './piloto';
 import {Usuario} from './usuario';
 
 export interface Apuesta extends Usuario {
-    id: number;
+    id: string;
     fecha: number;
     carrera: Piloto[];
     clasificacion: Piloto[];

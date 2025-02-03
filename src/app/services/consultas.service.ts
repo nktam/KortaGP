@@ -65,9 +65,9 @@ export class ConsultasService {
       if(await this.archivoCaducado(this.jsonRaces)) {throw Error()};
       await this.getRacesDesdeFichero();
     } catch(error) {
-      this.getRacesDesdeApi();
+      await this.getRacesDesdeApi();
     }
-    this.getRound();
+
   }
 
   public async cargaEquipos(): Promise<void> {
@@ -101,6 +101,7 @@ export class ConsultasService {
         this._race=this._races[23];
       }
     }
+    console.log('...Round: '+this._race.round);
   }
 
   private getPilotosDesdeApi(): void {
@@ -126,6 +127,7 @@ export class ConsultasService {
       const listaDesdeApiRest=res.MRData.RaceTable.Races;
       this._races=this.arrayToRaces(listaDesdeApiRest);
       this.guardaArchivo(this.jsonRaces, this._races);
+      this.getRound();
     })
   }
 
@@ -141,6 +143,7 @@ export class ConsultasService {
 
   private async getRacesDesdeFichero(): Promise<void> {
     this._races=await this.leeArchivo(this.jsonRaces);
+    this.getRound();
   }
 
   private async getEquiposDesdeFichero(): Promise<void> {
@@ -167,13 +170,28 @@ export class ConsultasService {
         nombre: lista[i].raceName,
         circuito: lista[i].Circuit.circuitName,
         pais: lista[i].Circuit.Location.country,
-        finApuesta: this.dateToEpoch(lista[i].Qualifying.date+' '+lista[i].Qualifying.time),
-        finRace: this.dateToEpoch(lista[i].date+' '+lista[i].time)+21600000,
+        finApuesta: this.finapuesta(lista[i].Qualifying.date, lista[i].Qualifying.time, lista[i].date),
+        finRace: this.finRace(lista[i].date, lista[i].time),
         sprint: lista[i].hasOwnProperty('SprintQualifying')
       };
       races.push(race);
     }
+    console.log(races);
     return races;
+  }
+
+  private finRace(date: string, time: string): number {
+    if(time==null)
+      return this.dateToEpoch(date)+21600000
+    else
+      return this.dateToEpoch(date+''+time)+21600000
+  }
+
+  private finapuesta(date: string, time: string, raceDate: string): number {
+    if(date==null||time==null)
+      return this.dateToEpoch(raceDate)
+    else
+      return this.dateToEpoch(date+''+time)
   }
 
   private arrayToEquipos(lista: Array<any>): Equipo[] {

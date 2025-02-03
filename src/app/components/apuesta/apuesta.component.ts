@@ -20,7 +20,6 @@ import {Race} from '../../interfaces/race';
   styleUrl: './apuesta.component.css'
 })
 export class ApuestaComponent {
-
   apuesta: any;
   apuestaEnPantalla: string="";
   race: Race={} as Race;
@@ -89,14 +88,13 @@ Equipo ${apuesta.equipo.nombre}`
     this.cs.guardaArchivo('apuesta.json', this.apuesta);
   }
 
-  async copiar() {
+  async apostar() {
     const user=await this.auth.getCurrentUser();
     const id='RACE'+this.race.round+'ID_'+user.idUsuario;
     this.apuestaService.updateId(id);
     this.apuestaService.updateUsuario(user.idUsuario, user.nombre);
     this.apuestaService.updateFecha();
     this.firestore.addApuesta(this.apuesta, id);
-    this.clipboard.copy(this.apuestaEnPantalla);
   }
 
 }

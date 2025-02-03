@@ -1,11 +1,9 @@
 <div class="flex">
     <div class="apuesta">{{apuestaEnPantalla | titlecase }}</div>
-    <div (click)="copiar()">
-        <button mat-mini-fab color="secondary">
-            <mat-icon>content_copy</mat-icon>
-        </button>
-    </div>
 </div>
-<div class="guardar" (click)="guardar()">
+<div class="boton" (click)="apostar()">
+    <button mat-flat-button color="primary"><mat-icon fontIcon="paid"></mat-icon>Apostar</button>
+</div>
+<div class="boton" (click)="guardar()">
     <button mat-flat-button color="accent"><mat-icon fontIcon="save"></mat-icon>Predeterminada</button>
 </div>

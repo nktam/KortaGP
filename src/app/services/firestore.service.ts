@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {collection, addDoc, setDoc, doc, updateDoc} from 'firebase/firestore';
+import {collection, addDoc, setDoc, doc, updateDoc, where, query, getDocs} from 'firebase/firestore';
 import {Apuesta} from '../interfaces/apuesta';
 import {Firestore} from "@angular/fire/firestore";
 
@@ -28,4 +28,12 @@ export class FirestoreService {
       console.log("...FIREBASE SETDOC OK");
     }
   }
+
+  public async getApuestas(round: string): Promise<any[]> {
+    const q=query(collection(this.firestore, "apuestas"), where("race.round", "==", round));
+    const querySnapshot=await getDocs(q);
+    const apuestas=querySnapshot.docs.map(doc => doc.data());
+    return apuestas;
+  }
+
 }

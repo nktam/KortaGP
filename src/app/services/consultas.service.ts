@@ -7,6 +7,7 @@ import {Equipo} from '../interfaces/equipo';
 import {Apuesta} from '../interfaces/apuesta';
 import apuestaInfo from '../utils/apuesta.json';
 import {ListasService} from './listas.service';
+import {lastValueFrom} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -139,6 +140,15 @@ export class ConsultasService {
       this._equipos=this.arrayToEquipos(listaDesdeApiRest);
       this.guardaArchivo(this.jsonEquipos, this._equipos);
     });
+  }
+
+  public async getResultados(): Promise<any[]> {
+    console.log('...consultamos resultados desde API');
+    /////////////// url para pruebas
+    const url="https://api.jolpi.ca/ergast/f1/2024/1/results/";
+    const response=await lastValueFrom(this.http.get<any>(url));
+    const resultados=response.MRData.RaceTable.Races[0].Results;
+    return resultados;
   }
 
   private async getRacesDesdeFichero(): Promise<void> {

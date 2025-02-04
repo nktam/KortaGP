@@ -53,7 +53,7 @@ export class ListasService {
   }
 
   private quitaPilotosMalos(pilotos: Piloto[]): Array<Piloto> {
-    const pilotosParaEliminar: Array<number>=[77, 2, 24, 30, 43, 3, 23, 38]
+    const pilotosParaEliminar: Array<string>=['77', '2', '24', '30', '43', '3', '23', '38']
     pilotosParaEliminar.forEach(e => {
       var index=pilotos.findIndex(i => i.id==e);
       if(index>-1) pilotos.splice(index, 1);

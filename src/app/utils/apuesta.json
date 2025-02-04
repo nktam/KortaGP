@@ -5,55 +5,55 @@
     "fecha": 1729750476041,
     "carrera": [
         {
-            "id": 33,
+            "id": "33",
             "nombre": "max_verstappen"
         },
         {
-            "id": 44,
+            "id": "44",
             "nombre": "Hamilton"
         },
         {
-            "id": 14,
+            "id": "14",
             "nombre": "Alonso"
         },
         {
-            "id": 11,
+            "id": "11",
             "nombre": "Perez"
         }
     ],
     "sprint": [
         {
-            "id": 33,
+            "id": "33",
             "nombre": "max_verstappen"
         },
         {
-            "id": 44,
+            "id": "44",
             "nombre": "Hamilton"
         },
         {
-            "id": 14,
+            "id": "14",
             "nombre": "Alonso"
         },
         {
-            "id": 11,
+            "id": "11",
             "nombre": "Perez"
         }
     ],
     "clasificacion": [
         {
-            "id": 33,
+            "id": "33",
             "nombre": "max_verstappen"
         },
         {
-            "id": 44,
+            "id": "44",
             "nombre": "Hamilton"
         },
         {
-            "id": 14,
+            "id": "14",
             "nombre": "Alonso"
         },
         {
-            "id": 11,
+            "id": "11",
             "nombre": "Perez"
         }
     ],

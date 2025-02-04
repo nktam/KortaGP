@@ -142,12 +142,21 @@ export class ConsultasService {
     });
   }
 
-  public async getResultados(): Promise<any[]> {
+  public async getResultados(round: number): Promise<any[]> {
     console.log('...consultamos resultados desde API');
     /////////////// url para pruebas
-    const url="https://api.jolpi.ca/ergast/f1/2024/1/results/";
+    const url="https://api.jolpi.ca/ergast/f1/2024/"+round+"/results/";
     const response=await lastValueFrom(this.http.get<any>(url));
     const resultados=response.MRData.RaceTable.Races[0].Results;
+    return resultados;
+  }
+
+  public async getResultadosSprint(round: number): Promise<any[]> {
+    console.log('...consultamos resultados desde API');
+    /////////////// url para pruebas
+    const url="https://api.jolpi.ca/ergast/f1/2024/"+round+"/sprint/";
+    const response=await lastValueFrom(this.http.get<any>(url));
+    const resultados=response.MRData.RaceTable.Races[0].SprintResults;
     return resultados;
   }
 

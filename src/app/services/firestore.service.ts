@@ -29,8 +29,8 @@ export class FirestoreService {
     }
   }
 
-  public async getApuestas(round: string): Promise<any[]> {
-    const q=query(collection(this.firestore, "apuestas"), where("race.round", "==", round));
+  public async getApuestas(round: number): Promise<any[]> {
+    const q=query(collection(this.firestore, "apuestas"), where("race.round", "==", round.toString()));
     const querySnapshot=await getDocs(q);
     const apuestas=querySnapshot.docs.map(doc => doc.data());
     return apuestas;

@@ -1,6 +1,8 @@
-<div class="boton flex" (click)="apostar()">
-    <button mat-flat-button color="primary"><mat-icon fontIcon="paid"></mat-icon>Apostar</button>
-    <button mat-flat-button color="accent"><mat-icon fontIcon="save"></mat-icon>Guardar</button>
+<div class="boton flex">
+    @if (apuestasAbiertas) {
+    <button mat-flat-button color="primary" (click)="apostar()"><mat-icon fontIcon="paid"></mat-icon>Apostar</button>
+    }
+    <button mat-flat-button color="accent" (click)="guardar()"><mat-icon fontIcon="save"></mat-icon>Guardar</button>
 </div>
 <div>
     <h2>{{this.race.nombre}}</h2>

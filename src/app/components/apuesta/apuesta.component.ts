@@ -25,8 +25,7 @@ export class ApuestaComponent {
   apuesta: any;
   apuestaEnPantalla: string="";
   race: Race={} as Race;
-  durationInSeconds=4;
-
+  apuestasAbiertas: boolean=false;
   private apuestaSubscription: Subscription|undefined;
   private _snackBar=inject(MatSnackBar);
 
@@ -40,6 +39,13 @@ export class ApuestaComponent {
 
   ngOnInit(): void {
     this.race=this.cs.race;
+    const fecha=new Date();
+
+    if(this.race.finApuesta>fecha.getTime())
+      this.apuestasAbiertas=true;
+    else
+      this.apuestasAbiertas=false;
+
     this.apuestaSubscription=this.apuestaService.apuesta$.subscribe(v => this.apuesta=v);
     this.apuestaService.updateRace(this.race);
   }
@@ -73,4 +79,5 @@ export class ApuestaComponent {
   }
 
 }
+
 

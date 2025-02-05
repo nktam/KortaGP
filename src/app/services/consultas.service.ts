@@ -184,13 +184,17 @@ export class ConsultasService {
   private arrayToRaces(lista: Array<any>): Race[] {
     let races: Race[]=[];
     for(let i=0; i<lista.length; i++) {
+      const finRace=this.finRace(lista[i].date, lista[i].time);
+      const finApuesta=this.finapuesta(lista[i].Qualifying.date, lista[i].Qualifying.time, lista[i].date);
+      console.log('finRace: '+finRace+' finApuesta: '+finApuesta);
+
       const race: Race={
         round: lista[i].round,
         nombre: lista[i].raceName,
         circuito: lista[i].Circuit.circuitName,
         pais: lista[i].Circuit.Location.country,
-        finApuesta: this.finapuesta(lista[i].Qualifying.date, lista[i].Qualifying.time, lista[i].date),
-        finRace: this.finRace(lista[i].date, lista[i].time),
+        finApuesta: finApuesta,
+        finRace: finRace,
         sprint: lista[i].hasOwnProperty('SprintQualifying')
       };
       races.push(race);
@@ -203,14 +207,14 @@ export class ConsultasService {
     if(time==null)
       return this.dateToEpoch(date)+21600000
     else
-      return this.dateToEpoch(date+''+time)+21600000
+      return this.dateToEpoch(date+' '+time)+21600000
   }
 
   private finapuesta(date: string, time: string, raceDate: string): number {
     if(date==null||time==null)
       return this.dateToEpoch(raceDate)
     else
-      return this.dateToEpoch(date+''+time)
+      return this.dateToEpoch(date+' '+time)
   }
 
   private arrayToEquipos(lista: Array<any>): Equipo[] {

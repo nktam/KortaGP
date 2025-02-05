@@ -23,9 +23,11 @@ export class FirestoreService {
         posSainz: apuesta.posSainz,
       })
       console.log("...FIREBASE UPDATEDOC OK");
+      return true
     } catch(e) {
       await setDoc(docRef, apuesta);
-      console.log("...FIREBASE SETDOC OK");
+      console.log("...FIREBASE ERROR", e);
+      return false
     }
   }
 

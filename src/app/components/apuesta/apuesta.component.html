@@ -1,9 +1,33 @@
-<div class="flex">
-    <div class="apuesta">{{apuestaEnPantalla | titlecase }}</div>
-</div>
-<div class="boton" (click)="apostar()">
+<div class="boton flex" (click)="apostar()">
     <button mat-flat-button color="primary"><mat-icon fontIcon="paid"></mat-icon>Apostar</button>
+    <button mat-flat-button color="accent"><mat-icon fontIcon="save"></mat-icon>Guardar</button>
 </div>
-<div class="boton" (click)="guardar()">
-    <button mat-flat-button color="accent"><mat-icon fontIcon="save"></mat-icon>Predeterminada</button>
+<div>
+    <h2>{{this.race.nombre}}</h2>
+    <div>
+        <h3>Clasificación</h3>
+        <p>1- {{apuesta.clasificacion[0].nombre | titlecase}}</p>
+        <p>2- {{apuesta.clasificacion[1].nombre}}</p>
+        <p>3- {{apuesta.clasificacion[2].nombre}}</p>
+        <p>4- {{apuesta.clasificacion[3].nombre}}</p>
+    </div>
+    <div>
+        <h3>Sprint</h3>
+        <p>1- {{apuesta.sprint[0].nombre}}</p>
+        <p>2- {{apuesta.sprint[1].nombre}}</p>
+        <p>3- {{apuesta.sprint[2].nombre}}</p>
+        <p>4- {{apuesta.sprint[3].nombre}}</p>
+    </div>
+    <div>
+        <h3>Carrera</h3>
+        <p>1- {{apuesta.carrera[0].nombre}}</p>
+        <p>2- {{apuesta.carrera[1].nombre}}</p>
+        <p>3- {{apuesta.carrera[2].nombre}}</p>
+        <p>4- {{apuesta.carrera[3].nombre}}</p>
+    </div>
+    <div>
+        <h3>Extras</h3>
+        <p>Posición Alonso: {{apuesta.posAlonso}}</p>
+        <p>Posición Sainz: {{apuesta.posSainz}}</p>
+    </div>
 </div>

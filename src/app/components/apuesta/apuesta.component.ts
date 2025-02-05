@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ApuestaService} from "../../services/apuesta.service";
 import {Subscription} from 'rxjs';
 import {Apuesta} from "../../interfaces/apuesta";
@@ -10,6 +10,7 @@ import {FirestoreService} from "../../services/firestore.service";
 import {TitleCasePipe} from '@angular/common';
 import {AuthService} from '../../services/auth.service';
 import {Race} from '../../interfaces/race';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 
 @Component({
@@ -19,69 +20,32 @@ import {Race} from '../../interfaces/race';
   templateUrl: './apuesta.component.html',
   styleUrl: './apuesta.component.css'
 })
+
 export class ApuestaComponent {
   apuesta: any;
   apuestaEnPantalla: string="";
   race: Race={} as Race;
-  private apuestaSubscription: Subscription|undefined;
+  durationInSeconds=4;
 
+  private apuestaSubscription: Subscription|undefined;
+  private _snackBar=inject(MatSnackBar);
 
   constructor(
     private apuestaService: ApuestaService,
     private clipboard: Clipboard,
     private cs: ConsultasService,
     private firestore: FirestoreService,
-    private auth: AuthService) { }
+    private auth: AuthService,
+  ) { }
 
   ngOnInit(): void {
     this.race=this.cs.race;
     this.apuestaSubscription=this.apuestaService.apuesta$.subscribe(v => this.apuesta=v);
     this.apuestaService.updateRace(this.race);
-    this.modificarApuestaEnPantalla(this.apuesta);
   }
 
   ngOnDestroy() {
     this.apuestaSubscription!.unsubscribe();
-  }
-
-  private modificarApuestaEnPantalla(apuesta: Apuesta) {
-    let parte1=`
-Gran Premio ${this.race.round}
-${this.race.nombre} 
-
-Clasificación
-1- ${apuesta.clasificacion[0].nombre} 
-2- ${apuesta.clasificacion[1].nombre} 
-3- ${apuesta.clasificacion[2].nombre}
-4- ${apuesta.clasificacion[3].nombre}`
-
-    let parte2=`
-
-Sprint
-1- ${apuesta.sprint[0].nombre}  
-2- ${apuesta.sprint[1].nombre} 
-3- ${apuesta.sprint[2].nombre}
-4- ${apuesta.sprint[3].nombre}`
-
-    let parte3=`
-
-Carrera
-1- ${apuesta.carrera[0].nombre}
-2- ${apuesta.carrera[1].nombre}
-3- ${apuesta.carrera[2].nombre} 
-4- ${apuesta.carrera[3].nombre}
-     
-Alonso ${apuesta.posAlonso} 
-     
-Sainz ${apuesta.posSainz} 
-     
-Equipo ${apuesta.equipo.nombre}`
-
-    if(this.race.sprint) {
-      this.apuestaEnPantalla=`${parte1}${parte2}${parte3}`
-    } else {
-      this.apuestaEnPantalla=`${parte1}${parte3}`
-    }
   }
 
   async guardar() {
@@ -94,7 +58,19 @@ Equipo ${apuesta.equipo.nombre}`
     this.apuestaService.updateId(id);
     this.apuestaService.updateUsuario(user.idUsuario, user.nombre);
     this.apuestaService.updateFecha();
-    this.firestore.addApuesta(this.apuesta, id);
+    if(await this.firestore.addApuesta(this.apuesta, id))
+      this.aviso();
+    else
+      this.error();
+  }
+
+  private aviso() {
+    this._snackBar.open('Apuesta guardada', '', {duration: 2000});
+  }
+
+  private error() {
+    this._snackBar.open('Error al guardar apuesta', '', {duration: 2000});
   }
 
 }
+

@@ -1,9 +1,5 @@
-div.apuesta {
-    white-space:pre;
-    background-color: rgb(42, 47, 47); 
-    border: 1px solid #515050; 
-    border-radius: 5px; 
-    padding: 25px;
-    margin-right: 20px;}
-div.flex {display: flex; justify-content: center; }
+
+div.flex {display: flex; justify-content: space-around; }
 .boton {text-align: center; margin: 10px }
+p {font-size: 0.8em; line-height: 0.5em;}
+h3 {margin-bottom: 0;}

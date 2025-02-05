@@ -205,7 +205,7 @@ export class ConsultasService {
 
   private finRace(date: string, time: string): number {
     if(time==null)
-      return this.dateToEpoch(date)+21600000
+      return this.dateToEpoch(date)+86400000
     else
       return this.dateToEpoch(date+' '+time)+21600000
   }

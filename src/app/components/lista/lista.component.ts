@@ -17,7 +17,7 @@ import {UpperCasePipe} from '@angular/common';
 export class ListaComponent {
 
   pagina: string='';
-  listas: Listas={clasificacion: [], carrera: [], sprint: []};
+  listas: Listas={parrilla: [], carrera: [], sprint: []};
   pilotos: Piloto[]=[]
 
   private subscription: Subscription|undefined;
@@ -28,8 +28,8 @@ export class ListaComponent {
     this.pagina=this.listasService.pagina;
     this.subscription=this.listasService.listas$.subscribe(v => this.listas=v);
     switch(this.pagina) {
-      case 'Clasificación': {
-        this.pilotos=this.listas.clasificacion;
+      case 'Parrilla': {
+        this.pilotos=this.listas.parrilla;
         break;
       }
       case 'Sprint': {
@@ -48,8 +48,8 @@ export class ListaComponent {
     this.pilotos=this.moveItemInArray(this.pilotos, event.previousIndex, event.currentIndex);
     this.apuestaService.updatePosiciones(this.pilotos.slice(0, 4), this.pagina);
     switch(this.pagina) {
-      case 'Clasificación': {
-        this.listasService.updateClasificacion(this.pilotos);
+      case 'Parrilla': {
+        this.listasService.updateParrilla(this.pilotos);
         break;
       }
       case 'Sprint': {

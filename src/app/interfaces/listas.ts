@@ -1,7 +1,7 @@
 import {Piloto} from "./piloto";
 
 export interface Listas {
-    clasificacion: Piloto[];
+    parrilla: Piloto[];
     sprint: Piloto[];
     carrera: Piloto[];
 }

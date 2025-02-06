@@ -1,12 +1,14 @@
 {
     "id": "0",
-    "idUsuario": "idusuario",
-    "nombre": "nombre",
+    "usuario": {
+        "id": "idusuario",
+        "nombre": "nombre"
+    },
     "fecha": 1729750476041,
     "carrera": [
         {
             "id": "33",
-            "nombre": "max_verstappen"
+            "nombre": "Max_verstappen"
         },
         {
             "id": "44",
@@ -24,7 +26,7 @@
     "sprint": [
         {
             "id": "33",
-            "nombre": "max_verstappen"
+            "nombre": "Max_verstappen"
         },
         {
             "id": "44",
@@ -39,10 +41,10 @@
             "nombre": "Perez"
         }
     ],
-    "clasificacion": [
+    "parrilla": [
         {
             "id": "33",
-            "nombre": "max_verstappen"
+            "nombre": "Max_verstappen"
         },
         {
             "id": "44",
@@ -62,10 +64,6 @@
     "equipo": {
         "id": "red_bull",
         "nombre": "Red Bull"
-    },
-    "granPremio": {
-        "round": 1,
-        "nombre": "Bahrain Grand Prix"
     },
     "tieneSprint": false
 }

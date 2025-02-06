@@ -186,7 +186,6 @@ export class ConsultasService {
     for(let i=0; i<lista.length; i++) {
       const finRace=this.finRace(lista[i].date, lista[i].time);
       const finApuesta=this.finapuesta(lista[i].Qualifying.date, lista[i].Qualifying.time, lista[i].date);
-      console.log('finRace: '+finRace+' finApuesta: '+finApuesta);
 
       const race: Race={
         round: lista[i].round,

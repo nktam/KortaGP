@@ -60,11 +60,11 @@ export class ApuestaComponent {
 
   async apostar() {
     const user=await this.auth.getCurrentUser();
-    const id='RACE'+this.race.round+'ID_'+user.idUsuario;
+    const id='RACE'+this.race.round+'ID_'+user.id;
     this.apuestaService.updateId(id);
-    this.apuestaService.updateUsuario(user.idUsuario, user.nombre);
+    this.apuestaService.updateUsuario(user);
     this.apuestaService.updateFecha();
-    if(await this.firestore.addApuesta(this.apuesta, id))
+    if(await this.firestore.addApuesta(this.apuesta, user))
       this.aviso();
     else
       this.error();

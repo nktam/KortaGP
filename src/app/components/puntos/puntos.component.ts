@@ -2,7 +2,9 @@ import {Component} from '@angular/core';
 import {ConsultasService} from '../../services/consultas.service';
 import {AuthService} from '../../services/auth.service';
 import {FirestoreService} from '../../services/firestore.service';
-import {ApuestaService} from '../../services/apuesta.service';
+import {Apuesta} from "../../interfaces/apuesta";
+import {Puntos} from '../../interfaces/puntos';
+import {Clasificación} from '../../interfaces/clasificacion';
 
 @Component({
   selector: 'app-puntos',
@@ -16,8 +18,8 @@ export class PuntosComponent {
   resultados: any[]=[];
   resultadosSprint: any[]=[];
   apuestas: any[]=[];
-  puntos: any;
   round: number=5;
+  clasificacion: Clasificación={round: this.round, puntos: [] as Puntos[]};
 
   constructor(
     private cs: ConsultasService,
@@ -34,18 +36,34 @@ export class PuntosComponent {
     this.resultadosSprint=await this.cs.getResultadosSprint(this.round);
     console.log('resultados Sprint:', this.resultadosSprint);
 
-    this.apuestas.forEach((data: any) => {
-      this.calcularPuntos(data.idUsuario);
+    this.apuestas.forEach((apuesta: Apuesta) => {
+      this.calcularPuntos(apuesta);
     });
 
+    console.log('clasificacion', this.clasificacion);
+    this.clasificacion.puntos.sort((a, b) => b.puntosGeneral-a.puntosGeneral);
+    console.log('clasificacion', this.clasificacion);
+    //this.firestore.addClasificacion(this.clasificacion);
   }
 
-  calcularPuntos(idUsuario: string): void {
-    let puntos=0;
-    const apuestaUsuario=this.apuestas.filter((e: any) => e.idUsuario==idUsuario)[0];
+  calcularPuntos(apuesta: Apuesta): void {
+    let puntos: Puntos={
+      puntosCarrera: 0,
+      puntosGeneral: 0,
+      puntoJornada: 0,
+      puntosParrilla: 0,
+      puntosAlonso: 0,
+      puntosSainz: 0,
+      puntosSprint: 0,
+      apuesta: apuesta,
+      usuario: apuesta.usuario
+    };
+    console.log('apuesta', apuesta);
+
+    let puntosJornada=0;
     ////////////CARRERA////////////////
     let puntosCarrera=0;
-    apuestaUsuario.carrera.forEach((apuesta: any) => {
+    apuesta.carrera.forEach((apuesta: any) => {
       this.resultados.forEach((data: any) => {
         const apuestaPiloto=apuesta.id;
         const pos=this.apuestas[0].carrera.map((e: any) => e.id).indexOf(apuestaPiloto)+1;
@@ -56,27 +74,27 @@ export class PuntosComponent {
     });
     console.log('puntos carrera', puntosCarrera);
 
-    ////////////CLASIFICACION////////////////
-    let puntosClasificacion=0;
-    apuestaUsuario.clasificacion.forEach((apuesta: any) => {
+    ////////////PARRILLA////////////////
+    let puntosParrilla=0;
+    apuesta.parrilla.forEach((apuesta: any) => {
       this.resultados.forEach((data: any) => {
         const apuestaPiloto=apuesta.id;
-        const pos=this.apuestas[0].clasificacion.map((e: any) => e.id).indexOf(apuestaPiloto)+1;
+        const pos=this.apuestas[0].parrilla.map((e: any) => e.id).indexOf(apuestaPiloto)+1;
         //console.log('piloto '+apuestaPiloto+' POS: '+pos);
         //console.log('driver '+data.Driver.permanentNumber+' POS grid: '+data.grid);
         if(apuestaPiloto==data.Driver.permanentNumber) {
-          puntosClasificacion+=Math.round(20/data.grid);
+          puntosParrilla+=Math.round(20/data.grid);
         }
       });
     });
-    console.log('puntos clasificación', puntosClasificacion);
+    console.log('puntos parrilla', puntosParrilla);
 
     ////////////SPRINT////////////////
     let puntosSprint=0;
-    apuestaUsuario.clasificacion.forEach((apuesta: any) => {
+    apuesta.sprint.forEach((apuesta: any) => {
       this.resultadosSprint.forEach((data: any) => {
         const apuestaPiloto=apuesta.id;
-        const pos=this.apuestas[0].clasificacion.map((e: any) => e.id).indexOf(apuestaPiloto)+1;
+        const pos=this.apuestas[0].sprint.map((e: any) => e.id).indexOf(apuestaPiloto)+1;
         if(apuestaPiloto==data.Driver.permanentNumber) {
           puntosSprint+=+data.points;
         }
@@ -86,8 +104,8 @@ export class PuntosComponent {
 
     ////////////ALONSO////////////////
     let puntosAlonso=0;
-    const posAlonso=apuestaUsuario.posAlonso;
-    const resAlonso=+this.resultados.filter((e: any) => e.Driver.permanentNumber==14)[0].position;
+    const posAlonso=apuesta.posAlonso;
+    const resAlonso=+this.resultados.filter((e: any) => e.Driver.permanentNumber=='14')[0].position;
     if(posAlonso==resAlonso) {
       puntosAlonso+=10;
     }
@@ -95,17 +113,27 @@ export class PuntosComponent {
 
     ////////////SAINZ////////////////
     let puntosSainz=0;
-    const posSainz=apuestaUsuario.posSainz;
-    const resSainz=+this.resultados.filter((e: any) => e.Driver.permanentNumber==55)[0].position;
+    const posSainz=apuesta.posSainz;
+    const resSainz=+this.resultados.filter((e: any) => e.Driver.permanentNumber=='55')[0].position;
     if(posSainz==resSainz) {
       puntosSainz+=10;
     }
     console.log('puntos sainz', puntosSainz);
 
-    puntos=puntosCarrera+puntosClasificacion+puntosSprint+puntosAlonso+puntosSainz;
-    console.log('puntos totales', puntos);
+    puntos.puntosCarrera=puntosCarrera;
+    puntos.puntosParrilla=puntosParrilla;
+    puntos.puntosSprint=puntosSprint;
+    puntos.puntosAlonso=puntosAlonso;
+    puntos.puntosSainz=puntosSainz;
+    puntos.puntosGeneral=Math.floor(Math.random()*10);
+    puntos.puntoJornada=puntosCarrera+puntosParrilla+puntosSprint+puntosAlonso+puntosSainz;
+    console.log('puntos totales', puntosJornada);
+
+    this.clasificacion.puntos.push(puntos);
 
   }
+
+
 
 
 }

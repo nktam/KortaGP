@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {Router, RouterOutlet} from '@angular/router';
+import {Router} from '@angular/router';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
@@ -8,7 +8,7 @@ import {ListasService} from '../../services/listas.service';
 @Component({
   selector: 'app-menu',
   standalone: true,
-  imports: [RouterOutlet, MatToolbarModule, MatIconModule, MatButtonModule,],
+  imports: [MatToolbarModule, MatIconModule, MatButtonModule,],
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.css'
 })
@@ -20,8 +20,8 @@ export class MenuComponent {
     this.router.navigate(['/home']);
   }
 
-  cargaClasificacion(): void {
-    this.listas.pagina='Clasificación';
+  cargaParrilla(): void {
+    this.listas.pagina='Parrilla';
     this.router.navigate(['/lista']);
   }
   cargaSprint(): void {

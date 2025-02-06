@@ -3,8 +3,8 @@ import {BehaviorSubject, Observable} from 'rxjs';
 import {Apuesta} from "../interfaces/apuesta";
 import {Piloto} from '../interfaces/piloto';
 import apuestaInfo from '../utils/apuesta.json';
-import {Usuario} from '../interfaces/usuario';
 import {Race} from '../interfaces/race';
+import {Usuario} from '../interfaces/usuario';
 
 @Injectable({
   providedIn: 'root'
@@ -24,9 +24,8 @@ export class ApuestaService {
     this._apuesta.next(apuesta);
   };
 
-  async updateUsuario(idusuario: string, nombre: string): Promise<void> {
-    this.apuesta.idUsuario=idusuario;
-    this.apuesta.nombre=nombre;
+  async updateUsuario(usuario: Usuario): Promise<void> {
+    this.apuesta.usuario=usuario;
     this._apuesta.next(this.apuesta);
   };
 
@@ -48,9 +47,9 @@ export class ApuestaService {
   // al actualizar posiciones this.apuesta tiene la info de apuestaInfo
   updatePosiciones(posiciones: Array<Piloto>, lista: string): void {
     switch(lista) {
-      case 'Clasificación': {
+      case 'Parrilla': {
         for(let i=0; i<4; i++) {
-          this.apuesta.clasificacion[i]=posiciones[i];
+          this.apuesta.parrilla[i]=posiciones[i];
         }
         this._apuesta.next(this.apuesta);
         break;

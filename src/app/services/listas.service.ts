@@ -9,7 +9,7 @@ import {Apuesta} from '../interfaces/apuesta';
 })
 export class ListasService {
 
-  listas: Listas={clasificacion: [], carrera: [], sprint: []};
+  listas: Listas={parrilla: [], carrera: [], sprint: []};
   private _pagina: string='';
 
   private _listas: BehaviorSubject<Listas>=new BehaviorSubject<Listas>(this.listas);
@@ -24,14 +24,14 @@ export class ListasService {
   }
 
   public updateListas(array: Piloto[]): Listas {
-    this.updateClasificacion(array);
+    this.updateParrilla(array);
     this.updateSprint(array);
     this.updateCarrera(array);
     return this.listas;
   };
 
-  public updateClasificacion(array: Piloto[]): void {
-    this.listas.clasificacion=array;
+  public updateParrilla(array: Piloto[]): void {
+    this.listas.parrilla=array;
     this._listas.next(this.listas);
   };
 
@@ -49,7 +49,7 @@ export class ListasService {
     const pilotosBuenos=this.quitaPilotosMalos(pilotos);
     this.updateCarrera(this.cambiaPilotos(apuesta.carrera, pilotosBuenos));
     this.updateSprint(this.cambiaPilotos(apuesta.sprint, pilotosBuenos));
-    this.updateClasificacion(this.cambiaPilotos(apuesta.clasificacion, pilotosBuenos));
+    this.updateParrilla(this.cambiaPilotos(apuesta.parrilla, pilotosBuenos));
   }
 
   private quitaPilotosMalos(pilotos: Piloto[]): Array<Piloto> {

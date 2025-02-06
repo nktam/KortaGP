@@ -1,13 +1,14 @@
+import {Apuesta} from './apuesta';
 import {Usuario} from './usuario';
 
-export interface Puntos extends Usuario {
-    round: number;
+export interface Puntos {
     puntosGeneral: number;
-    puntosRound: number;
+    puntoJornada: number;
     puntosParrilla: number;
     puntosCarrera: number;
-    puntosExtra: number;
+    puntosSprint?: number;
     puntosAlonso: number;
     puntosSainz: number;
-    puntosEquipo: number;
+    apuesta: Apuesta;
+    usuario: Usuario;
 }

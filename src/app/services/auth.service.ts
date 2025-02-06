@@ -21,8 +21,8 @@ export class AuthService {
 
   async getCurrentUser(): Promise<Usuario> {
     const user=await this.auth.currentUser;
-    const usuario: Usuario={nombre: '', idUsuario: ''};
-    usuario.idUsuario=user!.uid;
+    const usuario: Usuario={id: '', nombre: ''};
+    usuario.id=user!.uid;
     usuario.nombre=user!.displayName!=null? user!.displayName:'Desconocido';
     return usuario;
   }

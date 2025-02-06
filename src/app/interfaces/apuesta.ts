@@ -3,11 +3,12 @@ import {Race} from './race';
 import {Piloto} from './piloto';
 import {Usuario} from './usuario';
 
-export interface Apuesta extends Usuario {
+export interface Apuesta {
+    usuario: Usuario;
     id: string;
     fecha: number;
     carrera: Piloto[];
-    clasificacion: Piloto[];
+    parrilla: Piloto[];
     sprint: Piloto[];
     equipo: Equipo;
     posAlonso: number;

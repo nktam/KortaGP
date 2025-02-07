@@ -4,8 +4,9 @@ import {Piloto} from './piloto';
 import {Usuario} from './usuario';
 
 export interface Apuesta {
-    usuario: Usuario;
     id: string;
+    usuario: Usuario;
+    puntosAntes: number;
     fecha: number;
     carrera: Piloto[];
     parrilla: Piloto[];

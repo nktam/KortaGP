@@ -4,6 +4,7 @@
         "id": "idusuario",
         "nombre": "nombre"
     },
+    "puntosAntes": 0,
     "fecha": 1729750476041,
     "carrera": [
         {

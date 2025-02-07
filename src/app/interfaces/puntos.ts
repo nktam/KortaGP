@@ -3,7 +3,7 @@ import {Usuario} from './usuario';
 
 export interface Puntos {
     puntosGeneral: number;
-    puntoJornada: number;
+    puntosJornada: number;
     puntosParrilla: number;
     puntosCarrera: number;
     puntosSprint?: number;

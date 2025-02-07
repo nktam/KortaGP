@@ -64,18 +64,18 @@ export class ApuestaComponent {
     this.apuestaService.updateId(id);
     this.apuestaService.updateUsuario(user);
     this.apuestaService.updateFecha();
-    if(await this.firestore.addApuesta(this.apuesta, user))
+    if(await this.firestore.addApuesta(this.apuesta))
       this.aviso();
     else
       this.error();
   }
 
   private aviso() {
-    this._snackBar.open('Apuesta guardada', '', {duration: 2000});
+    this._snackBar.open('Apuesta realizada', '', {duration: 2000});
   }
 
   private error() {
-    this._snackBar.open('Error al guardar apuesta', '', {duration: 2000});
+    this._snackBar.open('Error al realizar la apuesta', '', {duration: 2000});
   }
 
 }

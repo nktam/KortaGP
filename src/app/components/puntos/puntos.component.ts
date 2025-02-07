@@ -19,7 +19,7 @@ export class PuntosComponent {
   resultadosSprint: any[]=[];
   apuestas: any[]=[];
   round: number=5;
-  clasificacion: Clasificación={round: this.round, puntos: [] as Puntos[]};
+  clasificacion: Clasificación={round: this.round, puntosUsuarios: [] as Puntos[]};
 
   constructor(
     private cs: ConsultasService,
@@ -34,23 +34,24 @@ export class PuntosComponent {
     console.log('resultados:', this.resultados);
 
     this.resultadosSprint=await this.cs.getResultadosSprint(this.round);
-    console.log('resultados Sprint:', this.resultadosSprint);
+    console.log('sprint:', this.resultadosSprint);
 
     this.apuestas.forEach((apuesta: Apuesta) => {
       this.calcularPuntos(apuesta);
     });
 
+    this.clasificacion.puntosUsuarios.sort((a, b) => b.puntosGeneral-a.puntosGeneral);
     console.log('clasificacion', this.clasificacion);
-    this.clasificacion.puntos.sort((a, b) => b.puntosGeneral-a.puntosGeneral);
-    console.log('clasificacion', this.clasificacion);
-    //this.firestore.addClasificacion(this.clasificacion);
+    this.firestore.addClasificacion(this.clasificacion);
   }
 
   calcularPuntos(apuesta: Apuesta): void {
+    let puntosAntes=apuesta.puntosAntes;
+
     let puntos: Puntos={
       puntosCarrera: 0,
       puntosGeneral: 0,
-      puntoJornada: 0,
+      puntosJornada: 0,
       puntosParrilla: 0,
       puntosAlonso: 0,
       puntosSainz: 0,
@@ -58,9 +59,7 @@ export class PuntosComponent {
       apuesta: apuesta,
       usuario: apuesta.usuario
     };
-    console.log('apuesta', apuesta);
 
-    let puntosJornada=0;
     ////////////CARRERA////////////////
     let puntosCarrera=0;
     apuesta.carrera.forEach((apuesta: any) => {
@@ -72,7 +71,6 @@ export class PuntosComponent {
         }
       });
     });
-    console.log('puntos carrera', puntosCarrera);
 
     ////////////PARRILLA////////////////
     let puntosParrilla=0;
@@ -87,7 +85,6 @@ export class PuntosComponent {
         }
       });
     });
-    console.log('puntos parrilla', puntosParrilla);
 
     ////////////SPRINT////////////////
     let puntosSprint=0;
@@ -100,7 +97,6 @@ export class PuntosComponent {
         }
       });
     });
-    console.log('puntos sprint', puntosSprint);
 
     ////////////ALONSO////////////////
     let puntosAlonso=0;
@@ -109,7 +105,6 @@ export class PuntosComponent {
     if(posAlonso==resAlonso) {
       puntosAlonso+=10;
     }
-    console.log('puntos alonso', puntosAlonso);
 
     ////////////SAINZ////////////////
     let puntosSainz=0;
@@ -118,19 +113,16 @@ export class PuntosComponent {
     if(posSainz==resSainz) {
       puntosSainz+=10;
     }
-    console.log('puntos sainz', puntosSainz);
 
     puntos.puntosCarrera=puntosCarrera;
     puntos.puntosParrilla=puntosParrilla;
     puntos.puntosSprint=puntosSprint;
     puntos.puntosAlonso=puntosAlonso;
     puntos.puntosSainz=puntosSainz;
-    puntos.puntosGeneral=Math.floor(Math.random()*10);
-    puntos.puntoJornada=puntosCarrera+puntosParrilla+puntosSprint+puntosAlonso+puntosSainz;
-    console.log('puntos totales', puntosJornada);
+    puntos.puntosJornada=puntosCarrera+puntosParrilla+puntosSprint+puntosAlonso+puntosSainz;
+    puntos.puntosGeneral=puntosAntes+puntos.puntosJornada;
 
-    this.clasificacion.puntos.push(puntos);
-
+    this.clasificacion.puntosUsuarios.push(puntos);
   }
 
 

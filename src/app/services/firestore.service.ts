@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {collection, addDoc, setDoc, doc, updateDoc, where, query, getDocs} from 'firebase/firestore';
 import {Apuesta} from '../interfaces/apuesta';
 import {Firestore} from "@angular/fire/firestore";
-import {Usuario} from '../interfaces/usuario';
 import {Clasificación} from '../interfaces/clasificacion';
 
 @Injectable({
@@ -12,8 +11,9 @@ export class FirestoreService {
 
   constructor(private firestore: Firestore) { }
 
-  public async addApuesta(apuesta: Apuesta, usuario: Usuario) {
-    const docRef=doc(this.firestore, "apuestas", usuario.id);
+  public async addApuesta(apuesta: Apuesta) {
+    const nombre=apuesta.race?.round+'_'+apuesta.usuario.id;
+    const docRef=doc(this.firestore, "apuestas", nombre);
     try {
       await updateDoc(docRef, {
         fecha: apuesta.fecha,
@@ -43,7 +43,7 @@ export class FirestoreService {
     try {
       await updateDoc(docRef, {
         round: clasificacion.round,
-        carrera: clasificacion.puntos
+        puntosUsuarios: clasificacion.puntosUsuarios,
       })
       console.log("...FIREBASE UPDATE DOC OK");
       return true
@@ -57,6 +57,24 @@ export class FirestoreService {
         return false
       }
     }
+  }
+
+  public async updatePuntosAntesApuesta(clasificacion: Clasificación) {
+    clasificacion.puntosUsuarios.forEach(async e => {
+      const round=clasificacion.round-1;
+      const nombre=round+'_'+e.usuario.id;
+      const docRef=doc(this.firestore, "apuestas", nombre);
+      try {
+        await updateDoc(docRef, {
+          puntosUsuarios: clasificacion.puntosUsuarios,
+        })
+        console.log("...FIREBASE UPDATE DOC OK");
+        return true
+      } catch(e) {
+        console.log("...FIREBASE ERROR", e);
+        return false
+      }
+    });
   }
 
   public async getApuestas(round: number): Promise<any[]> {

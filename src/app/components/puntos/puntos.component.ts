@@ -19,7 +19,7 @@ export class PuntosComponent {
   resultadosSprint: any[]=[];
   apuestas: any[]=[];
   round: number=5;
-  clasificacion: Clasificación={round: this.round, puntosUsuarios: [] as Puntos[]};
+  clasificacion: Clasificación[]=[];
 
   constructor(
     private cs: ConsultasService,
@@ -36,96 +36,105 @@ export class PuntosComponent {
     this.resultadosSprint=await this.cs.getResultadosSprint(this.round);
     console.log('sprint:', this.resultadosSprint);
 
+    this.clasificacion=await this.firestore.getClasificacion();
+    console.log('clasificacion:', this.clasificacion);
+
     this.apuestas.forEach((apuesta: Apuesta) => {
-      this.calcularPuntos(apuesta);
+      const clasificacionUsuario=this.clasificacion.filter((e: any) => e.usuario.id==apuesta.usuario.id)[0];
+      this.calcularPuntos(apuesta, clasificacionUsuario);
     });
 
-    this.clasificacion.puntosUsuarios.sort((a, b) => b.puntosGeneral-a.puntosGeneral);
-    console.log('clasificacion', this.clasificacion);
-    this.firestore.addClasificacion(this.clasificacion);
+    //this.clasificacion.puntosUsuarios.sort((a, b) => b.puntosGeneral-a.puntosGeneral);
+
   }
 
-  calcularPuntos(apuesta: Apuesta): void {
-    let puntosAntes=apuesta.puntosAntes;
+  calcularPuntos(apuesta: Apuesta, clasificacionUsuario: Clasificación): void {
+    if(!clasificacionUsuario) {
+      clasificacionUsuario={
+        usuario: apuesta.usuario,
+        puntos: 0,
+        lastRound: 0,
+        jornadas: []
+      }
+    }
+    if(clasificacionUsuario.lastRound<this.round) {
+      let puntosAntes=clasificacionUsuario.puntos;
 
-    let puntos: Puntos={
-      puntosCarrera: 0,
-      puntosGeneral: 0,
-      puntosJornada: 0,
-      puntosParrilla: 0,
-      puntosAlonso: 0,
-      puntosSainz: 0,
-      puntosSprint: 0,
-      apuesta: apuesta,
-      usuario: apuesta.usuario
-    };
+      let puntos: Puntos={
+        puntosCarrera: this.puntosCarrera(apuesta, this.resultados),
+        puntosParrilla: this.puntosParrilla(apuesta),
+        puntosAlonso: this.puntosAlonso(apuesta),
+        puntosSainz: this.puntosSainz(apuesta),
+        puntosSprint: this.puntosSprint(apuesta),
+        puntosJornada: 0,
+        apuesta: apuesta,
+        round: this.round
+      };
+      puntos.puntosJornada=puntos.puntosCarrera+puntos.puntosParrilla+(puntos.puntosSprint||0)+puntos.puntosAlonso+puntos.puntosSainz;
+      clasificacionUsuario.lastRound=this.round;
+      clasificacionUsuario.puntos=puntosAntes+puntos.puntosJornada;
+      clasificacionUsuario.jornadas.push(puntos);
+      console.log('clasificacion', clasificacionUsuario);
+      this.firestore.addClasificacion(clasificacionUsuario);
+    }
 
-    ////////////CARRERA////////////////
+  }
+
+  private puntosCarrera(apuesta: Apuesta, resultados: any): number {
     let puntosCarrera=0;
-    apuesta.carrera.forEach((apuesta: any) => {
-      this.resultados.forEach((data: any) => {
-        const apuestaPiloto=apuesta.id;
-        const pos=this.apuestas[0].carrera.map((e: any) => e.id).indexOf(apuestaPiloto)+1;
-        if(apuestaPiloto==data.Driver.permanentNumber) {
-          puntosCarrera+=+data.points;
+    apuesta.carrera.forEach((piloto: any) => {
+      resultados.forEach((res: any) => {
+        const apuestaPiloto=piloto.id;
+        const pos=apuesta.carrera.map((e: any) => e.id).indexOf(apuestaPiloto)+1;
+        if(apuestaPiloto==res.Driver.permanentNumber) {
+          puntosCarrera+=+res.points;
         }
       });
     });
+    return puntosCarrera;
+  }
 
-    ////////////PARRILLA////////////////
+  private puntosParrilla(apuesta: Apuesta): number {
     let puntosParrilla=0;
-    apuesta.parrilla.forEach((apuesta: any) => {
-      this.resultados.forEach((data: any) => {
-        const apuestaPiloto=apuesta.id;
-        const pos=this.apuestas[0].parrilla.map((e: any) => e.id).indexOf(apuestaPiloto)+1;
-        //console.log('piloto '+apuestaPiloto+' POS: '+pos);
-        //console.log('driver '+data.Driver.permanentNumber+' POS grid: '+data.grid);
-        if(apuestaPiloto==data.Driver.permanentNumber) {
-          puntosParrilla+=Math.round(20/data.grid);
+    apuesta.parrilla.forEach((piloto: any) => {
+      this.resultados.forEach((res: any) => {
+        const apuestaPiloto=piloto.id;
+        const pos=apuesta.parrilla.map((e: any) => e.id).indexOf(apuestaPiloto)+1;
+        if(apuestaPiloto==res.Driver.permanentNumber) {
+          puntosParrilla+=Math.round(20/res.grid);
         }
       });
     });
+    return puntosParrilla;
+  }
 
-    ////////////SPRINT////////////////
+  private puntosSprint(apuesta: Apuesta): number {
     let puntosSprint=0;
-    apuesta.sprint.forEach((apuesta: any) => {
-      this.resultadosSprint.forEach((data: any) => {
-        const apuestaPiloto=apuesta.id;
-        const pos=this.apuestas[0].sprint.map((e: any) => e.id).indexOf(apuestaPiloto)+1;
-        if(apuestaPiloto==data.Driver.permanentNumber) {
-          puntosSprint+=+data.points;
+    apuesta.sprint.forEach((piloto: any) => {
+      this.resultadosSprint.forEach((res: any) => {
+        const apuestaPiloto=piloto.id;
+        const pos=apuesta.sprint.map((e: any) => e.id).indexOf(apuestaPiloto)+1;
+        if(apuestaPiloto==res.Driver.permanentNumber) {
+          puntosSprint+=+res.points;
         }
       });
     });
+    return puntosSprint;
+  }
 
-    ////////////ALONSO////////////////
-    let puntosAlonso=0;
+  private puntosAlonso(apuesta: Apuesta): number {
     const posAlonso=apuesta.posAlonso;
     const resAlonso=+this.resultados.filter((e: any) => e.Driver.permanentNumber=='14')[0].position;
-    if(posAlonso==resAlonso) {
-      puntosAlonso+=10;
-    }
-
-    ////////////SAINZ////////////////
-    let puntosSainz=0;
-    const posSainz=apuesta.posSainz;
-    const resSainz=+this.resultados.filter((e: any) => e.Driver.permanentNumber=='55')[0].position;
-    if(posSainz==resSainz) {
-      puntosSainz+=10;
-    }
-
-    puntos.puntosCarrera=puntosCarrera;
-    puntos.puntosParrilla=puntosParrilla;
-    puntos.puntosSprint=puntosSprint;
-    puntos.puntosAlonso=puntosAlonso;
-    puntos.puntosSainz=puntosSainz;
-    puntos.puntosJornada=puntosCarrera+puntosParrilla+puntosSprint+puntosAlonso+puntosSainz;
-    puntos.puntosGeneral=puntosAntes+puntos.puntosJornada;
-
-    this.clasificacion.puntosUsuarios.push(puntos);
+    if(posAlonso==resAlonso) return 10;
+    else return 0;
   }
 
-
+  private puntosSainz(apuesta: Apuesta): number {
+    const posSainz=apuesta.posSainz;
+    const resSainz=+this.resultados.filter((e: any) => e.Driver.permanentNumber=='55')[0].position;
+    if(posSainz==resSainz) return 10;
+    else return 0;
+  }
 
 
 }

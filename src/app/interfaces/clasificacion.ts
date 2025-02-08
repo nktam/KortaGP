@@ -1,6 +1,9 @@
 import {Puntos} from './puntos';
+import {Usuario} from './usuario';
 
 export interface Clasificación {
-    round: number;
-    puntosUsuarios: Puntos[];
+    usuario: Usuario;
+    puntos: number;
+    lastRound: number;
+    jornadas: Puntos[];
 }

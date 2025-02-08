@@ -20,7 +20,6 @@ export class FirestoreService {
         carrera: apuesta.carrera,
         parrilla: apuesta.parrilla,
         sprint: apuesta.sprint,
-        equipo: apuesta.equipo,
         posAlonso: apuesta.posAlonso,
         posSainz: apuesta.posSainz,
       })
@@ -39,11 +38,12 @@ export class FirestoreService {
   }
 
   public async addClasificacion(clasificacion: Clasificación) {
-    const docRef=doc(this.firestore, "clasificacion", clasificacion.round.toString());
+    const docRef=doc(this.firestore, "clasificacion", clasificacion.usuario.id);
     try {
       await updateDoc(docRef, {
-        round: clasificacion.round,
-        puntosUsuarios: clasificacion.puntosUsuarios,
+        puntos: clasificacion.puntos,
+        lastRound: clasificacion.lastRound,
+        jornadas: clasificacion.jornadas,
       })
       console.log("...FIREBASE UPDATE DOC OK");
       return true
@@ -59,22 +59,11 @@ export class FirestoreService {
     }
   }
 
-  public async updatePuntosAntesApuesta(clasificacion: Clasificación) {
-    clasificacion.puntosUsuarios.forEach(async e => {
-      const round=clasificacion.round-1;
-      const nombre=round+'_'+e.usuario.id;
-      const docRef=doc(this.firestore, "apuestas", nombre);
-      try {
-        await updateDoc(docRef, {
-          puntosUsuarios: clasificacion.puntosUsuarios,
-        })
-        console.log("...FIREBASE UPDATE DOC OK");
-        return true
-      } catch(e) {
-        console.log("...FIREBASE ERROR", e);
-        return false
-      }
-    });
+  public async getClasificacion(): Promise<Clasificación[]> {
+    const colRef=collection(this.firestore, "clasificacion");
+    const querySnapshot=await getDocs(colRef);
+    const clasificacion=querySnapshot.docs.map(doc => doc.data() as Clasificación);
+    return clasificacion;
   }
 
   public async getApuestas(round: number): Promise<any[]> {

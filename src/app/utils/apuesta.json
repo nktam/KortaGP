@@ -4,7 +4,6 @@
         "id": "idusuario",
         "nombre": "nombre"
     },
-    "puntosAntes": 0,
     "fecha": 1729750476041,
     "carrera": [
         {
@@ -62,9 +61,5 @@
     ],
     "posAlonso": 0,
     "posSainz": 0,
-    "equipo": {
-        "id": "red_bull",
-        "nombre": "Red Bull"
-    },
     "tieneSprint": false
 }

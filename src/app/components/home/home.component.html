@@ -1,4 +1,8 @@
-<p>{{usuario}}</p>
+<p>{{nombre}}</p>
 <h1>{{race.round}} {{race.nombre}}</h1>
 <h2>{{race.circuito}}</h2>
 <p>{{race.pais}}</p>
+<p>@for (item of clasificacion; track item.usuario.id) {
+    <li>{{ item.usuario.nombre }} - {{item.puntos}}</li>
+    }
+</p>

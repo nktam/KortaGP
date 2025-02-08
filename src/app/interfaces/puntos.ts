@@ -2,7 +2,7 @@ import {Apuesta} from './apuesta';
 import {Usuario} from './usuario';
 
 export interface Puntos {
-    puntosGeneral: number;
+    round: number;
     puntosJornada: number;
     puntosParrilla: number;
     puntosCarrera: number;
@@ -10,5 +10,4 @@ export interface Puntos {
     puntosAlonso: number;
     puntosSainz: number;
     apuesta: Apuesta;
-    usuario: Usuario;
 }

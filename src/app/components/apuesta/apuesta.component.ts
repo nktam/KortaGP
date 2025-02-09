@@ -39,9 +39,8 @@ export class ApuestaComponent {
 
   ngOnInit(): void {
     this.race=this.cs.race;
-    const fecha=new Date();
 
-    if(this.race.finApuesta>fecha.getTime())
+    if(this.race.finApuesta>Date.now())
       this.apuestasAbiertas=true;
     else
       this.apuestasAbiertas=false;

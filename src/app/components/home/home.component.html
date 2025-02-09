@@ -2,7 +2,44 @@
 <h1>{{race.round}} {{race.nombre}}</h1>
 <h2>{{race.circuito}}</h2>
 <p>{{race.pais}}</p>
-<p>@for (item of clasificacion; track item.usuario.id) {
-    <li>{{ item.usuario.nombre }} - {{item.puntos}}</li>
+<ol>@for (item of clasificacion; track item.usuario.id) {
+    <li>{{ item.usuario.nombre }} - {{item.puntos}}
+
+        <ul>
+            @for (puntos of item.jornadas; track puntos.apuesta.id) {
+            <li>Puntos Jornada {{puntos.puntosJornada}}</li>
+            <li>Puntos Carrera: {{puntos.puntosCarrera}}</li>
+            <li>Puntos Parrilla: {{puntos.puntosParrilla}}</li>
+            <li>Puntos Sprint: {{puntos.puntosSprint}}</li>
+            <li>Puntos Alonso: {{puntos.puntosAlonso}} </li>
+            <li>Puntos Sainz: {{puntos.puntosSainz}}</li>
+            <a href="#" (click)="toggleDiv()">Apuesta:</a>
+            @if (showDiv) {
+            <div>
+                <span>Carrera</span>
+                <ol>
+                    @for (carrera of puntos.apuesta.carrera; track carrera.id) {
+                    <li>{{carrera.nombre}} </li>
+                    }
+                </ol>
+                <span>Parrilla</span>
+                <ol>
+
+                    @for (parrilla of puntos.apuesta.parrilla; track parrilla.id) {
+                    <li>{{parrilla.nombre}} </li>
+                    }
+                </ol>
+                <span>Sprint</span>
+                <ol>
+                    @for (sprint of puntos.apuesta.sprint; track sprint.id) {
+                    <li>{{sprint.nombre}} </li>
+                    }
+                </ol>
+            </div>
+            }
+            }
+
+        </ul>
+    </li>
     }
-</p>
+</ol>

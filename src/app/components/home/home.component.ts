@@ -16,6 +16,7 @@ export class HomeComponent {
   nombre: string='';
   race: Race={} as Race;
   clasificacion: Clasificación[]=[];
+  showDiv: boolean=false;
 
   constructor(private cs: ConsultasService, private auth: AuthService, private firestore: FirestoreService) { }
 
@@ -24,6 +25,10 @@ export class HomeComponent {
     this.nombre=(await this.auth.getCurrentUser()).nombre;
     this.clasificacion=await this.firestore.getClasificacion();
     console.log('clasificacion:', this.clasificacion);
+  }
+
+  public toggleDiv() {
+    this.showDiv=!this.showDiv;
   }
 
 }

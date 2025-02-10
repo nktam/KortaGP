@@ -16,7 +16,6 @@ export class HomeComponent {
   nombre: string='';
   race: Race={} as Race;
   clasificacion: Clasificación[]=[];
-  showDiv: boolean=false;
 
   constructor(private cs: ConsultasService, private auth: AuthService, private firestore: FirestoreService) { }
 
@@ -27,8 +26,29 @@ export class HomeComponent {
     console.log('clasificacion:', this.clasificacion);
   }
 
-  public toggleDiv() {
-    this.showDiv=!this.showDiv;
+  ngAfterViewChecked(): void {
+    this.cerrar();
+  }
+
+  private cerrar(): void {
+    const elements=Array.from(document.getElementsByClassName('cerrar'));
+    console.log('elements:', elements);
+
+    elements.forEach((e: any) => {
+      e.style.display='none';
+    }
+    );
+  }
+
+  public toggleDiv(div: string): void {
+    const divElement=document.getElementById(div);
+    if(divElement) {
+      if(divElement.style.display==='none') {
+        divElement.style.display='block';
+      } else {
+        divElement.style.display='none';
+      }
+    }
   }
 
 }

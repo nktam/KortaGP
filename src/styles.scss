@@ -1,6 +1,22 @@
-/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
 
-@import '@angular/material/prebuilt-themes/purple-green.css';
+@include mat.core();
+
+$my-app-primary: mat.define-palette(mat.$blue-grey-palette);
+$my-app-accent: mat.define-palette(mat.$lime-palette);
+$my-app-warn: mat.define-palette(mat.$red-palette);
+
+$my-app-theme: mat.define-dark-theme((color: (primary: $my-app-primary,
+                accent: $my-app-accent,
+                warn: $my-app-warn,
+            )));
+
+$acolor: #CDDC39;
+
+
+@include mat.all-component-themes($my-app-theme);
+
+
 
 html,
 body {
@@ -10,4 +26,13 @@ body {
 body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+a,
+a:visited,
+a:hover {
+    text-decoration: none;
+    color: $acolor;
+    font-weight: bold;
+
 }

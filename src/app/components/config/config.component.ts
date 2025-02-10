@@ -8,8 +8,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {ApuestaService} from "../../services/apuesta.service";
 import {FormsModule, } from '@angular/forms';
 import {ConsultasService} from '../../services/consultas.service';
-import {Equipo} from '../../interfaces/equipo';
-import {Race} from '../../interfaces/race';
+
 
 @Component({
   selector: 'app-config',
@@ -21,17 +20,13 @@ import {Race} from '../../interfaces/race';
 export class ConfigComponent {
   apuesta: any;
   private _apuestaSubscription: Subscription|undefined;
-  listaEquipos: Equipo[]=[];
+
 
   constructor(private cs: ConsultasService, private apuestaService: ApuestaService) { }
 
   ngOnInit(): void {
     this._apuestaSubscription=this.apuestaService.apuesta$.subscribe(v => this.apuesta=v);
-    this.listaEquipos=this.cs.equipos;
-  }
 
-  comparaEquipo(o1: Equipo, o2: Equipo) {
-    return o1.id==o2.id;
   }
 
   ngOnDestroy() {

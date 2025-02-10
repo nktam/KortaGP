@@ -37,14 +37,11 @@ export class PuntosComponent {
     console.log('sprint:', this.resultadosSprint);
 
     this.clasificacion=await this.firestore.getClasificacion();
-    console.log('clasificacion:', this.clasificacion);
 
     this.apuestas.forEach((apuesta: Apuesta) => {
       const clasificacionUsuario=this.clasificacion.filter((e: any) => e.usuario.id==apuesta.usuario.id)[0];
       this.calcularPuntos(apuesta, clasificacionUsuario);
     });
-
-    //this.clasificacion.puntosUsuarios.sort((a, b) => b.puntosGeneral-a.puntosGeneral);
 
   }
 
@@ -85,9 +82,12 @@ export class PuntosComponent {
     apuesta.carrera.forEach((piloto: any) => {
       resultados.forEach((res: any) => {
         const apuestaPiloto=piloto.id;
-        const pos=apuesta.carrera.map((e: any) => e.id).indexOf(apuestaPiloto)+1;
         if(apuestaPiloto==res.Driver.permanentNumber) {
           puntosCarrera+=+res.points;
+          const pos=apuesta.carrera.map((e: any) => e.id).indexOf(apuestaPiloto)+1;
+          if(pos==res.position) {
+            puntosCarrera+=+res.points;
+          }
         }
       });
     });
@@ -99,7 +99,6 @@ export class PuntosComponent {
     apuesta.parrilla.forEach((piloto: any) => {
       this.resultados.forEach((res: any) => {
         const apuestaPiloto=piloto.id;
-        const pos=apuesta.parrilla.map((e: any) => e.id).indexOf(apuestaPiloto)+1;
         if(apuestaPiloto==res.Driver.permanentNumber) {
           puntosParrilla+=Math.round(20/res.grid);
         }
@@ -113,7 +112,6 @@ export class PuntosComponent {
     apuesta.sprint.forEach((piloto: any) => {
       this.resultadosSprint.forEach((res: any) => {
         const apuestaPiloto=piloto.id;
-        const pos=apuesta.sprint.map((e: any) => e.id).indexOf(apuestaPiloto)+1;
         if(apuestaPiloto==res.Driver.permanentNumber) {
           puntosSprint+=+res.points;
         }

@@ -1,21 +1,29 @@
-<p>{{nombre}}</p>
-<h1>{{race.round}} {{race.nombre}}</h1>
-<h2>{{race.circuito}}</h2>
-<p>{{race.pais}}</p>
+<p id="nombre">{{nombre}}</p>
+<h3>Apuesta para:</h3>
+<p><strong>{{race.nombre}}</strong><br>{{race.circuito}} ({{race.pais}})</p>
+<h1>Clasificación</h1>
 <ol>@for (item of clasificacion; track item.usuario.id) {
     <li>{{ item.usuario.nombre }} - {{item.puntos}}
+        <span><a (click)="toggleDiv(item.usuario.id)">Puntuación</a></span>
+        <div id="{{item.usuario.id}}" style="display: none;">
 
-        <ul>
             @for (puntos of item.jornadas; track puntos.apuesta.id) {
-            <li>Puntos Jornada {{puntos.puntosJornada}}</li>
-            <li>Puntos Carrera: {{puntos.puntosCarrera}}</li>
-            <li>Puntos Parrilla: {{puntos.puntosParrilla}}</li>
-            <li>Puntos Sprint: {{puntos.puntosSprint}}</li>
-            <li>Puntos Alonso: {{puntos.puntosAlonso}} </li>
-            <li>Puntos Sainz: {{puntos.puntosSainz}}</li>
-            <a href="#" (click)="toggleDiv()">Apuesta:</a>
-            @if (showDiv) {
-            <div>
+            <span>Jornada {{puntos.round}}
+                <a (click)="toggleDiv(puntos.apuesta.id)"> puntos</a>
+            </span>
+            <ul id={{puntos.apuesta.id}} style="display: none;">
+                <li>Puntos Jornada {{puntos.puntosJornada}}</li>
+                <li>Puntos Carrera: {{puntos.puntosCarrera}}</li>
+                <li>Puntos Parrilla: {{puntos.puntosParrilla}}</li>
+                <li>Puntos Sprint: {{puntos.puntosSprint}}</li>
+                <li>Puntos Alonso: {{puntos.puntosAlonso}} </li>
+                <li>Puntos Sainz: {{puntos.puntosSainz}}</li>
+            </ul>
+            <span>
+                <a (click)="toggleDiv(puntos.apuesta.id+'apuesta')"> Apuesta</a>
+            </span>
+
+            <div id="{{puntos.apuesta.id + 'apuesta'}}" style="display: none;">
                 <span>Carrera</span>
                 <ol>
                     @for (carrera of puntos.apuesta.carrera; track carrera.id) {
@@ -24,7 +32,6 @@
                 </ol>
                 <span>Parrilla</span>
                 <ol>
-
                     @for (parrilla of puntos.apuesta.parrilla; track parrilla.id) {
                     <li>{{parrilla.nombre}} </li>
                     }
@@ -36,10 +43,11 @@
                     }
                 </ol>
             </div>
-            }
+            <br>
             }
 
-        </ul>
+        </div>
     </li>
     }
+
 </ol>

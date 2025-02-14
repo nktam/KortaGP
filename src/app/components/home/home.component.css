@@ -1,1 +1,6 @@
 #nombre {text-align: right; font-size: 0.7rem;}
+mat-icon {font-size: 1.1rem; vertical-align: baseline;}
+a {margin: 7px;}
+.flex {display: flex; justify-content: left; align-items: center; font-size: 0.8em;}
+a:hover {text-decoration: none; cursor: pointer;}
+.mini {font-size: 0.8em;}

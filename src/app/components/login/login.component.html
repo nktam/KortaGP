@@ -1,3 +1,65 @@
 <h1>LOGIN</h1>
-<p><a (click)="logIn()">LOGIN</a></p>
-<p><a (click)="logOut()">logout</a></p>
+
+<div class="flex" *ngIf="mostrarFromLogin">
+
+    <form id='login' #loginForm="ngForm">
+        <mat-form-field appearance="fill">
+            <mat-label>Email</mat-label>
+            <input matInput placeholder="email" name="email" [(ngModel)]="email" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Password</mat-label>
+            <input matInput type="password" placeholder="Password" name="password" autocomplete="on"
+                [(ngModel)]="password" required>
+        </mat-form-field>
+
+        <button mat-flat-button color="accent" ((click))="logWithEmail()" type="button"
+            [disabled]="!loginForm.form.valid">
+            LOGIN
+        </button>
+
+        <p>
+            <button type="button" mat-flat-button color="accent" (click)="logInGoogle()">
+                <mat-icon>face</mat-icon> Google Login
+            </button>
+        </p>
+
+        <p>
+            <button type="button" mat-flat-button color="primary" (click)="alta()">
+                <mat-icon>person_add</mat-icon> Alta usuario
+            </button>
+        </p>
+    </form>
+</div>
+
+<div class="flex" *ngIf="mostrarFromRegistro">
+    <form id='register' #registerForm="ngForm">
+        <mat-form-field appearance="fill">
+            <mat-label>Username</mat-label>
+            <input matInput placeholder="Username" name="username" [(ngModel)]="userName" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" placeholder="Email" name="email" [(ngModel)]="email" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Password</mat-label>
+            <input matInput type="password" placeholder="Password" name="password" autocomplete="on"
+                [(ngModel)]="password" required>
+        </mat-form-field>
+
+        <button mat-flat-button color="primary" type="button" (click)="nuevoUsuario()"
+            [disabled]="!registerForm.form.valid">
+            REGISTER
+        </button>
+    </form>
+</div>
+
+<p>
+    <button mat-flat-button color="accent" (click)="logOut()">
+        <mat-icon>face</mat-icon> out
+    </button>
+</p>
